@@ -1,0 +1,10 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="API Tests">
+            <directory>./api</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+</phpunit>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #e64a19;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #bookings-table th, #bookings-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        #bookings-table th {
+            background-color: #f2f2f2;
+        }
+
+        #bookings-table button {
+            background-color: #d9534f;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+
+        .footer .footer-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .footer-links ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer .footer-links ul li {
+            margin-left: 20px;
+        }
+
+        .footer .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            #bookings-table th, #bookings-table td {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a class="navbar-brand" href="passenger_home.html">
+            <img src="Logo.jpg" width="120" alt="Matatu System">
+            <span>Urban Transit</span>
+            </a>
+            <span>Welcome, <?php session_start(); if(isset($_SESSION['username'])){echo $_SESSION['username'];}else{echo "Guest";} ?></span>
+        </div>
+        <div class="navbar-links">
+        <ul>
+            <li><a href="passenger_home.html">Home</a></li>
+            <li><a href="booktickets.html">Book Ticket</a></li>
+            <li><a href="View_Booking.html">My Bookings</a></li>
+            <li><a href="Profile.html">Profile</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Your Bookings</h2>
+        <table id="bookings-table">
+            <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Date</th>
+                    <th>Seat</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sample Matatu Booking Data (Realistic for Nairobi)
+            const bookings = [
+                { route: "CBD - Rongai", date: "2025-03-15", seat: "A3", status: "Confirmed", id: 1 },
+                { route: "CBD - Westlands", date: "2025-03-16", seat: "B7", status: "Pending", id: 2 },
+                { route: "CBD - Kasarani", date: "2025-03-14", seat: "C5", status: "Completed", id: 3 },
+                { route: "CBD - Gikambura", date: "2025-03-17", seat: "D2", status: "Confirmed", id: 4 },
+                { route: "CBD - Kikuyu", date: "2025-03-18", seat: "E1", status: "Pending", id: 5 },
+                { route: "CBD - Thika", date: "2025-03-19", seat: "A1", status: "Confirmed", id: 6 },
+                { route: "CBD - Ngong", date: "2025-03-20", seat: "B3", status: "Cancelled", id: 7 }
+            ];
+
+            const tbody = document.querySelector("#bookings-table tbody");
+
+            // Populate Table with Bookings
+            tbody.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>${booking.route}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.seat}</td>
+                    <td>${booking.status}</td>
+                    <td><br>
+                        ${booking.status === "Pending" ? `<button onclick="cancelBooking(${booking.id})">Cancel</button>` : ""}
+                    </td>
+                </tr>
+            `).join('');
+        });
+
+        function cancelBooking(bookingId) {
+            alert(`Booking ID ${bookingId} has been cancelled.`);
+            location.reload();  // Simulate page reload after cancellation
+            
+            fetch("http://localhost/matatu_reservation/PHP/cancel_booking.php", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: JSON.stringify({ id: user_id }) // Replace with actual ID
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error("Error:", error));
+
+        }
+    </script>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-links">
+            <ul>
+                <li><a href="About_us.html">About Us</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li><a href="Private_policy.html">Privacy Policy</a></li>
+                <li><a href="Terms_of_service.html">Terms of Service</a></li>
+            </ul>
+        </div>
+    
+        <div class="footer-copy">
+            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

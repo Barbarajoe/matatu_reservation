@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"], input[type="tel"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .navbar .logo {
+            float: left;
+            padding: 0 20px;
+        }
+
+        .navbar .logo img {
+            height: 40px;
+            vertical-align: middle;
+        }
+
+        .navbar .logo span {
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            float: right;
+        }
+
+        .navbar li {
+            float: left;
+        }
+
+        .navbar li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar li a:hover {
+            background-color: #111;
+        }
+        .view-mode input:read-only {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        #password-group {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Logo.jpg" alt="Matatu System">
+            <span id="welcome-message"></span>
+        </div>
+        <ul id="nav-links"></ul>
+
+    </nav>
+
+    <div class="container">
+        <h2>Profile Settings</h2>
+        <form id="profile-form" class="view-mode">
+            <div class="form-group">
+                <label>Username:</label>
+                <input type="text" name="username" id="username" title="Username" placeholder="Enter your username" readonly>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" id="email" title="Email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Phone:</label>
+                <input type="tel" name="phone" id="phone" title="Phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label>New Password:</label>
+                <input type="password" name="password" id="password" placeholder="••••••••">
+            </div>
+            <div class="button-group">
+                <button type="button" id="edit-button">Edit</button>
+                <button type="button" id="cancel-button">Cancel</button>
+                </form>
+    </div>
+
+    <script>
+        // Mock user data (replace with your actual user authentication)
+        const mockUsers = {
+            1: { id: 1, username: "AdminUser", email: "admin@example.com", phone: "0798765432", isLoggedIn: true, role: "administrator" },
+            2: { id: 2, username: "Passenger1", email: "passenger@example.com", phone: "0711223344", isLoggedIn: true, role: "passenger" },
+            3: { id: 3, username: "Operator1", email: "operator@example.com", phone: "0755667788", isLoggedIn: true, role: "operator" }
+        };
+        
+        const editBtn = document.getElementById('edit-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const passwordGroup = document.getElementById('password-group');
+        // const phoneInput = document.getElementById('phone'); // Removed duplicate declaration
+        const passwordInput = document.getElementById('password');
+
+         // Toggle edit mode
+         function toggleEditMode(edit) {
+            if (edit) {
+                emailInput.removeAttribute('readonly');
+                phoneInput.removeAttribute('readonly');
+                passwordGroup.style.display = 'block';
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-block';
+                cancelBtn.style.display = 'inline-block';
+                profileForm.classList.remove('view-mode');
+            } else {
+                emailInput.setAttribute('readonly', true);
+                phoneInput.setAttribute('readonly', true);
+                passwordGroup.style.display = 'none';
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+                profileForm.classList.add('view-mode');
+                // Reset form values
+                emailInput.value = currentUser.email;
+                phoneInput.value = currentUser.phone;
+                document.getElementById('password').value = '';
+            }
+        }
+
+        editBtn.addEventListener('click', () => toggleEditMode(true));
+        cancelBtn.addEventListener('click', () => toggleEditMode(false));
+
+        // Modified form submission handler
+        profileForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const newEmail = emailInput.value;
+            const newPhone = phoneInput.value;
+            const newPassword = document.getElementById('password').value;
+
+            // Update user data
+            currentUser.email = newEmail;
+            currentUser.phone = newPhone;
+            
+            if (newPassword) {
+                console.log("Password updated successfully");
+            }
+
+            alert("Profile updated successfully!");
+            toggleEditMode(false);
+        });
+
+        // Simulate current user ID (replace with your actual login logic)
+        const currentUserId = 1;
+        const currentUser = mockUsers[currentUserId];
+
+        const welcomeMessage = document.getElementById("welcome-message");
+        const navLinks = document.getElementById("nav-links");
+        const profileForm = document.getElementById("profile-form");
+        const emailInput = document.getElementById("email");
+        const phoneInput = document.getElementById("phone");
+
+        if (currentUser && currentUser.isLoggedIn) {
+            welcomeMessage.textContent = `${currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)}: ${currentUser.username}`;
+            emailInput.value = currentUser.email;
+            phoneInput.value = currentUser.phone;
+
+            let navLinksHtml = "";
+            if (currentUser.role === "administrator") {
+                navLinksHtml = `
+                    <li><a href="dashboardadmin.html">Dashboard</a></li>
+                    <li><a href="usermanagement.html">User Management</a></li>
+                    <li><a href="systemreports.html">System Reports</a></li>
+                    <li><a href="auditlogs.html">Audit Logs</a></li>
+                    <li><a href="login.html" id="logout-link">Logout</a></li>
+                `;
+            } else if (currentUser.role === "passenger") {
+                navLinksHtml = `
+                    <li><a href="passenger_home.html">Home</a></li>
+                    <li><a href="booktickets.html">Book Ticket</a></li>
+                    <li><a href="View_Booking.html">My Bookings</a></li>
+                    <li><a href="Profile.html">Profile</a></li>
+                    <li><a href="login.html" id="logout-link">Logout</a></li>
+                `;
+            } else if (currentUser.role === "operator") {
+                navLinksHtml = `
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="manageroutes.html">Manage Routes</a></li>
+                    <li><a href="allbookings.html">All Bookings</a></li>
+                    <li><a href="financialreports.html">Financial Reports</a></li>
+                    <li><a href="login.html" id="logout-link">Logout</a></li>
+                `;
+            }
+            navLinks.innerHTML = navLinksHtml;
+
+            profileForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const newEmail = emailInput.value;
+                const newPhone = phoneInput.value;
+                const newPassword = profileForm.password.value;
+
+                currentUser.email = newEmail;
+                currentUser.phone = newPhone;
+                if (newPassword) {
+                    console.log("Password updated");
+                }
+                alert("Profile updated successfully!");
+                location.reload();
+            });
+
+            // Mock logout
+            document.getElementById("logout-link").addEventListener("click", (event) => {
+                event.preventDefault();
+                currentUser.isLoggedIn = false;
+                window.location.href = "login.html";
+            });
+
+        } else {
+            alert("Please log in.");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

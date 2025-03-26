@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Routes</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .container h2 {
+            color: #e8491d;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            background-color: #e8491d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .footer .footer-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .footer-links ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer .footer-links ul li {
+            margin-left: 20px;
+        }
+
+        .footer .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a class="navbar-brand" href="operator_home.html" title="Operator Home"></a>
+            <img src="Logo.jpg" width="120" alt="Matatu System">
+            <span id="welcome-message">Operator: Guest</span>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="operator_home.html">Dashboard</a></li>
+                <li><a href="manage_routes.html">Manage Routes</a></li>
+                <li><a href="allbookings.html">All Bookings</a></li>
+                <li><a href="financial_reports.html">Financial Reports</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+            </div>
+    </nav>
+
+    <div class="container">
+        <h2>Route Management</h2>
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Add New Route</h3>
+                <form id="add-route-form">
+                    <input type="text" id="route-name" placeholder="Route Name" required>
+                    <input type="number" step="0.01" id="price" placeholder="Price" required>
+                    <button type="submit" class="btn">Add Route</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3>Existing Routes</h3>
+                <table class="data-table" id="routes-table">
+                    <thead>
+                        <tr>
+                            <th>Route Name</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>      
+                        <tr>
+                            <td>CBD - Westlands</td>
+                            <td>100.00</td>
+                            <td><button onclick="deleteRoute(1)">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td>CBD - Kilimani</td>
+                            <td>120.00</td>
+                            <td><button onclick="deleteRoute(2)">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td>CBD - Rongai</td>
+                            <td>150.00</td>
+                            <td><button onclick="deleteRoute(3)">Delete</button></td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock user data and routes (replace with your actual data)
+        const mockUsers = {
+            1: { id: 1, username: "Operator1", isLoggedIn: true, role: "operator" }
+        };
+        const mockRoutes = [
+            { id: 1, route_name: "Route A", price: 10.00 },
+            { id: 2, route_name: "Route B", price: 15.50 }
+        ];
+
+        // Simulate current user ID
+        const currentUserId = 1;
+        const currentUser = mockUsers[currentUserId];
+
+        const welcomeMessage = document.getElementById("welcome-message");
+        const navLinks = document.getElementById("nav-links");
+        const addRouteForm = document.getElementById("add-route-form");
+        const routesTableBody = document.querySelector("#routes-table tbody");
+
+        if (currentUser && currentUser.isLoggedIn && currentUser.role === "operator") {
+            welcomeMessage.textContent = `Operator: ${currentUser.username}`;
+            navLinks.innerHTML = `
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="manage_routes.html">Manage Routes</a></li>
+                <li><a href="allbookings.html">All Bookings</a></li>
+                <li><a href="financialreports.html">Financial Reports</a></li>
+                <li><a href="login.html" id="logout-link">Logout</a></li>
+            `;
+
+            // Populate routes table
+            function populateRoutesTable() {
+                routesTableBody.innerHTML = mockRoutes.map(route => `
+                    <tr>
+                        <td>${route.route_name}</td>
+                        <td>${route.price}</td>
+                        <td><button onclick="deleteRoute(${route.id})">Delete</button></td>
+                    </tr>
+                `).join('');
+            }
+            populateRoutesTable();
+
+            // Add route
+            addRouteForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const routeName = document.getElementById("route-name").value;
+                const price = parseFloat(document.getElementById("price").value);
+                const newRoute = {
+                    id: mockRoutes.length + 1,
+                    route_name: routeName,
+                    price: price
+                };
+                mockRoutes.push(newRoute);
+                populateRoutesTable();
+                addRouteForm.reset();
+            });
+
+            // Delete route
+            window.deleteRoute = function(routeId) {
+                const index = mockRoutes.findIndex(route => route.id === routeId);
+                if (index !== -1) {
+                    mockRoutes.splice(index, 1);
+                    populateRoutesTable();
+                }
+            };
+
+            // Mock logout
+            document.getElementById("logout-link").addEventListener("click", (event) => {
+                event.preventDefault();
+                currentUser.isLoggedIn = false;
+                window.location.href = "login.html";
+            });
+
+        } else {
+            alert("Please log in as operator.");
+            window.location.href = "login.html";
+        }
+    </script>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-links">
+            <ul>
+                <li><a href="About_us.html">About Us</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li><a href="Private_policy.html">Privacy Policy</a></li>
+                <li><a href="Terms_of_service.html">Terms of Service</a></li>
+            </ul>
+        </div>
+    
+        <div class="footer-copy">
+            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
