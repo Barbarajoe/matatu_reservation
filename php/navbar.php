@@ -1,7 +1,7 @@
 <?php if(isset($_SESSION['user_id'])): ?>
 <nav class="navbar">
     <div class="logo">
-        <img src="Logo.jpg" alt="Matatu System">
+        <img src="/Logo.jpg" alt="Matatu System">
         <span><?= htmlspecialchars($_SESSION['username']) ?> (<?= ucfirst($_SESSION['role']) ?>)</span>
     </div>
     <ul>
@@ -25,6 +25,7 @@
     </ul>
 </nav>
 <?php endif; ?>
+
 <?php
 // logout.php
 session_start();

@@ -1,565 +1,463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration and Login</title>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Registration and Login</title>
+  <style>
     /* Base Styles */
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f0f2f5;
-        color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+      color: #333;
     }
-
-    .container {
-        max-width: 600px;
-        margin: 2rem auto;
-        padding: 2rem;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    }
-
-    /* Navbar Styles */
-    
+    /* Fixed Navbar Styles */
     .navbar {
-                background-color: #333;
-                color: white;
-                padding: 10px 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
     }
-
     .navbar .logo img {
-        height: 40px;
-        filter: brightness(0) invert(1);
+      height: 40px;
+      filter: brightness(0) invert(1);
     }
-
     .navbar ul {
-        list-style: none;
-        display: flex;
-        gap: 2rem;
-        margin: 0;
-        padding: 0;
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
     }
-
     .navbar a {
-        color: white !important;
-        text-decoration: none;
-        font-weight: 500;
-        transition: opacity 0.3s;
+      color: white !important;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.3s;
     }
-
     .navbar a:hover {
-        opacity: 0.8;
+      opacity: 0.8;
     }
-
-    /* Form Styles */
+    /* Container Styles */
+    .container {
+      max-width: 600px;
+      margin: 90px auto 2rem auto; /* 90px top margin to account for fixed navbar */
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    /* Form & Text Styles */
     h2 {
-        color: #1a237e;
-        margin-bottom: 1.5rem;
-        text-align: center;
+      color: #1a237e;
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
-
     .form-group {
-        margin-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
     }
-
     label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: #444;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #444;
     }
-
-    input, select {
-        width: 100%;
-        padding: 0.8rem;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 1rem;
-        transition: border-color 0.3s;
+    input,
+    select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
     }
-
-    input:focus, select:focus {
-        border-color: #333;
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(26,35,126,0.1);
+    input:focus,
+    select:focus {
+      border-color: #333;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
     }
-
-    /* Button Styles */
     .btn {
-        background: #333;
-        color: white;
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 6px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 0.3s;
-        width: 100%;
+      background: #333;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
     }
-
     .btn:hover {
-        background: #303f9f;
+      background: #303f9f;
     }
-
-    /* Error Handling */
     .error-message {
-        color: #d32f2f;
-        font-size: 0.85rem;
-        margin-top: 0.3rem;
-        display: none;
+      color: #d32f2f;
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+      display: none;
     }
-
     .invalid {
-        border-color: #d32f2f !important;
+      border-color: #d32f2f !important;
     }
-
-    /* Password Strength */
+    /* Password Strength Styles */
     .password-strength {
-        height: 4px;
-        background: #eee;
-        margin-top: 0.5rem;
-        border-radius: 2px;
+      height: 4px;
+      background: #eee;
+      margin-top: 0.5rem;
+      border-radius: 2px;
     }
-
     .strength-bar {
-        height: 100%;
-        width: 0;
-        border-radius: 2px;
-        transition: width 0.3s, background 0.3s;
+      height: 100%;
+      width: 0;
+      border-radius: 2px;
+      transition: width 0.3s, background 0.3s;
     }
-
     .strength-text {
-        display: block;
-        font-size: 0.8rem;
-        margin-top: 0.3rem;
-        color: #666;
+      display: block;
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+      color: #666;
     }
-
     /* Toggle Link */
     .toggle-link {
-        display: block;
-        text-align: center;
-        margin-top: 1.5rem;
-        color: #1a237e;
-        cursor: pointer;
-        text-decoration: none;
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #1a237e;
+      cursor: pointer;
+      text-decoration: none;
     }
-
     .toggle-link:hover {
-        text-decoration: underline;
+      text-decoration: underline;
     }
-
     /* Terms Checkbox */
     .terms-group {
-        margin: 1.5rem 0;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-
     /* Footer Styles */
     .footer {
-        background: #333;
-        color: white;
-        padding: 2rem;
-        margin-top: 3rem;
+      background: #333;
+      color: white;
+      padding: 2rem;
+      margin-top: 3rem;
     }
-
     .footer-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
     .footer-links ul {
-        display: flex;
-        gap: 1.5rem;
-        list-style: none;
-        padding: 0;
-        margin: 0;
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
-
     .footer-links a {
-        color: white;
-        text-decoration: none;
+      color: white;
+      text-decoration: none;
     }
-
     /* Responsive Design */
     @media (max-width: 768px) {
-        .container {
-            margin: 1rem;
-            padding: 1.5rem;
-        }
-
-        .navbar {
-            padding: 1rem;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .navbar ul {
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .footer-container {
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
-        }
+      .container {
+        margin: 90px 1rem 2rem 1rem;
+        padding: 1.5rem;
+      }
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .navbar ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
     }
-</style>
+  </style>
 </head>
-
 <body>
-
-<!-- Placeholder for Navigation Bar -->
-<div id="navbar"></div>
-<div class="logo">
-    <img src="Logo.jpg" width="120" alt="Matatu System">
-    </div>
-<div class="container" id="container">
+  <!-- Navbar with embedded logo on the left -->
+  <div id="navbar"></div>
+  
+  <div class="container" id="container">
     <h2 id="form-title">Register</h2>
-
     <!-- Role Selection -->
     <div class="form-group">
-        <label for="role-select">I am a:</label>
-        <select id="role-select" name="role">
-            <option value="passenger">Passenger</option>
-            <option value="operator">Operator</option>
-            <option value="administrator">Administrator</option>
-        </select>
+      <label for="role-select">I am a:</label>
+      <select id="role-select" name="role">
+        <option value="passenger">Passenger</option>
+        <option value="operator">Operator</option>
+        <option value="administrator">Administrator</option>
+      </select>
     </div>
-
     <!-- Registration Form -->
     <form id="register-form" class="form-group" action="Register.php" method="POST">
-        <div class="form-group">
-            <label for="reg-email">Email</label>
-            <input type="email" id="reg-email" name="email" required>
-            <div class="error-message" id="emailError"></div>
+      <div class="form-group">
+        <label for="reg-email">Email</label>
+        <input type="email" id="reg-email" name="email" required />
+        <div class="error-message" id="emailError"></div>
+      </div>
+      <div class="form-group">
+        <label for="reg-phone">Phone Number</label>
+        <input type="tel" id="reg-phone" name="phone" required />
+        <div class="error-message" id="phoneError"></div>
+      </div>
+      <div class="form-group">
+        <label for="reg-username">Username</label>
+        <input type="text" id="reg-username" name="username" required />
+        <div class="error-message" id="usernameError"></div>
+      </div>
+      <div class="form-group">
+        <label for="reg-password">Password</label>
+        <input type="password" id="reg-password" name="password" required />
+        <div class="error-message" id="passwordError"></div>
+        <div class="password-strength">
+          <div class="strength-bar"></div>
+          <span class="strength-text"></span>
         </div>
-        <div class="form-group">
-            <label for="reg-phone">Phone Number</label>
-            <input type="tel" id="reg-phone" name="phone" required>
-            <div class="error-message" id="phoneError"></div>
-        </div>
-        <div class="form-group">
-            <label for="reg-username">Username</label>
-            <input type="text" id="reg-username" name="username" required>
-            <div class="error-message" id="usernameError"></div>
-        </div>
-        <div class="form-group">
-            <label for="reg-password">Password</label>
-            <input type="password" id="reg-password" name="password" required>
-            <div class="error-message" id="passwordError"></div>
-                        <div class="password-strength">
-                            <div class="strength-bar"></div>
-                            <span class="strength-text"></span>
-                        </div>
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" required>
-            <div class="error-message" id="confirmPasswordError"></div>
-        </div>
-        <div class="terms-group">
-            <input type="checkbox" id="terms" required>
-            <label for="terms">I agree to the Terms of Service</label>
-        </div>
-        <button type="submit" class="btn">Register</button>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" required />
+        <div class="error-message" id="confirmPasswordError"></div>
+      </div>
+      <div class="terms-group">
+        <input type="checkbox" id="terms" required />
+        <label for="terms">I agree to the Terms of Service</label>
+      </div>
+      <button type="submit" class="btn">Register</button>
     </form>
     <a class="toggle-link" id="toggle-link">Already registered? Log in here</a>
-    
     <!-- Login Form -->
-    <form id="login-form" class="form-group hidden">
-        <div class="form-group">
-            <label for="log-username">Username</label>
-            <input type="text" id="log-username" name="username" required>
-        </div>
-        <div class="form-group">
-            <label for="log-password">Password</label>
-            <input type="password" id="log-password" name="password" required>
-        </div>
-        <button type="submit" class="btn" >Login</button>
+    <form id="login-form" class="form-group" style="display: none;">
+      <div class="form-group">
+        <label for="log-username">Username</label>
+        <input type="text" id="log-username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="log-password">Password</label>
+        <input type="password" id="log-password" name="password" required />
+      </div>
+      <button type="submit" class="btn">Login</button>
     </form>
-</div>
-
-<script>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-links">
+        <ul>
+          <li><a href="About_us.html">About Us</a></li>
+          <li><a href="Contact.html">Contact</a></li>
+          <li><a href="Private_policy.html">Privacy Policy</a></li>
+          <li><a href="Terms_of_service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2025 Urban Transit. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <script>
     const toggleLink = document.getElementById('toggle-link');
     const registerForm = document.getElementById('register-form');
     const loginForm = document.getElementById('login-form');
     const formTitle = document.getElementById('form-title');
     const roleSelect = document.getElementById('role-select');
     const navbar = document.getElementById('navbar');
-
+  
+    // Navbar templates for each role with embedded logo on the left
     const passengerNavbar = `
-        <nav class="navbar">
-            <div class="logo">
-                <img src="Logo.jpg" alt="Company Logo">
-            </div>
-            <ul>
-                <li><a href="login.html">Home</a></li>
-                <li><a href="booktickets.html">Book Ticket</a></li>
-                <li><a href="paymentmethod.html">Payment Method</a></li>
-                <li><a href="View_Booking.html">View Bookings</a></li>
-                <li><a href="Passengers_Profile.html">Profile</a></li>
-            </ul>
-        </nav>
+      <nav class="navbar">
+        <div class="logo">
+            <img src="Logo.jpg" width="120" alt="Matatu System" />
+        </div>
+        <ul>
+          <li><a href="login.html">Home</a></li>
+          <li><a href="booktickets.html">Book Ticket</a></li>
+          <li><a href="paymentmethod.html">Payment Method</a></li>
+          <li><a href="View_Booking.html">View Bookings</a></li>
+          <li><a href="Passengers_Profile.html">Profile</a></li>
+        </ul>
+      </nav>
     `;
-
     const operatorNavbar = `
-        <nav class="navbar">
-            <div class="logo">
-                <img src="Logo.jpg" alt="Company Logo">
-            </div>
-            <ul>
-                <li><a href="operator_home.html">Home</a></li>
-                <li><a href="manage_routes.html">Manage Routes</a></li>
-        <li><a href="allbookings.html">All Bookings</a></li>
-                <li><a href="financial_reports.html">Financial Reports</a></li>
-                <li><a href="logout.html">Logout</a></li>
-            </ul>
-        </nav>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="Logo.jpg" alt="Company Logo">
+        </div>
+        <ul>
+          <li><a href="operator_home.html">Home</a></li>
+          <li><a href="manage_routes.html">Manage Routes</a></li>
+          <li><a href="allbookings.html">All Bookings</a></li>
+          <li><a href="financial_reports.html">Financial Reports</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </nav>
     `;
-
     const administratorNavbar = `
-        <nav class="navbar">
-            <div class="logo">
-                <img src="Logo.jpg" alt="Company Logo">
-            </div>
-            <ul>
-               <li><a href="administrator_home.html">Home</a></li>
-                <li><a href="user_management.html">User Management</a></li>
-        <li><a href="system_reports.html">System Reports</a></li>
-                <li><a href="audit_logs.html">Audit Logs</a></li>
-                <li><a href="logout.html">Logout</a></li>
-            </ul>
-        </nav>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="Logo.jpg" alt="Company Logo">
+        </div>
+        <ul>
+          <li><a href="administrator_home.html">Home</a></li>
+          <li><a href="user_management.html">User Management</a></li>
+          <li><a href="system_reports.html">System Reports</a></li>
+          <li><a href="audit_logs.html">Audit Logs</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </nav>
     `;
+  
+    // Function to update navbar based on selected role
     function updateNavbar(role) {
-        if (role === 'passenger') {
-            navbar.innerHTML = passengerNavbar;
-        } else if (role === 'operator') {
-            navbar.innerHTML = operatorNavbar;
-        } else if (role === 'administrator') {
-            navbar.innerHTML = administratorNavbar;
-        }
-    }
-    // Update the navbar when the page loads
-    roleSelect.addEventListener('change', () => {
-        const role = roleSelect.value;
-        updateNavbar(role);
-    });
-    roleSelect.addEventListener('change', () => {
-        const role = roleSelect.value;
-        if (role === 'passenger') {
-            navbar.innerHTML = passengerNavbar;
-        } else if (role === 'operator') {
-            navbar.innerHTML = operatorNavbar;
-        } else if (role === 'administrator') {
-            navbar.innerHTML = administratorNavbar;
-        }
-    });
-    const setupFormValidation = () => {
-        const form = document.getElementById('register-form');
-        if (!form) return;
-    };
-
-        // Validation functions (keep existing)
-        const validateUsername = (username) => {
-    const regex = /^[A-Za-z]{4,20}$/;
-    return regex.test(username);
-  };
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
-  };
-    let strength = 0;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[@$!%*?&]/.test(password)) strength++;
-
-    const strengthLevels = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
-    const colors = ['#ff0000', '#ff4000', '#ff8000', '#ffbf00', '#00ff00'];
-    
-    strengthBar.style.width = `${(strength / 4) * 100}%`;
-    strengthBar.style.backgroundColor = colors[strength];
-    strengthText.textContent = strengthLevels[strength];
-
-  const validatePhone = (phone) => {
-    const regex = /^\+?[1-9]\d{7,14}$/;
-    return regex.test(phone);
-  };
-  const updatePasswordStrength = (password) => {
-    const strengthBar = document.querySelector('.strength-bar');
-    const strengthText = document.querySelector('.strength-text');
-    let strength = 0;
-  };
-
-  const showError = (element, message) => {
-    element.textContent = message;
-    element.style.display = 'block';
-  };
-
-  const clearError = (element) => {
-    element.textContent = '';
-    element.style.display = 'none';
-  };
-
-  const validateField = (fieldId, validator, errorId) => {
-    const field = document.getElementById(fieldId);
-    const errorElement = document.getElementById(errorId);
-    
-    field.addEventListener('input', () => {
-      if (validator(field.value)) {
-        clearError(errorElement);
-        field.classList.remove('invalid');
-      } else {
-        field.classList.add('invalid');
+      if (role === 'passenger') {
+        navbar.innerHTML = passengerNavbar;
+      } else if (role === 'operator') {
+        navbar.innerHTML = operatorNavbar;
+      } else if (role === 'administrator') {
+        navbar.innerHTML = administratorNavbar;
       }
-    });
-  };
-
-
-    toggleLink.addEventListener('click', () => {
-        if (registerForm.style.display === 'none') {
-            registerForm.style.display = 'block';
-            loginForm.style.display = 'none';
-            formTitle.textContent = 'Register';
-            toggleLink.textContent = 'Already registered? Log in here';
-        } else {
-            registerForm.style.display = 'none';
-            loginForm.style.display = 'block';
-            formTitle.textContent = 'Login';
-            toggleLink.textContent = 'New user? Register here';
-        }
-    });
-
-    registerForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const role = roleSelect.value;
-        if (role === 'passenger') {
-            window.location.href = 'passenger_home.html';
-        } else if (role === 'operator') {
-            window.location.href = 'operator_home.html';
-        } else if (role === 'administrator') {
-            window.location.href = 'administrator_home.html';
-        }
-    });
-
-    loginForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const role = roleSelect.value;
-        if (role === 'passenger') {
-            window.location.href = 'passenger_home.html';
-        } else if (role === 'operator') {
-            window.location.href = 'operator_home.html';
-        } else if (role === 'administrator') {
-            window.location.href = 'administrator_home.html';
-        }
+    }
+  
+    // Set initial navbar based on the default role
+    updateNavbar(roleSelect.value);
+  
+    // Update navbar when role selection changes
+    roleSelect.addEventListener('change', () => {
+      updateNavbar(roleSelect.value);
     });
   
-  // Setup real-time validation
-  validateField('username', validateUsername, 'usernameError');
-  validateField('email', validateEmail, 'emailError');
-  validateField('phone', validatePhone, 'phoneError');
-
-  document.getElementById('password').addEventListener('input', (e) => {
-    updatePasswordStrength(e.target.value);
-  });
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let isValid = true;
-
-    // Validate all fields
-    const fields = [
-      { id: 'username', validator: validateUsername, error: 'usernameError' },
-      { id: 'email', validator: validateEmail, error: 'emailError' },
-      { id: 'password', validator: validatePassword, error: 'passwordError' },
-      { id: 'phone', validator: validatePhone, error: 'phoneError' }
-    ];
-
-    fields.forEach(({ id, validator, error }) => {
-      const field = document.getElementById(id);
-      const errorElement = document.getElementById(error);
-      
-      if (!validator(field.value)) {
-        showError(errorElement, `Invalid ${id} format`);
-        isValid = false;
+    toggleLink.addEventListener('click', () => {
+      if (registerForm.style.display === 'none') {
+        registerForm.style.display = 'block';
+        loginForm.style.display = 'none';
+        formTitle.textContent = 'Register';
+        toggleLink.textContent = 'Already registered? Log in here';
+      } else {
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        formTitle.textContent = 'Login';
+        toggleLink.textContent = 'New user? Register here';
       }
     });
+  
+    // Relaxed validation functions
+    // Username can be any format, just check if not empty
+    const validateUsername = (username) => username.trim().length > 0;
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validatePassword = (password) => password.trim().length > 0;
 
-    // Validate password match
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    if (password !== confirmPassword) {
-      showError(document.getElementById('confirmPasswordError'), 'Passwords do not match');
-      isValid = false;
-    } else 
-
-    // Validate age
-    var birthdate = document.getElementById('birthdate').value;
-    if (calculateAge(birthdate) < 18) {
-      showError(document.getElementById('birthdateError'), 'You must be at least 18 years old');
-      isValid = false;
-    }
-
-    // Validate account type
-    const accountType = document.querySelector('input[name="accountType"]:checked');
-    if (!accountType) {
-      alert('Please select an account type');
-      isValid = false;
-    }
-
-    if (isValid) {
-      const modal = document.getElementById('successModal');
-      const successMessage = document.getElementById('successMessage');
-      const username = document.getElementById('username').value;
-      
-     updateNavbar(roleSelect.value);
-     function showSuccessAlert(message) {
-  alert("Registration Successful!\n" + message);
-     
-  form.reset();
-}
-  }
-</script>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
-        </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
-    </div>
-</footer>
+    const validatePhone = (phone) => /^\+?[1-9]\d{7,14}$/.test(phone);
+  
+    // Password strength checker
+    const updatePasswordStrength = (password) => {
+      const strengthBar = document.querySelector('.strength-bar');
+      const strengthText = document.querySelector('.strength-text');
+      let strength = 0;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[a-z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[@$!%*?&]/.test(password)) strength++;
+  
+      const strengthLevels = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
+      const colors = ['#ff0000', '#ff4000', '#ff8000', '#ffbf00', '#00ff00'];
+  
+      strengthBar.style.width = `${(strength / 4) * 100}%`;
+      strengthBar.style.backgroundColor = colors[strength];
+      strengthText.textContent = strengthLevels[strength];
+    };
+  
+    document.getElementById('reg-password').addEventListener('input', (e) => {
+      updatePasswordStrength(e.target.value);
+    });
+  
+    const validateField = (fieldId, validator, errorId) => {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(errorId);
+      field.addEventListener('input', () => {
+        if (validator(field.value)) {
+          errorElement.style.display = 'none';
+          field.classList.remove('invalid');
+        } else {
+          errorElement.textContent = `Invalid ${fieldId} format`;
+          errorElement.style.display = 'block';
+          field.classList.add('invalid');
+        }
+      });
+    };
+  
+    validateField('reg-username', validateUsername, 'usernameError');
+    validateField('reg-email', validateEmail, 'emailError');
+    validateField('reg-phone', validatePhone, 'phoneError');
+    validateField('reg-password', validatePassword, 'passwordError');
+  
+    registerForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const username = document.getElementById('reg-username').value;
+      const email = document.getElementById('reg-email').value;
+      const phone = document.getElementById('reg-phone').value;
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      let isValid = true;
+  
+      if (!validateUsername(username)) isValid = false;
+      if (!validateEmail(email)) isValid = false;
+      if (!validatePhone(phone)) isValid = false;
+      if (!validatePassword(password)) isValid = false;
+      if (password !== confirmPassword) {
+        const confirmError = document.getElementById('confirmPasswordError');
+        confirmError.textContent = 'Passwords do not match';
+        confirmError.style.display = 'block';
+        isValid = false;
+      }
+  
+      if (isValid) {
+        // Redirect based on role
+        const role = roleSelect.value;
+        updateNavbar(role);
+        if (role === 'passenger') {
+          window.location.href = './passenger/passenger_home.html';
+        } else if (role === 'operator') {
+          window.location.href = './operator/operator_home.html';
+        } else if (role === 'administrator') {
+          window.location.href = './admin/administrator_home.html';
+        }
+      }
+    });
+  
+    loginForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const role = roleSelect.value;
+      if (role === 'passenger') {
+        window.location.href = './passenger/passenger_home.html';
+      } else if (role === 'operator') {
+        window.location.href = './operator/operator_home.html';
+      } else if (role === 'administrator') {
+        window.location.href = './administrator/administrator_home.html';
+      }
+    });
+  </script>
+  
 </body>
-
 </html>
