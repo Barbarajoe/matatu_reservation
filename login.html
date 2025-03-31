@@ -211,7 +211,7 @@
       </select>
     </div>
     <!-- Registration Form -->
-    <form id="register-form" class="form-group" action="Register.php" method="POST">
+    <form id="register-form" action="Register.php" method="POST">
       <div class="form-group">
         <label for="reg-email">Email</label>
         <input type="email" id="reg-email" name="email" required />
@@ -241,12 +241,13 @@
         <input type="password" id="confirmPassword" required />
         <div class="error-message" id="confirmPasswordError"></div>
       </div>
-      <div class="terms-group">
+           <div class="terms-group">
         <input type="checkbox" id="terms" required />
         <label for="terms">I agree to the Terms of Service</label>
       </div>
       <button type="submit" class="btn">Register</button>
     </form>
+    
     <a class="toggle-link" id="toggle-link">Already registered? Log in here</a>
     <!-- Login Form -->
     <form id="login-form" class="form-group" style="display: none;">
@@ -437,11 +438,11 @@
         const role = roleSelect.value;
         updateNavbar(role);
         if (role === 'passenger') {
-          window.location.href = './passenger/passenger_home.html';
+          window.location.href = 'passenger_home.html';
         } else if (role === 'operator') {
-          window.location.href = './operator/operator_home.html';
+          window.location.href = 'operator_home.html';
         } else if (role === 'administrator') {
-          window.location.href = './admin/administrator_home.html';
+          window.location.href = 'administrator_home.html';
         }
       }
     });
@@ -450,11 +451,11 @@
       event.preventDefault();
       const role = roleSelect.value;
       if (role === 'passenger') {
-        window.location.href = './passenger/passenger_home.html';
+        window.location.href = 'passenger_home.html';
       } else if (role === 'operator') {
-        window.location.href = './operator/operator_home.html';
+        window.location.href = 'operator_home.html';
       } else if (role === 'administrator') {
-        window.location.href = './administrator/administrator_home.html';
+        window.location.href = 'administrator_home.html';
       }
     });
   </script>

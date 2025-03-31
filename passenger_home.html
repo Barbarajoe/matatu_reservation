@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #e64a19;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .trip-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 300px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .trip-card h3 {
+            color: #e64a19;
+            margin-bottom: 10px;
+        }
+
+        .trip-card p {
+            margin-bottom: 8px;
+        }
+
+        .quick-actions {
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn {
+            background-color: #e64a19;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d84315;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+
+        .footer .footer-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .footer-links ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer .footer-links ul li {
+            margin-left: 20px;
+        }
+
+        .footer .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .trip-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a class="navbar-brand" href="passenger_home.html" title="Passenger Home">
+            <img src="Logo.jpg" width="120" alt="Matatu System" title="Matatu System">
+            <span>Urban Transit</span>
+            </a>
+            <span>Welcome, <?php echo $_SESSION['username']; ?></span>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="passenger_home.html" title="Home">Home</a></li>
+                <li><a href="booktickets.html" title="Book Ticket">Book Ticket</a></li>
+                <li><a href="View_Booking.html" title="My Bookings">My Bookings</a></li>
+                <li><a href="Profile.html" title="Profile">Profile</a></li>
+                <li><a href="logout.php" title="Logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Upcoming Trips</h2>
+        <div class="dashboard">
+            <!-- Trip Cards -->
+            <div class="trip-card">
+                <h3>Nairobi to Mombasa</h3>
+                <p>Date: 2024-03-15</p>
+                <p>Seat: 12B</p>
+                <p>Status: Confirmed</p>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="booktickets.html" class="btn" title="Book New Trip">Book New Trip</a>
+                <a href="paymentmethod.html" class="btn" title="Payment History">Payment History</a>
+            </div>
+        </div>
+    </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-links">
+            <ul>
+                <li><a href="About_us.html" title="About Us">About Us</a></li>
+                <li><a href="Contact.html" title="Contact">Contact</a></li>
+                <li><a href="Private_policy.html" title="Privacy Policy">Privacy Policy</a></li>
+                <li><a href="Terms_of_service.html" title="Terms of Service">Terms of Service</a></li>
+            </ul>
+        </div>
+    
+        <div class="footer-copy">
+            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
+   

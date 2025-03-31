@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Method</title>
+    <script src="https://js.stripe.com/v3/"></script> <!-- For card payments -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+:root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+        }
+
+ body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+ .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+ h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-align: center;
+ }
+.payment-options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.payment-tab {
+    padding: 1rem 2rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    background: #eee;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.payment-tab:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+}
+.payment-tab.active {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.payment-method {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn{
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.payment-method.active {
+    display: block;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.instruction {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+}
+
+#card-element {
+    border: 2px solid #e2e8f0;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+.btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .payment-options{
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <?php include 'navbar.php'; ?>
+    
+    <div class="container">
+        <h2>Select Payment Method</h2>
+        
+        <!-- Payment Method Selection -->
+        <div class="payment-options">
+            <button class="payment-tab active" data-method="mpesa">M-Pesa</button>
+            <button class="payment-tab" data-method="card">Credit/Debit Card</button>
+        </div>
+
+        <!-- Payment Forms -->
+        <form id="payment-form" action="process_payment.php" method="POST">
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+            <input type="hidden" name="booking_id" value="<?= htmlspecialchars($_GET['booking_id']) ?>">
+
+            <!-- M-Pesa Payment Section -->
+            <div class="payment-method active" id="mpesa-form">
+                <div class="form-group">
+                    <label>M-Pesa Phone Number</label>
+                    <input type="tel" name="mpesa_phone" 
+                           pattern="2547[0-9]{8}"
+                           title="Enter phone in 2547XXXXXXXX format"
+                           required>
+                </div>
+                <div class="form-group">
+                    <p class="instruction">You will receive a payment prompt on your phone</p>
+                </div>
+            </div>
+
+            <!-- Card Payment Section -->
+            <div class="payment-method" id="card-form">
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" name="card_number" 
+                           pattern="\d{16}"
+                           title="16-digit card number"
+                           placeholder="4242 4242 4242 4242">
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="month" name="expiry_date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="text" name="cvv" 
+                               pattern="\d{3}"
+                               title="3-digit CVV"
+                               required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Elements -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Complete Payment</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Toggle payment methods
+        document.querySelectorAll('.payment-tab').forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Remove active classes
+                document.querySelectorAll('.payment-tab, .payment-method').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                // Add active class to selected method
+                const method = e.target.dataset.method;
+                e.target.classList.add('active');
+                document.getElementById(`${method}-form`).classList.add('active');
+                
+                // Update form validation
+                document.querySelectorAll('input').forEach(input => {
+                    input.required = input.closest('.payment-method.active') ? true : false;
+                });
+            });
+        });
+
+        // Handle card payments with Stripe
+        const stripe = Stripe('your_publishable_key');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const paymentMethod = document.querySelector('.payment-tab.active').dataset.method;
+            
+            if(paymentMethod === 'card') {
+                const {error, paymentMethod} = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement
+                });
+
+                if (error) {
+                    alert(error.message);
+                } else {
+                    // Add payment method ID to form
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'payment_method_id');
+                    hiddenInput.setAttribute('value', paymentMethod.id);
+                    form.appendChild(hiddenInput);
+                    
+                    // Submit form
+                    form.submit();
+                }
+            } else {
+                // Handle M-Pesa payment
+                form.submit();
+            }
+        });
+    </script>
+
+    <?php include 'footer.php'; ?>
+</body>
+</html>

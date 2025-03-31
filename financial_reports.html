@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Reports</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+       
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .container h2 {
+            color: #e8491d;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .footer .footer-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .footer-links ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer .footer-links ul li {
+            margin-left: 20px;
+        }
+
+        .footer .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+        }
+          /* Chart Styling */
+          #revenueChart {
+            max-width: 100%; /* Ensure chart responsiveness */
+            height: 300px; /* Set a fixed height for the chart */
+            margin: 20px auto; /* Center the chart */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a class="navbar-brand" href="operator_home.html" title="Operator Home">
+                <img src="Logo.jpg" width="120" alt="Urban Transit Logo" title="Matatu System">
+                <span>Urban Transit</span>
+            </a>
+            <span>Operator: <?php echo $_SESSION['username']; ?></span>
+        </div>
+        <div class="navbar-links"></div>
+        <ul>
+            <li><a href="operator_home.html">Dashboard</a></li>
+            <li><a href="manage_routes.html">Manage Routes</a></li>
+            <li><a href="allbookings.html">All Bookings</a></li>
+            <li><a href="financial_reports.html">Financial Reports</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
+]    </nav>
+
+    <?php include 'navbar.php'; ?>
+
+    <div class="container">
+        <h2>Financial Reports</h2>
+        <div class="dashboard-grid">
+
+            <!-- Daily Revenue Chart -->
+            <div class="card">
+                <h3>Daily Revenue</h3>
+                <canvas id="revenueChart"></canvas>  <!-- FIXED: Added missing canvas element -->
+            </div>
+
+            <!-- Payment Methods Table -->
+            <div class="card">
+                <h3>Payment Methods</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Payment Method</th>
+                            <th>Transactions</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php include 'get_payment_stats.php'; ?> <!-- FIXED: Ensure correct table row output -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_daily_bookings.php')
+                .then(response => response.json()) // Expect JSON response
+                .then(data => {
+                    const ctx = document.getElementById('revenueChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,  // FIXED: Expecting JSON array
+                            datasets: [{
+                                label: 'Daily Revenue',
+                                data: data.values,  // FIXED: Expecting JSON values
+                                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                                borderColor: 'rgba(40, 167, 69, 1)',
+                                borderWidth: 1
+                            }]
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading daily bookings:', error));
+        });
+    </script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-links">
+            <ul>
+                <li><a href="About_us.html">About Us</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li><a href="Private_policy.html">Privacy Policy</a></li>
+                <li><a href="Terms_of_service.html">Terms of Service</a></li>
+            </ul>
+        </div>
+    
+        <div class="footer-copy">
+            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

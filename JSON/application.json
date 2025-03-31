@@ -1,0 +1,16 @@
+{
+    "data": [
+      {
+        "id": 1,
+        "username": "admin",
+        "email": "admin@matatu.com",
+        "last_login": "2024-03-15 14:30:00"
+      }
+    ],
+    "meta": {
+      "current_page": 1,
+      "per_page": 20,
+      "total": 45,
+      "total_pages": 3
+    }
+  }
