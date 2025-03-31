@@ -1,17 +1,17 @@
 <?php
 require 'config.php';
 
-function auditLog($action, $message) {
+function auditLog($action_type, $action_details) {
     global $conn; // Use the database connection
     // Log to a file (optional)
     $logFile = 'audit.log';
-    $logMessage = "[" . date("Y-m-d H:i:s") . "] [$action] $message" . PHP_EOL;
+    $logMessage = "[" . date("Y-m-d H:i:s") . "] [$action_type] $action_details" . PHP_EOL;
     file_put_contents($logFile, $logMessage, FILE_APPEND);
 
     try {
         // Insert log into the database
         $stmt = $conn->prepare("INSERT INTO audit_logs (action, message, log_time) VALUES (?, ?, NOW())");
-        $stmt->execute([$action, $message]);
+        $stmt->execute([$action_type, $action_details]);
     } catch (Exception $e) {
         // Fallback logging if database fails
         error_log("Audit Log DB Error: " . $e->getMessage());

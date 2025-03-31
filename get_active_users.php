@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'administrator') {
     exit();
 }
 
+
 try {
     // Get pagination parameters
     $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
@@ -19,14 +20,14 @@ try {
     // Main query with your specified SQL
     $stmt = $conn->prepare("
         SELECT 
-            users.id, 
+            users.user_id, 
             username, 
             email, 
-            MAX(log_time) AS last_login
+            MAX(updated_at) AS last_login
         FROM users
-        LEFT JOIN audit_logs ON users.id = audit_logs.user_id
-        WHERE action = 'login'
-        GROUP BY users.id
+        LEFT JOIN audit_logs ON users.user_id = audit_logs.user_id
+        WHERE action_type = 'login'
+        GROUP BY users.user_id
         HAVING last_login >= DATE_SUB(NOW(), INTERVAL 30 DAY)
         ORDER BY last_login DESC
         LIMIT :limit OFFSET :offset
@@ -41,12 +42,12 @@ try {
     // Get total count
     $countStmt = $conn->prepare("
         SELECT COUNT(*) FROM (
-            SELECT users.id
+            SELECT users.user_id
             FROM users
-            LEFT JOIN audit_logs ON users.id = audit_logs.user_id
-            WHERE action = 'login'
-            GROUP BY users.id
-            HAVING MAX(log_time) >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+            LEFT JOIN audit_logs ON users.user_id = audit_logs.user_id
+            WHERE action_type = 'login'
+            GROUP BY users.user_id
+            HAVING MAX(updated_at) >= DATE_SUB(NOW(), INTERVAL 30 DAY)
         ) AS active_users
     ");
     $countStmt->execute();

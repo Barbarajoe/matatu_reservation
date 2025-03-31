@@ -30,14 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert into database using prepared statement
         $stmt = $conn->prepare("
-            INSERT INTO routes (name, price, created_by)
-            VALUES (:name, :price, :created_by)
+            INSERT INTO] routes (name, price, created_at)
+            VALUES (:name, :price, :created_at)
         ");
 
         $stmt->execute([
             ':name' => $route_name,
             ':price' => $price,
-            ':created_by' => $_SESSION['user_id']
+            ':created_at' => $_SESSION['user_id']
         ]);
 
         // Check if insertion was successful

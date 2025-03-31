@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
 require 'config.php';
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -9,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     http_response_code(405);
     die(json_encode(['error' => 'Method not allowed']));
 }
-
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     die(json_encode(['error' => 'Unauthorized access']));
@@ -19,6 +22,8 @@ if (!isset($_SESSION['user_id'])) {
 if (!isset($_POST['booking_id']) || empty($_POST['booking_id'])) {
     http_response_code(400);
     die(json_encode(['error' => 'Booking ID is required']));
+
+
 
 // Sanitize input function
 function sanitizeInput($input) {

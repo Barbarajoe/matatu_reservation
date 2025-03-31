@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require 'config.php';
+require 'vendor/autoload.php'; // Ensure you have the Stripe PHP library installed via Composer
 
 /**
  * Calculate the booking amount based on the booking ID.
@@ -17,7 +18,7 @@ function verifyCSRFToken($token) {
 function sanitizeInput($data) {
     return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
 }
- function calculateBookingAmount($booking_id) {
+ function calculateBookingAmount($booking_id): int {
     global $conn;
     $stmt = $conn->prepare("SELECT amount FROM bookings WHERE id = ?");
     $stmt->execute([$booking_id]);
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($payment_method === 'mpesa') {
             // Process M-Pesa payment
             $phone = sanitizeInput($_POST['mpesa_phone']);
+            $amount = calculateBookingAmount($booking_id);
             // Initiate M-Pesa STK push
         } else {
             // Process card payment

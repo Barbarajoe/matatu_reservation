@@ -4,10 +4,10 @@ require 'config.php';
 try {
     $stmt = $conn->query("
         SELECT 
-            DATE(booking_time) AS booking_date,
+            DATE(booking_date) AS booking_date,
             COUNT(*) AS total_bookings
         FROM bookings
-        GROUP BY DATE(booking_time)
+        GROUP BY DATE(booking_date)
         ORDER BY booking_date DESC
         LIMIT 7
     ");

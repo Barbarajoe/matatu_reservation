@@ -5,213 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Ticket</title>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
-    <style>
-        body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-        color: #333;
-        line-height: 1.6;
-        }
-        
-            .navbar {
-                background-color: #333;
-                color: white;
-                padding: 10px 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        
-            .navbar .logo {
-                display: flex;
-                align-items: center;
-            }
-        
-            .navbar .logo img {
-                margin-right: 10px;
-            }
-        
-            .navbar ul {
-                list-style: none;
-                display: flex;
-                margin: 0;
-                padding: 0;
-            }
-        
-            .navbar ul li {
-                margin-left: 20px;
-            }
-        
-            .navbar ul li a {
-                color: white;
-                text-decoration: none;
-            }
-        
-            .container {
-                width: 80%;
-                max-width: 600px;
-                margin: 20px auto;
-                background-color: white;
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-        
-            h2 {
-                color: #e64a19;
-                margin-bottom: 20px;
-                text-align: center;
-            }
-        
-            p {
-                margin-bottom: 20px;
-                color: #555;
-            }
-        
-            form {
-                margin-bottom: 20px;
-            }
-        
-            .form-group {
-                margin-bottom: 20px;
-            }
-        
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                color: #333;
-                font-weight: bold;
-            }
-        
-            .form-group input, .form-group select {
-                width: calc(100% - 20px);
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                box-sizing: border-box;
-            }
-        
-            .form-group select {
-                appearance: none;
-                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4L2 0z"/></svg>') no-repeat right 10px center;
-                background-size: 8px 10px;
-            }
-        
-        
-            .form-group input:focus, .form-group select:focus {
-                outline: none;
-                border-color: #e64a19;
-                box-shadow: 0 0 0 2px rgba(230, 74, 25, 0.2);
-            }
-        
-            .payment-method {
-                margin-top: 20px;
-            }
-        
-            .payment-method.hidden {
-                display: none;
-            }
-        
-            .payment-method input {
-                width: calc(100% - 20px);
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                box-sizing: border-box;
-            }
-        
-            .text-center {
-                text-align: center;
-            }
-        
-            .btn {
-                background-color: #e64a19;
-                color: white;
-                padding: 12px 25px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                margin-top: 20px;
-                display: inline-block;
-            }
-        
-            .btn:hover {
-                background-color: #d84315;
-            }
-        
-            #confirmation-message {
-                background-color: #f0fdf4;
-                padding: 20px;
-                border: 1px solid #38a169;
-                border-radius: 5px;
-                margin-top: 20px;
-            }
-        
-            #confirmation-message.hidden {
-                display: none;
-            }
-        
-            #confirmation-message h3 {
-                color: #38a169;
-                margin-bottom: 10px;
-                text-align: center;
-            }
-        
-            #confirmation-message p {
-                margin-bottom: 10px;
-            }
-        
-            #qrcode canvas {
-                margin: 20px auto;
-                display: block;
-            }
-        
-            footer {
-                background-color: #333;
-                color: white;
-                text-align: center;
-                padding: 20px 0;
-                margin-top: 50px;
-            }
-        
-            .footer .footer-container {
-                width: 80%;
-                margin: auto;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        
-            .footer .footer-links ul {
-                list-style: none;
-                display: flex;
-                margin: 0;
-                padding: 0;
-            }
-        
-            .footer .footer-links ul li {
-                margin-left: 20px;
-            }
-        
-            .footer .footer-links ul li a {
-                color: white;
-                text-decoration: none;
-            }
-        
-            @media (max-width: 768px) {
-                .container {
-                    width: 95%;
-                }
-        
-                .navbar ul li {
-                    margin-left: 10px;
-                }
-            }
-        </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
 </head>
 <body>
     <nav class="navbar">
@@ -271,17 +66,10 @@
             </div>
             
             <div class="form-group text-center">
-                <button type="submit" class="btn">Book Ticket</button>
+                <a href="paymentmethod.html" class="btn">Proceed to Payment</a>
             </div>
         </form>
-        <div id="confirmation-message" class="hidden">
-            <h3>Payment Confirmed</h3>
-            <p>Number of Seats: <span id="seat-count"></span></p>
-            <p>Ticket Number: <span id="ticket-number"></span></p>
-            <div id="qrcode"></div>
-        </div>
-    </div>
-    
+        
 <script>
          // Update cost based on selected route and number of tickets
          document.getElementById('route').addEventListener('change', updateCost);
@@ -316,6 +104,32 @@
                         `<option value="${seat.number}">Seat ${seat.number}</option>`
                     ).join('');
                 });
+                // Fetch seats when route is selected
+async function loadSeats(routeId) {
+    try {
+        const response = await fetch(`getseats.php?route_id=${routeId}`);
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            renderSeatMap(data.seat_map, data.available_seats);
+        }
+    } catch (error) {
+        showError('Failed to load seat availability');
+    }
+}
+
+// Example seat rendering
+function renderSeatMap(allSeats, availableSeats) {
+    const seatContainer = document.getElementById('seats');
+    seatContainer.innerHTML = '';
+    
+    allSeats.forEach(seat => {
+        const seatEl = document.createElement('div');
+        seatEl.className = `seat ${availableSeats.includes(seat) ? 'available' : 'booked'}`;
+        seatEl.textContent = seat;
+        seatContainer.appendChild(seatEl);
+    });
+}
         }
 
    

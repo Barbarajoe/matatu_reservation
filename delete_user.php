@@ -11,11 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   return;
 }
 
-if (!isset($_SESSION['role'])) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Session expired. Please log in again.']);
-    exit();
-}
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.html");

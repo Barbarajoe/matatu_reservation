@@ -4,150 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Reports</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        .navbar {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            margin-right: 10px;
-        }
-
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar ul li {
-            margin-left: 20px;
-        }
-
-        .navbar ul li a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-
-        .container h2 {
-            color: #e8491d;
-            margin-bottom: 20px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            grid-gap: 20px;
-        }
-
-        .stats-card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .footer .footer-container {
-            width: 80%;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer .footer-links ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        .footer .footer-links ul li {
-            margin-left: 20px;
-        }
-
-        .footer .footer-links ul li a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .stat-number {
-    font-size: 2.5em;
-    margin: 15px 0;
-    color: #e8491d;
-}
-
-.stat-trend {
-    font-size: 0.9em;
-    margin-top: 10px;
-}
-
-.positive {
-    color: #28a745;
-    font-weight: bold;
-}
-
-.negative {
-    color: #dc3545;
-    font-weight: bold;
-}
-
-.stat-trend span::before {
-    margin-right: 5px;
-}
-
-.positive::before {
-    content: '↑';
-}
-
-.negative::before {
-    content: '↓';
-}
-.stat-number {
-            font-size: 2.5em;
-            margin: 15px 0;
-            color: #e8491d;
-        }
-
-        .stat-trend {
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-
-        .positive { color: #28a745; }
-        .negative { color: #dc3545; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">  
 </head>
 <body>
     <nav class="navbar">
@@ -158,6 +16,7 @@
         <ul>
             <li><a href="administrator_home.html">Dashboard</a></li>
             <li><a href="user_management.html">User Management</a></li>
+            <li><a href="manage_routes.html">Manage Routes</a></li>
             <li><a href="system_reports.html">System Reports</a></li>
             <li><a href="audit_logs.html">Audit Logs</a></li>
             <li><a href="profile.html">Profile</a></li>
