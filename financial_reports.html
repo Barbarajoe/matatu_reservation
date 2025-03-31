@@ -4,8 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Reports</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar .logo span {
+            font-weight: bold;
+        }
+
+        .navbar .navbar-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .navbar .navbar-links li {
+            margin-left: 20px;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .container h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar .navbar-links ul {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .navbar .navbar-links li {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            .footer-container {
+                flex-direction: column;
+            }
+
+            .footer-links ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-links li {
+                margin: 5px 0;
+            }
+        }
+
+        .footer {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .footer-links li {
+            margin-left: 20px;
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+        }
+        .footer-copy{
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -16,16 +188,16 @@
             </a>
             <span>Operator: <?php echo $_SESSION['username']; ?></span>
         </div>
-        <div class="navbar-links"></div>
-        <ul>
-            <li><a href="operator_home.html">Dashboard</a></li>
-            <li><a href="allbookings.html">All Bookings</a></li>
-            <li><a href="financial_reports.html">Financial Reports</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-    </div>
-  </nav>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="operator_home.html">Dashboard</a></li>
+                <li><a href="allbookings.html">All Bookings</a></li>
+                <li><a href="financial_reports.html">Financial Reports</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <?php include 'navbar.php'; ?>
 
@@ -33,13 +205,11 @@
         <h2>Financial Reports</h2>
         <div class="dashboard-grid">
 
-            <!-- Daily Revenue Chart -->
             <div class="card">
                 <h3>Daily Revenue</h3>
-                <canvas id="revenueChart"></canvas>  <!-- FIXED: Added missing canvas element -->
+                <canvas id="revenueChart"></canvas>
             </div>
 
-            <!-- Payment Methods Table -->
             <div class="card">
                 <h3>Payment Methods</h3>
                 <table class="data-table">
@@ -51,57 +221,98 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php include 'get_payment_stats.php'; ?> <!-- FIXED: Ensure correct table row output -->
+                        <tr>
+                            <td>M-Pesa</td>
+                            <td>120</td>
+                            <td>240,000</td>
+                        </tr>
+                        <tr>
+                            <td>Credit Card</td>
+                            <td>80</td>
+                            <td>160,000</td>
+                        </tr>
+                        <tr>
+                            <td>Cash</td>
+                            <td>50</td>
+                            <td>100,000</td>
+                        </tr>
+                        <tr>
+                            <td>Bank Transfer</td>
+                            <td>30</td>
+                            <td>60,000</td>
+                        </tr>
+                        <tr>
+                            <td>Other</td>
+                            <td>10</td>
+                            <td>20,000</td>
+                        </tr>
+                        <?php include 'get_payment_stats.php'; ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             fetch('get_daily_bookings.php')
-                .then(response => response.json()) // Expect JSON response
+                .then(response => response.json())
                 .then(data => {
                     const ctx = document.getElementById('revenueChart').getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: data.labels,  // FIXED: Expecting JSON array
+                            labels: data.labels,
                             datasets: [{
                                 label: 'Daily Revenue',
-                                data: data.values,  // FIXED: Expecting JSON values
+                                data: data.values,
                                 backgroundColor: 'rgba(40, 167, 69, 0.2)',
                                 borderColor: 'rgba(40, 167, 69, 1)',
                                 borderWidth: 1
                             }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Daily Revenue',
+                                    font: {
+                                        size: 16
+                                    }
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
                         }
                     });
                 })
                 .catch(error => console.error('Error loading daily bookings:', error));
         });
     </script>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <ul>
+                    <li><a href="About_us.html">About Us</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                    <li><a href="Private_policy.html">Privacy Policy</a></li>
+                    <li><a href="Terms_of_service.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-copy">
+                <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+            </div>
         </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-
+    </footer>
 </body>
 </html>

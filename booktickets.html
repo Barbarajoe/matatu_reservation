@@ -5,8 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Ticket</title>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar .logo span {
+            font-weight: bold;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .container p {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group small {
+            color: #888;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer .footer-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer .footer-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer .footer-links a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .footer .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer .footer-copy {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .navbar ul li {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -26,23 +195,23 @@
     <div class="container">
         <h2>Book a Ticket</h2>
         <p>Fill in the form below to book a ticket.</p>
-         <form id="booking-form" action="book_ticket.php" method="POST">
+        <form id="booking-form" action="book_ticket.php" method="POST">
             <div class="form-group">
                 <label>Route:</label>
                 <select id="route" name="route" title="Select your route" required>
                     <option value="nairobi-mombasa">Nairobi → Mombasa</option>
                     <option value="nairobi-kisumu" data-cost="120">Nairobi → Kisumu</option>
-                    <option value="nairobi-eldoret" data-cost="50" >Nairobi → Eldoret</option>
-                    <option value="mombasa-nairobi" data-cost="60" >Mombasa → Nairobi</option>
-                    <option value="kisumu-nairobi" data-cost="30" >Kisumu → Nairobi</option>
+                    <option value="nairobi-eldoret" data-cost="50">Nairobi → Eldoret</option>
+                    <option value="mombasa-nairobi" data-cost="60">Mombasa → Nairobi</option>
+                    <option value="kisumu-nairobi" data-cost="30">Kisumu → Nairobi</option>
                     <option value="eldoret-nairobi" data-cost="70">Eldoret → Nairobi</option>
                     <option value="mombasa-kisumu" data-cost="90">Mombasa → Kisumu</option>
-                    <option value="mombasa-eldoret" data-cost="100" >Mombasa → Eldoret</option>
-                    <option value="kisumu-mombasa" data-cost="80" >Kisumu → Mom'basa</option>
+                    <option value="mombasa-eldoret" data-cost="100">Mombasa → Eldoret</option>
+                    <option value="kisumu-mombasa" data-cost="80">Kisumu → Mombasa</option>
                     <option value="eldoret-mombasa" data-cost="50">Eldoret → Mombasa</option>
                     <option value="kisumu-eldoret" data-cost="70">Kisumu → Eldoret</option>
                     <option value="eldoret-kisumu" data-cost="60">Eldoret → Kisumu</option>
-                    <option value="nairobi-nakuru"data-cost="150">Nairobi → Nakuru</option>
+                    <option value="nairobi-nakuru" data-cost="150">Nairobi → Nakuru</option>
                     <option value="nakuru-nairobi" data-cost="130">Nakuru → Nairobi</option>
                     <option value="nairobi-nyeri" data-cost="110">Nairobi → Nyeri</option>
                     <option value="nyeri-nairobi" data-cost="140">Nyeri → Nairobi</option>
@@ -54,106 +223,91 @@
             </div>
             <div class="form-group">
                 <label>Seat Number(s):</label>
-                <input type="number" id="seat" name="seat"  placeholder="e.g., 3A, 5B, 7A" required>
-               <small>Available seats: 1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B, 5A, 5B 6A, 6B, 7A, 7B, 8A, 8B, 9A, 9B, 10A, 10B</small>
+                <input type="number" id="seat" name="seat" placeholder="e.g., 3A, 5B, 7A" required>
+                <small>Available seats: 1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B, 5A, 5B 6A, 6B, 7A, 7B, 8A, 8B, 9A, 9B, 10A, 10B</small>
             </div>
             <div class="form-group">
                 <label>Number of Tickets:</label>
                 <input type="number" id="tickets" name="ticket_count" title="Enter number of tickets" placeholder="e.g., 2" required>
             </div>
-               
-                </select>
-            </div>
-            
             <div class="form-group text-center">
                 <a href="paymentmethod.html" class="btn">Proceed to Payment</a>
             </div>
         </form>
-        
-<script>
-         // Update cost based on selected route and number of tickets
-         document.getElementById('route').addEventListener('change', updateCost);
-        document.getElementById('tickets').addEventListener('input', updateCost);
+        <script>
+            document.getElementById('route').addEventListener('change', updateCost);
+            document.getElementById('tickets').addEventListener('input', updateCost);
 
-        function updateCost() {
-            const routeSelect = document.getElementById('route');
-            const selectedRoute = routeSelect.options[routeSelect.selectedIndex];
-            const costPerTicket = parseInt(selectedRoute.getAttribute('data-cost'));
-            const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
-            const totalCost = costPerTicket * ticketCount;
-            document.getElementById('cost').textContent = totalCost;
-        }
-        // Handle form submission
-        document.getElementById('booking-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-          
-});
+            function updateCost() {
+                const routeSelect = document.getElementById('route');
+                const selectedRoute = routeSelect.options[routeSelect.selectedIndex];
+                const costPerTicket = parseInt(selectedRoute.getAttribute('data-cost'));
+                const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
+                const totalCost = costPerTicket * ticketCount;
+                document.getElementById('cost').textContent = totalCost;
+            }
 
-     // Fetch available seats for selected route and date
-     document.getElementById('route').addEventListener('change', updateSeats);
-        document.getElementById('date').addEventListener('change', updateSeats);
+            document.getElementById('booking-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+            });
 
-        function updateSeats() {
-            const route = document.getElementById('route').value;
-            const date = document.getElementById('date').value;
-            fetch(`get_seats.php?route=${route}&date=${date}`)
-                .then(response => response.json())
-                .then(seats => {
-                    const seatDropdown = document.getElementById('seat');
-                    seatDropdown.innerHTML = seats.map(seat => 
-                        `<option value="${seat.number}">Seat ${seat.number}</option>`
-                    ).join('');
+            document.getElementById('route').addEventListener('change', updateSeats);
+            document.getElementById('date').addEventListener('change', updateSeats);
+
+            function updateSeats() {
+                const route = document.getElementById('route').value;
+                const date = document.getElementById('date').value;
+                fetch(`get_seats.php?route=${route}&date=${date}`)
+                    .then(response => response.json())
+                    .then(seats => {
+                        const seatDropdown = document.getElementById('seat');
+                        seatDropdown.innerHTML = seats.map(seat =>
+                            `<option value="${seat.number}">Seat ${seat.number}</option>`
+                        ).join('');
+                    });
+            }
+
+            async function loadSeats(routeId) {
+                try {
+                    const response = await fetch(`getseats.php?route_id=${routeId}`);
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        renderSeatMap(data.seat_map, data.available_seats);
+                    }
+                } catch (error) {
+                    showError('Failed to load seat availability');
+                }
+            }
+
+            function renderSeatMap(allSeats, availableSeats) {
+                const seatContainer = document.getElementById('seats');
+                seatContainer.innerHTML = '';
+
+                allSeats.forEach(seat => {
+                    const seatEl = document.createElement('div');
+                    seatEl.className = `seat ${availableSeats.includes(seat) ? 'available' : 'booked'}`;
+                    seatEl.textContent = seat;
+                    seatContainer.appendChild(seatEl);
                 });
-                // Fetch seats when route is selected
-async function loadSeats(routeId) {
-    try {
-        const response = await fetch(`getseats.php?route_id=${routeId}`);
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-            renderSeatMap(data.seat_map, data.available_seats);
-        }
-    } catch (error) {
-        showError('Failed to load seat availability');
-    }
-}
-
-// Example seat rendering
-function renderSeatMap(allSeats, availableSeats) {
-    const seatContainer = document.getElementById('seats');
-    seatContainer.innerHTML = '';
-    
-    allSeats.forEach(seat => {
-        const seatEl = document.createElement('div');
-        seatEl.className = `seat ${availableSeats.includes(seat) ? 'available' : 'booked'}`;
-        seatEl.textContent = seat;
-        seatContainer.appendChild(seatEl);
-    });
-}
-        }
-
-   
-</script>
-    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js">
-       
-</script>
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
-        </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
+            }
+        </script>
     </div>
-</footer>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <ul>
+                    <li><a href="About_us.html">About Us</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                    <li><a href="Private_policy.html">Privacy Policy</a></li>
+                    <li><a href="Terms_of_service.html">Terms of Service</a></li>
+                </ul>
+            </div>
 
+            <div class="footer-copy">
+                <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

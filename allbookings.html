@@ -4,27 +4,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Bookings</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-right: 10px;
+        }
+
+        .navbar .logo span {
+            font-weight: bold;
+        }
+
+        .navbar .navbar-links ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar .navbar-links li {
+            margin-left: 20px;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .footer {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer .footer-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer .footer-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer .footer-links a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .footer .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer .footer-copy {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar .navbar-links ul {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .navbar .navbar-links li {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
 </head>
-<body> <nav class="navbar">
-    <div class="logo">
-        <a class="navbar-brand" href="operator_home.html" title="Operator Home">
-        <img src="Logo.jpg" width="120" alt="Matatu System">
-        <span>Operator: <?php echo $_SESSION['username']; ?></span>
-    </div>
-    <div class="navbar-links">
-    <ul>
-        <li><a href="operator_home.html">Dashboard</a></li>
-        <li><a href="allbookings.html">All Bookings</a></li>
-        <li><a href="financial_reports.html">Financial Reports</a></li>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
-    </div>
- </nav>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a class="navbar-brand" href="operator_home.html" title="Operator Home">
+                <img src="Logo.jpg" width="120" alt="Matatu System">
+                <span>Operator: <?php echo $_SESSION['username']; ?></span>
+            </a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="operator_home.html">Dashboard</a></li>
+                <li><a href="allbookings.html">All Bookings</a></li>
+                <li><a href="financial_reports.html">Financial Reports</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
     <?php include 'navbar.php'; ?>
-    
+
     <div class="container">
         <h2>All Bookings</h2>
         <table class="data-table">
@@ -38,28 +186,60 @@
                 </tr>
             </thead>
             <tbody>
-              <!-- Include the PHP script to fetch and display all bookings -->         
-                 <?php include 'get_all_bookings.php'; ?>
+                <tr>
+                    <td>Jane Doe</td>
+                    <td>Nairobi to Mombasa</td>
+                    <td>1A</td>
+                    <td>M-Pesa</td>
+                    <td>2025-03-31</td>
+                </tr>
+                <tr>
+                    <td>John Smith</td>
+                    <td>Kisumu to Nairobi</td>
+                    <td>2B</td>
+                    <td>Credit Card</td>
+                    <td>2025-03-30</td>
+                </tr>
+                <tr>
+                    <td>Mary Johnson</td>
+                    <td>Nakuru to Eldoret</td>
+                    <td>3C</td>
+                    <td>Cash</td>
+                    <td>2025-03-29</td>
+                </tr>
+                <tr>
+                    <td>James Brown</td>
+                    <td>Thika to Nairobi</td>
+                    <td>4D</td>
+                    <td>M-Pesa</td>
+                    <td>2025-03-28</td>
+                </tr>
+                <tr>
+                    <td>Emily Davis</td>
+                    <td>Nairobi to Kisumu</td>
+                    <td>5E</td>
+                    <td>Credit Card</td>
+                    <td>2025-03-27</td>
+                </tr>
+                <?php include 'get_all_bookings.php'; ?>
             </tbody>
         </table>
     </div>
-     <!-- Footer -->
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
-        </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
-    </div>
-</footer>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <ul>
+                    <li><a href="About_us.html">About Us</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                    <li><a href="Private_policy.html">Privacy Policy</a></li>
+                    <li><a href="Terms_of_service.html">Terms of Service</a></li>
+                </ul>
+            </div>
 
+            <div class="footer-copy">
+                <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

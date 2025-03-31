@@ -3,306 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+    <title>Manage Routes - Matatu System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-left: 10px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #5a6268;
+        }
+
+        .container-fluid {
+            padding: 20px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px 8px 0 0;
+            padding: 15px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+        .price-input {
+            max-width: 200px;
+        }
+
+        .vehicle-selector {
+            max-width: 300px;
+        }
+
+        .coordinates-input {
+            font-family: monospace;
+        }
+
+        .route-map-preview {
+            height: 200px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6c757d;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <img src="Logo.jpg" width="120" alt="Matatu System">
-            <span>Admin: <?php echo $_SESSION['username']; ?></span>
-        </div>
-        <ul>
-            <li><a href="administrator_home.html">Dashboard</a></li>
-            <li><a href="user_management.html">User Management</a></li>
-            <li><a href="system_reports.html">System Reports</a></li>
-            <li><a href="audit_logs.html">Audit Logs</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-    </nav>
+    <div class="sidebar">
+        <h4>Admin Panel</h4>
+        <a href="administrator_home.html"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="user_management.html"><i class="fas fa-users"></i> User Management</a>
+        <a href="manage_routes.html" class="active"><i class="fas fa-route"></i> Manage Routes</a>
+        <a href="system_reports.html"><i class="fas fa-chart-line"></i> System Reports</a>
+        <a href="audit_logs.html"><i class="fas fa-file-alt"></i> Audit Logs</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
 
-    <?php include 'navbar.php'; ?>
-    
-    <div class="container">
-        <div class="stats-container">
-            <div class="stat-card">
-                <h3>Total Users</h3>
-                <p id="total-users">0</p>
-                <i class="fas fa-users"></i>
+    <div class="content">
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0"><?= isset($edit_route) ? 'Edit' : 'Add' ?> Route</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="routeForm" action="save_route.php" method="POST">
+                                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                                <input type="hidden" name="route_id" id="routeId">
+
+                                <div class="form-group">
+                                    <label for="route_name">Route Name</label>
+                                    <input type="text" id="route_name" name="route_name" class="form-control"
+                                           title="Enter the name of the route"
+                                           placeholder="Enter route name" required>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="departure_point">Departure Point</label>
+                                        <input type="text" id="departure_point" name="departure_point" class="form-control"
+                                               title="Enter the departure point"
+                                               placeholder="Enter departure point" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="arrival_point">Arrival Point</label>
+                                        <input type="text" id="arrival_point" name="arrival_point" class="form-control"
+                                               title="Enter the arrival point"
+                                               placeholder="Enter arrival point" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="departure_time">Departure Time</label>
+                                    <input type="datetime-local" id="departure_time" name="departure_time" class="form-control"
+                                           title="Select the departure time" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="price">Price (KES)</label>
+                                    <div class="input-group price-input">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">KES</span>
+                                        </div>
+                                        <input type="number" id="price" name="price" step="0.01" class="form-control"
+                                               title="Enter the price in KES" placeholder="Enter price" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vehicle_id">Vehicle</label>
+                                    <select id="vehicle_id" name="vehicle_id" class="form-control vehicle-selector"
+                                            title="Select a vehicle for the route" required>
+                                        <?php
+                                        $vehicles = $conn->query("SELECT * FROM vehicles");
+                                        while ($vehicle = $vehicles->fetch(PDO::FETCH_ASSOC)) {
+                                            echo "<option value='{$vehicle['vehicle_id']}'>{$vehicle['registration']} ({$vehicle['seat_capacity']} seats)</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="departure_coords">Coordinates (GeoJSON)</label>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input type="text" id="departure_coords" name="departure_coords"
+                                                   class="form-control coordinates-input"
+                                                   placeholder="Departure (lat,lng)"
+                                                   pattern="-?\d+\.\d+,-?\d+\.\d+"
+                                                   title="Enter departure coordinates in lat,lng format" required>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" id="arrival_coords" name="arrival_coords"
+                                                   class="form-control coordinates-input"
+                                                   placeholder="Arrival (lat,lng)"
+                                                   pattern="-?\d+\.\d+,-?\d+\.\d+"
+                                                   title="Enter arrival coordinates in lat,lng format" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" title="Save the route">
+                                    <i class="fas fa-save"></i> Save Route
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="resetForm()" title="Cancel">
+                                    Cancel
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>Active Today</h3>
-                <p id="active-users">0</p>
-                <i class="fas fa-user-check"></i>
-            </div>
-        </div>
-
-        <!-- User Controls -->
-        <div class="controls">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="Search users...">
-                <button onclick="searchUsers()" title="Search"><i class="fas fa-search"></i></button>
-            </div>
-            <button class="btn-primary" onclick="showAddUserModal()">
-                <i class="fas fa-user-plus"></i> Add New User
-            </button>
-        </div>
-
-        <!-- User Table -->
-        <h2>User Accounts</h2>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th onclick="sortUsers('username')">Username <i class="fas fa-sort"></i></th>
-                    <th onclick="sortUsers('email')">Email <i class="fas fa-sort"></i></th>
-                    <th onclick="sortUsers('role')">Role <i class="fas fa-sort"></i></th>
-                    <th>Status</th>
-                    <th>Registered</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-</table>
-                <!-- Data loaded via AJAX -->
-            </tbody>
-        </table>
-
-        <!-- Pagination -->
-        <div class="pagination">
-            <button id="prev-page" onclick="changePage(-1)" title="Previous Page"><i class="fas fa-chevron-left"></i></button>
-            <span id="current-page">1</span>
-            <button id="next-page" onclick="changePage(1)" title="Next Page"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
 
-    <!-- Add User Modal -->
-    <div id="add-user-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Add New User</h3>
-            <form id="add-user-form">
-                <div class="form-group">
-                    <label>Username:</label>
-                    <input type="text" id="new-username" title="Enter username" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="email" id="new-email" title="Enter email" placeholder="Enter email" required>
-                </div>
-                <div class="form-group">
-                    <label>Role:</label>
-                    <select id="new-role" title="Select user role">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="driver">Driver</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-primary">Create User</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit User Modal -->
-    <div id="edit-user-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Edit User</h3>
-            <form id="edit-user-form">
-                <input type="hidden" id="edit-user-id">
-                <div class="form-group">
-                    <label>Username:</label>
-                    <input type="text" id="edit-username" title="Enter username" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="email" id="edit-email" title="Enter email" placeholder="Enter email" required>
-                </div>
-                <div class="form-group">
-                    <label>Role:</label>
-                    <select id="edit-role" title="Select user role">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="driver">Driver</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-primary">Save Changes</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Notification Toast -->
-    <div id="toast" class="toast"></div>
-        
-
-        
-            
-    
     <script>
-        let currentPage = 1;
-        let totalPages = 1;
-        let currentSort = 'username';
-        let sortOrder = 'asc';
-
-        // Initial load
-        fetchUsers();
-
-        function fetchUsers() {
-            const params = new URLSearchParams({
-                page: currentPage,
-                sort: currentSort,
-                order: sortOrder,
-                search: document.getElementById('search-input').value
-            });
-
-            fetch(`getusers.php?${params}`)
-                .then(response => response.json())
-                .then(data => {
-                    populateTable(data.users);
-                    updatePagination(data.total, data.per_page);
-                    updateStats(data.stats);
-                })
-                .catch(error => showToast('Error loading users', 'error'));
-        }
-
-        function populateTable(users) {
-            const tbody = document.getElementById('users-list');
-            tbody.innerHTML = users.map(user => `
-                <tr>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
-                    <td><span class="status ${user.status}">${user.status}</span></td>
-                    <td>${new Date(user.created_at).toLocaleDateString()}</td>
-                    <td>
-                        <button class="btn-edit" onclick="showEditModal(${user.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-danger" onclick="deleteUser(${user.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function updatePagination(total, perPage) {
-            totalPages = Math.ceil(total / perPage);
-            document.getElementById('current-page').textContent = currentPage;
-            document.getElementById('prev-page').disabled = currentPage === 1;
-            document.getElementById('next-page').disabled = currentPage === totalPages;
-        }
-
-        function updateStats(stats) {
-            document.getElementById('total-users').textContent = stats.total;
-            document.getElementById('active-users').textContent = stats.active;
-        }
-
-        function sortUsers(column) {
-            if(currentSort === column) {
-                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-            } else {
-                currentSort = column;
-                sortOrder = 'asc';
-            }
-            fetchUsers();
-        }
-
-        function changePage(direction) {
-            currentPage = Math.max(1, currentPage + direction);
-            fetchUsers();
-        }
-
-        function searchUsers() {
-            currentPage = 1;
-            fetchUsers();
-        }
-
-        // Add modal functions and form handling
-        function showAddUserModal() {
-            document.getElementById('add-user-modal').style.display = 'block';
-        }
-
-        function showEditModal(userId) {
-            fetch(`getuser.php?id=${userId}`)
-                .then(response => response.json())
-                .then(user => {
-                    document.getElementById('edit-user-id').value = user.id;
-                    document.getElementById('edit-username').value = user.username;
-                    document.getElementById('edit-email').value = user.email;
-                    document.getElementById('edit-role').value = user.role;
-                    document.getElementById('edit-user-modal').style.display = 'block';
-                });
-        }
-
-        // Add form submission handlers
-        document.getElementById('add-user-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userData = {
-                username: document.getElementById('new-username').value,
-                email: document.getElementById('new-email').value,
-                role: document.getElementById('new-role').value
-            };
-
-            fetch('adduser.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData)
-            })
-            .then(response => {
-                if(response.ok) {
-                    fetchUsers();
-                    closeModal();
-                    showToast('User created successfully', 'success');
-                }
-            });
-        });
-
-        // Similar form handler for edit-user-form
-
-        function deleteUser(userId) {
-            if(confirm('Are you sure you want to delete this user?')) {
-                fetch(`delete_user.php?id=${userId}`, { method: 'DELETE' })
-                    .then(response => {
-                        if(response.ok) {
-                            fetchUsers();
-                            showToast('User deleted successfully', 'success');
-                        }
-                    });
-            }
-        }
-
-        function showToast(message, type) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast show ${type}`;
-            setTimeout(() => toast.className = toast.className.replace('show', ''), 3000);
-        }
-
-        function closeModal() {
-            document.querySelectorAll('.modal').forEach(modal => 
-                modal.style.display = 'none');
+        // Reset Form
+        function resetForm() {
+            document.getElementById('routeForm').reset();
+            document.getElementById('routeId').value = '';
         }
     </script>
-          
-      
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
-        </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
