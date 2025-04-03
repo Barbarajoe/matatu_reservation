@@ -1,8 +1,8 @@
 <?php
 session_start();
-// Check if user is authenticated and is an admin (important security step)
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
-    header('Location: login.php');
+// Verify user is logged in and has admin role
+if (!isset($_SESSION['user_id']) || strtolower($_SESSION['role']) !== 'admin') {
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -13,58 +13,75 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            line-height: 1.6;
-        }
+      body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the top */
+    justify-content: flex-start; /* Push everything to the top */
+    z-index: 1;
+    min-height: 100vh;
+}
 
-        .navbar {
-            background-color: #007bff;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    width: 150px; /* Sidebar width */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 1;
+    height: 100vh; /* Ensures the sidebar extends fully */
+}
 
-        .navbar .logo {
-            display: flex;
-            align-items: center;
-        }
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .navbar .logo img {
-            margin-right: 10px;
-        }
+.navbar ul li {
+    margin-bottom: 20px;
+}
 
-        .navbar .logo span {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: block;
+}
 
-        .navbar .admin-info {
-            font-size: 0.9em;
-        }
+.navbar ul li a:hover {
+    background-color: #ff6600;
+}
 
-        .navbar .navbar-links ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
+.navbar .logo {
+    text-align: center;
+    margin-bottom: 10px;
+}
 
-        .navbar .navbar-links li {
-            margin-left: 20px;
-        }
+.navbar .logo img {
+    height: 100px;
+    margin-bottom: 10px;
+}
 
-        .navbar .navbar-links a {
-            color: white;
-            text-decoration: none;
-        }
+.navbar .logo span {
+    color: white;
+    font-size: 20px;
+}
 
-        .container {
+.container {
             max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
@@ -115,66 +132,102 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
             background-color: #f2f2f2;
         }
 
-        .footer {
-            background-color: #f0f0f0;
-            padding: 20px 0;
-            text-align: center;
-            border-top: 1px solid #ddd;
-        }
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto; /* Pushes footer to the bottom */
+    width: 100%;
+}
 
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.footer-container {
+    max-width: 100%; /* Makes sure the content inside the footer container spans the full width */
+    margin: 0;
+    padding: 0;
+}
 
-        .footer-links ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
 
-        .footer-links li {
-            margin-left: 20px;
-        }
+.footer-links ul li a {
+    color: white;
+    text-decoration: none;
+}
 
-        .footer-links a {
-            color: #333;
-            text-decoration: none;
-        }
+.footer-links ul li a:hover {
+    color: #ff6600;
+}
 
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+.footer-copy p {
+    margin-top: 10px;
+}
 
-            .navbar .navbar-links ul {
-                flex-direction: column;
-                margin-top: 10px;
-            }
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-evenly;
+        padding: 10px;
+    }
 
-            .navbar .navbar-links li {
-                margin-left: 0;
-                margin-top: 10px;
-            }
+    .navbar ul {
+        display: flex;
+        flex-direction: row;
+    }
 
-            .footer-container {
-                flex-direction: column;
-            }
+    .navbar ul li {
+        margin: 5px 0;
+    }
 
-            .footer-links ul {
-                flex-direction: column;
-                align-items: center;
-            }
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
 
-            .footer-links li {
-                margin: 5px 0;
-            }
-        }
+    .container {
+        width: 90%;
+        margin: 20px auto; /* Adjust width for smaller devices */
+    }
+ 
+    .form-container {
+        width: 90%;
+    }
+
+
+    .footer-links ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .navbar ul li {
+        margin: 0 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    button, .btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -182,15 +235,12 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
         <div class="logo">
             <a class="navbar-brand" href="administrator_home.php" title="Admin Home">
                 <img src="Logo.jpg" width="120" alt="Urban Transit Logo" title="Matatu System">
-                <span>Urban Transit</span>
             </a>
-            <span class="admin-info">Admin: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
         </div>
         <div class="navbar-links">
             <ul>
                 <li><a href="administrator_home.html">Dashboard</a></li>
-                <li><a href="user_management.html">User Management</a></li>
-                <li><a href="manage_routes.html">Manage Routes</a></li>
+                <li><a href="financial_reports.html">Financial Reports</a></li>
                 <li><a href="system_reports.html">System Reports</a></li>
                 <li><a href="audit_logs.html">Audit Logs</a></li>
                 <li><a href="profile.html">Profile</a></li>
@@ -200,7 +250,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     </nav>
 
     <div class="container">
-        <h2>Administration Panel</h2>
+        <h2 style="color: #ff6600; text-align: center;">Administration Panel</h2>
         <div class="admin-stats">
             <div class="stats-card">
                 <h3>Total Users</h3>

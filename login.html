@@ -524,6 +524,8 @@
       }
   
       if (isValid) {
+         // Show success alert
+      alert('Registration successful!');
         // Redirect based on role
         const role = roleSelect.value;
         updateNavbar(role);
@@ -540,6 +542,8 @@
     loginForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const role = roleSelect.value;
+       // Show success alert
+       alert('Login successful!');
       if (role === 'passenger') {
         window.location.href = 'passenger_home.html';
       } else if (role === 'operator') {

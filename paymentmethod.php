@@ -1,3 +1,34 @@
+<?php
+session_start();
+// Check if user is logged in and has a valid booking ID
+// If not, redirect to bookticket.html
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'config.php';
+
+if (!isset($_GET['booking_id']) || !isset($_SESSION['user_id'])) {
+    header("Location: bookticket.html");
+    exit();
+}
+
+$booking_id = (int)$_GET['booking_id'];
+
+// Get booking details
+// Replace this query in paymentmethod.php
+$booking = $conn->query("
+    SELECT b.* 
+    FROM bookings b
+    WHERE b.booking_id = $booking_id AND b.user_id = {$_SESSION['user_id']}
+")->fetch();
+
+if (!$booking) {
+    die("Invalid booking");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

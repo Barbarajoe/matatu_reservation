@@ -1,0 +1,30 @@
+[01-Apr-2025 21:53:54 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 21:53:54 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\matatu_reservation\get_routes.php:12
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 21:54:04 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\matatu_reservation\add_route.php on line 30
+[01-Apr-2025 21:54:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in C:\xampp\htdocs\matatu_reservation\add_route.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\matatu_reservation\add_route.php on line 30
+[01-Apr-2025 21:57:15 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 21:57:15 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\matatu_reservation\get_routes.php:12
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 21:57:54 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\matatu_reservation\add_route.php on line 30
+[01-Apr-2025 21:57:54 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in C:\xampp\htdocs\matatu_reservation\add_route.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\matatu_reservation\add_route.php on line 30
+[01-Apr-2025 22:13:16 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 22:13:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\matatu_reservation\get_routes.php:12
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 22:13:30 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12
+[01-Apr-2025 22:13:30 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\matatu_reservation\get_routes.php:12
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\matatu_reservation\get_routes.php on line 12

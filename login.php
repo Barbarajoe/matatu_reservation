@@ -1,157 +1,133 @@
-<!-- filepath: c:\xampp\htdocs\matatu_reservation\login.php -->
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+session_start();
+
+include 'config.php'; // Ensure this initializes $conn as a PDO instance
+// After including config.php, check if $conn is set
+if (!isset($conn)) {
+    die("Database connection not established.");
 }
-include "config.php"; // Include the database configuration file
+
+// Rest of your code...
+$message = ""; // Variable to store feedback messages
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize user input
-    $username = htmlspecialchars(trim($_POST['username']));
-    $password = $_POST['password'];
+    if (isset($_POST['username'], $_POST['password'])) {
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
 
-    try {
-        // Prepare and execute the query using PDO
-        $stmt = $conn->prepare("SELECT user_id, username, password_hash FROM users WHERE username = :username");
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Verify the password
-        if ($user && password_verify($password, $user['password_hash'])) {
-            // Set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            header("Location: booktickets.html");
-            exit();
-        } else {
-            // Handle incorrect credentials
-            $_SESSION['error_message'] = $user ? "Incorrect password!" : "User not found!";
-            header("Location: login.php");
-            exit();
+        try {
+            // Query the database for the user - use two distinct parameters
+            $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username OR email = :email");
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $username); // Bind the same value to second parameter
+            $stmt->execute();
+            
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($user) {
+                // Verify the password against the stored hash
+                if (password_verify($password, $user['password_hash'])) {
+                    // Password is correct, start session
+                    $_SESSION['user_id'] = $user['user_id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['role'] = $user['Role'];
+                    
+                    // Redirect to appropriate page based on role
+                    switch (strtolower($user['Role'])) { // Make role comparison case-insensitive
+                        case 'admin':
+                            header("Location: admininistrator_home.html");
+                            break;
+                        case 'operator':
+                            header("Location: operator_home.html");
+                            break;
+                        default:
+                            header("Location: passenger_home.html");
+                    }
+                    exit();
+                } else {
+                    $message = "Incorrect password.";
+                }
+            } else {
+                $message = "User not found.";
+            }
+        } catch (PDOException $e) {
+            $message = "Database error: " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        // Handle database errors
-        die("Database error: " . $e->getMessage());
+    } else {
+        $message = "Please fill in all fields.";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<style>
-    /* Base Styles */
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-
-    .container {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-        width: 350px;
-        text-align: center;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-
-    .form-group {
-        text-align: left;
-        margin-bottom: 1rem;
-    }
-
-    label {
-        font-weight: 600;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1rem;
-    }
-
-    .btn {
-        background: #303f9f;
-        color: white;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        width: 100%;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-
-    .btn:hover {
-        background: #1a237e;
-    }
-
-    .toggle-link {
-        display: block;
-        margin-top: 1rem;
-        color: #303f9f;
-        font-weight: 600;
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            margin: 1rem;
-            padding: 1.5rem;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-    }
-</style>
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: #d3d3d3;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h2 {
+            color: #ff6600;
+        }
+        input, button {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff6600;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #e65c00;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
 <body>
+
 <div class="container">
-    <h2>Login</h2>
+    <h2 style="color:black;">Login</h2>
+    
+    <?php if ($message): ?>
+        <p class="error"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
 
-    <?php
-    if (isset($_SESSION['error_message'])) {
-        echo "<p style='color:red;'>" . $_SESSION['error_message'] . "</p>";
-        unset($_SESSION['error_message']);
-    }
-    ?>
-
-    <form action="login.php" method="POST">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter Username" required>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter password" required>
-        </div>
-
-        <button type="submit" class="btn">Login</button>
+    <form action="login.php" method="post">
+        <input type="text" name="username" placeholder="Username or Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
     </form>
-
-    <a href="Register.php" class="toggle-link">Don't have an account? Sign up here</a>
+    <p>Don't have an account? <a href="Register.php">Register here</a></p>
 </div>
-
-<script src="SignIn.js"></script>
 
 </body>
 </html>

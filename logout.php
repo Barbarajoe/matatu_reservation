@@ -20,10 +20,10 @@ session_regenerate_id(true);
 
 // Ensure headers are not already sent before redirecting
 if (!headers_sent()) {
-    header("Location: /matatu_reservation/login.html");
+    header("Location: login.php");
     exit();
 } else {
-    echo "<script>window.location.href = 'login.html';</script>";
+    echo "<script>window.location.href = 'login.php';</script>";
     exit();
 }
 ?>
