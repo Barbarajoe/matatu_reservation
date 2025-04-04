@@ -3,436 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Routes</title>
+    <title>Manage Routes - Operator Dashboard</title>
     <style>
-        body {
+      body {
           font-family: Arial, sans-serif;
           margin: 0;
           padding: 0;
           background-color: #f4f4f4;
           color: #333;
           display: flex;
-          flex-direction: column;
           min-height: 100vh;
-          overflow-x: hidden; /* Prevent horizontal scrollbar */
-        }
-        
-        /* Navbar Styles */
-        .navbar {
-          background-color: #007bff;
-          padding: 10px 20px;
+      }
+      
+      .navbar {
+          background-color: #333;
           color: white;
+          padding: 20px;
+          width: 150px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap; /* Make navbar responsive */
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .navbar .logo img {
-          height: 40px; /* Adjust as needed */
-          margin-right: 10px;
-        }
-        
-        .navbar .logo span{
-            color: white;
-            margin-left: 10px;
-        }
-        
-        .navbar ul {
+          flex-direction: column;
+          z-index: 1;
+      }
+      
+      .navbar .logo {
+          text-align: center;
+          margin-bottom: 30px;
+      }
+      
+      .navbar .logo img {
+          height: 80px;
+          margin-bottom: 10px;
+      }
+      
+      .navbar ul {
           list-style: none;
-          display: flex;
-          margin: 0;
           padding: 0;
-          flex-wrap: wrap; /* Allows items to wrap on small screens */
-          gap: 15px; /* Add some gap between navbar items */
-        }
-        
-        .navbar ul li {
           margin: 0;
-        }
-        
-        .navbar ul li a {
+      }
+      
+      .navbar ul li {
+          margin-bottom: 15px;
+      }
+      
+      .navbar ul li a {
           color: white;
           text-decoration: none;
-          padding: 8px 15px;
-          border-radius: 5px;
-          transition: background-color 0.3s ease;
-        }
-        
-        .navbar ul li a:hover {
-          background-color: #0056b3;
-        }
-        
-        /* Responsive Navbar */
-        @media (max-width: 768px) {
-          .navbar {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .navbar ul {
-            flex-direction: column;
-            width: 100%;
-          }
-          .navbar ul li {
-            width: 100%;
-            text-align: center;
-          }
-        }
-        
-        
-        /* Main Content Styles */
-        .container {
-          max-width: 800px; /* Increased max-width for report content */
-          margin: 20px auto;
-          padding: 20px;
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .container h2{
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        
-        /* Dashboard Grid Styles */
-        .dashboard-grid {
-          display: grid;
-          grid-template-columns: 1fr; /* Start with one column */
-          gap: 20px;
-          margin-top: 20px;
-        }
-        
-        /* Stats Card Styles */
-        .card {
-          padding: 20px;
-          background-color: #e9ecef;
-          border-radius: 8px;
-          text-align: center;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card h3 {
-          margin-bottom: 10px;
-          color: #343a40;
-        }
-        
-        .card p {
-          font-size: 1.5em; /* Increased font size for stats */
-          color: #007bff;
-          font-weight: bold;
-        }
-        .form-group {
-          margin-bottom: 15px;
-          text-align: left;
-        }
-        
-        .form-group label {
+          padding: 8px 12px;
+          border-radius: 4px;
           display: block;
-          margin-bottom: 5px;
-          color: #555;
-          font-weight: bold;
-        }
-        
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group input[type="datetime-local"] {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          box-sizing: border-box;
-          transition: border-color 0.3s ease;
-        }
-        
-        .form-group input[type="text"]:focus,
-        .form-group input[type="number"]:focus,
-        .form-group input[type="datetime-local"]:focus {
-          border-color: #007bff;
-          outline: none;
-        }
-        .form-grid{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .data-table {
+          transition: background-color 0.3s;
+      }
+      
+      .navbar ul li a:hover {
+          background-color: #ff6600;
+      }
+      
+      .main-content {
+          margin-left: 200px;
+          padding: 20px;
+          flex: 1;
+          background-color: #fff;
+      }
+      
+      h1 {
+          color: #333;
+          margin-bottom: 20px;
+      }
+      
+      table {
           width: 100%;
           border-collapse: collapse;
           margin-top: 20px;
-          border-radius: 5px;
-          overflow: hidden;
-        }
-        
-        .data-table thead th {
-          background-color: #007bff;
-          color: white;
-          padding: 12px;
-          text-align: left;
-        }
-        
-        .data-table tbody tr:nth-child(odd) {
-          background-color: #f9f9f9;
-        }
-        
-        .data-table tbody tr:hover {
-          background-color: #f0f0f0;
-        }
-        
-        .data-table td, .data-table th {
+          box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+      }
+      
+      th, td {
           border: 1px solid #ddd;
           padding: 12px;
           text-align: left;
-        }
-        
-        .data-table tbody button {
-          padding: 8px 12px;
-          background-color: #dc3545;
-          color: white;
+      }
+      
+      th {
+          background-color: #f2f2f2;
+          font-weight: bold;
+      }
+      
+      tr:nth-child(even) {
+          background-color: #f9f9f9;
+      }
+      
+      .action-btn {
+          padding: 6px 12px;
           border: none;
-          border-radius: 5px;
+          border-radius: 4px;
           cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-        
-        .data-table tbody button:hover {
-          background-color: #c82333;
-        }
-        
-        
-        /* Footer Styles */
-        .footer {
-          background-color: white;
-          color: #333;
-          padding: 20px;
-          text-align: center;
-          margin-top: auto; /* Push footer to bottom */
-        }
-        
-        .footer-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        
-        .footer-links ul {
-          list-style: none;
-          display: flex;
-          margin: 0 0 10px 0;
-          padding: 0;
-          gap: 15px;
-          flex-wrap: wrap; /* Add this */
-          justify-content: center; /* center the footer links */
-        }
-        
-        .footer-links ul li a {
+          margin-right: 5px;
+          font-size: 14px;
+      }
+      
+      .edit-btn {
+          background-color: #3498db;
           color: white;
+      }
+      
+      .delete-btn {
+          background-color: #e74c3c;
+          color: white;
+      }
+      
+      .add-btn {
+          background-color: #9b59b6;
+          color: white;
+          padding: 8px 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+      
+      .action-btn:hover {
+          opacity: 0.9;
+      }
+      
+      .dashboard-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 20px;
+          margin-bottom: 30px;
+      }
+      
+      .card {
+          background: white;
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      
+      .card h3 {
+          margin-top: 0;
+          color: #333;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 10px;
+      }
+      
+      .footer {
+          margin-top: 309px;
+          padding-top: 20px;
+          border-top: 1px solid #2c2a2a;
+          background-color: #333;
+          text-align: center;
+          color: #f7f5f5;
+          font-size: 14px;
+      }
+      
+      .footer a {
+          color: #fbf7f7;
           text-decoration: none;
-          transition: color 0.3s ease;
-        }
-        
-        .footer-links ul li a:hover {
-          color: #007bff;
-        }
-        
-        .footer-copy p {
-          font-size: 0.9em;
-          margin: 0;
-        }
-        
-        /* Make footer responsive */
-        @media (max-width: 768px) {
-          .footer-links ul {
-            flex-direction: column;
-            align-items: center;
+          margin: 0 10px;
+      }
+      
+      .footer a:hover {
+          color: #ff6600;
+      }
+      
+      /* Modal styles */
+      .modal {
+          display: none;
+          position: fixed;
+          z-index: 2;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.5);
+      }
+      
+      .modal-content {
+          background-color: #fff;
+          margin: 5% auto;
+          padding: 20px;
+          border-radius: 5px;
+          width: 50%;
+          max-width: 600px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+      
+      .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+      }
+      
+      .close {
+          font-size: 24px;
+          font-weight: bold;
+          cursor: pointer;
+      }
+      
+      .form-group {
+          margin-bottom: 15px;
+      }
+      
+      .form-group label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+      }
+      
+      .form-group input, .form-group select {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          box-sizing: border-box;
+      }
+      
+      .form-actions {
+          text-align: right;
+          margin-top: 20px;
+      }
+      
+      @media (max-width: 768px) {
+          .navbar {
+              width: 100%;
+              height: auto;
+              position: relative;
+              flex-direction: row;
+              padding: 10px;
           }
-          .footer-links ul li{
-            margin: 5px 0;
+          
+          .navbar ul {
+              display: flex;
+              flex-wrap: wrap;
           }
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-        .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        
-            .navbar-links ul {
-                flex-direction: column;
-                width: 100%;
-            }
-        
-            .navbar-links ul li {
-                width: 100%;
-                text-align: center;
-            }
-        }
-        /* Medium screens and up, use 2 columns */
-        @media (min-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-            </style> 
-    </head>
+          
+          .navbar ul li {
+              margin: 5px;
+          }
+          
+          .main-content {
+              margin-left: 0;
+              padding: 15px;
+          }
+          
+          .modal-content {
+              width: 90%;
+              margin: 10% auto;
+          }
+      }
+  </style>
+</head>
 <body>
+    <!-- Sidebar Navigation -->
     <nav class="navbar">
         <div class="logo">
-            <a class="navbar-brand" href="operator_home.html" title="Operator Home"></a>
-            <img src="Logo.jpg" width="120" alt="Matatu System">
-            <span id="welcome-message">Operator: Guest</span>
+            <img src="Logo.jpg" alt="Matatu System Logo">
         </div>
-        <div class="navbar-links">
-            <ul>
-              
-                <li><a href="manage_routes.html">Dashboard</a></li>
-                <li><a href="allbookings.html">All Bookings</a></li>
-                <li><a href="manage_routes.html">Manage Routes</a></li>
-                <li><a href="financial_reports.html">Financial Reports</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-            </div>
+        <ul>
+            <li><a href="operator_home.html">Dashboard</a></li>
+            <li><a href="allbookings.html">All Bookings</a></li>
+            <li><a href="manage_routes.html" class="active">Manage Routes</a></li>
+            <li><a href="financial_reports.html">Financial Reports</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
     </nav>
 
-    <div class="container">
-        <h2>Route Management</h2>
-        <div class="dashboard-grid">
-            <div class="card">
-                <h3>Add New Route</h3>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Route Management</h1>
+        </div>
+
+        <div class="route-management">
+            <!-- Add New Route Card -->
+            <div class="add-route-card">
+                <h2 class="card-title">Add New Route</h2>
                 <form id="add-route-form">
-                    <input type="text" id="route-name" placeholder="Route Name" required>
-                    <input type="number" step="0.01" id="price" placeholder="Price" required>
+                    <div class="form-group">
+                        <label for="route-name">Route Name</label>
+                        <input type="text" id="route-name" placeholder="e.g., CBD - Westlands" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price (KSH)</label>
+                        <input type="number" id="price" step="0.01" placeholder="e.g., 150.00" required>
+                    </div>
                     <button type="submit" class="btn">Add Route</button>
                 </form>
             </div>
-            <div class="card">
-                <h3>Existing Routes</h3>
-                <table class="data-table" id="routes-table">
+
+            <!-- Existing Routes Card -->
+            <div class="routes-list-card">
+                <h2 class="card-title">Existing Routes</h2>
+                <table class="routes-table">
                     <thead>
                         <tr>
                             <th>Route Name</th>
-                            <th>Price</th>
+                            <th>Price (KSH)</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>      
+                    <tbody>
                         <tr>
                             <td>CBD - Westlands</td>
                             <td>100.00</td>
-                            <td><button onclick="deleteRoute(1)">Delete</button></td>
+                            <td><button class="action-btn delete-btn" onclick="deleteRoute(1)">Delete</button></td>
                         </tr>
                         <tr>
                             <td>CBD - Kilimani</td>
                             <td>120.00</td>
-                            <td><button onclick="deleteRoute(2)">Delete</button></td>
+                            <td><button class="action-btn delete-btn" onclick="deleteRoute(2)">Delete</button></td>
                         </tr>
                         <tr>
                             <td>CBD - Rongai</td>
                             <td>150.00</td>
-                            <td><button onclick="deleteRoute(3)">Delete</button></td>
+                            <td><button class="action-btn delete-btn" onclick="deleteRoute(3)">Delete</button></td>
                         </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    
+
     <script>
-        // Mock user data and routes (replace with your actual data)
-        const mockUsers = {
-            1: { id: 1, username: "Operator1", isLoggedIn: true, role: "operator" }
-        };
-        const mockRoutes = [
-            { id: 1, route_name: "Route A", price: 10.00 },
-            { id: 2, route_name: "Route B", price: 15.50 }
-        ];
-
-        // Simulate current user ID
-        const currentUserId = 1;
-        const currentUser = mockUsers[currentUserId];
-
-        const welcomeMessage = document.getElementById("welcome-message");
-        const navLinks = document.getElementById("nav-links");
-        const addRouteForm = document.getElementById("add-route-form");
-        const routesTableBody = document.querySelector("#routes-table tbody");
-
-        if (currentUser && currentUser.isLoggedIn && currentUser.role === "operator") {
-            welcomeMessage.textContent = `Operator: ${currentUser.username}`;
-            navLinks.innerHTML = `
-                <li><a href="operator_gome.html">Dashboard</a></li>
-                <li><a href="manage_routes.html">Manage Routes</a></li>
-                <li><a href="allbookings.html">All Bookings</a></li>
-                <li><a href="financial_reports.html">Financial Reports</a></li>
-                <li><a href="login.php" id="logout-link">Logout</a></li>
-            `;
-
-            // Populate routes table
-            function populateRoutesTable() {
-                routesTableBody.innerHTML = mockRoutes.map(route => `
-                    <tr>
-                        <td>${route.route_name}</td>
-                        <td>${route.price}</td>
-                        <td><button onclick="deleteRoute(${route.id})">Delete</button></td>
-                    </tr>
-                `).join('');
-            }
-            populateRoutesTable();
-
-            // Add route
-            addRouteForm.addEventListener("submit", (event) => {
-                event.preventDefault();
-                const routeName = document.getElementById("route-name").value;
-                const price = parseFloat(document.getElementById("price").value);
-                const newRoute = {
-                    id: mockRoutes.length + 1,
-                    route_name: routeName,
-                    price: price
-                };
-                mockRoutes.push(newRoute);
-                populateRoutesTable();
-                addRouteForm.reset();
-            });
-
-            // Delete route
-            window.deleteRoute = function(routeId) {
-                const index = mockRoutes.findIndex(route => route.id === routeId);
-                if (index !== -1) {
-                    mockRoutes.splice(index, 1);
-                    populateRoutesTable();
+        // Sample data and functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add route form submission
+            document.getElementById('add-route-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const routeName = document.getElementById('route-name').value;
+                const price = document.getElementById('price').value;
+                
+                if (routeName && price) {
+                    alert(`New route added: ${routeName} (KSH ${price})`);
+                    // In a real app, you would send this to your backend
+                    document.getElementById('add-route-form').reset();
                 }
-            };
-
-            // Mock logout
-            document.getElementById("logout-link").addEventListener("click", (event) => {
-                event.preventDefault();
-                currentUser.isLoggedIn = false;
-                window.location.href = "login.html";
             });
+        });
 
-        } else {
-            alert("Please log in as operator.");
-            window.location.href = "login.html";
+        // Delete route function
+        function deleteRoute(routeId) {
+            if (confirm('Are you sure you want to delete this route?')) {
+                alert(`Route with ID ${routeId} deleted`);
+                // In a real app, you would send a delete request to your backend
+            }
         }
     </script>
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
-        </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-
 </body>
 </html>

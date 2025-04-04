@@ -23,9 +23,10 @@ $options = [
 ];
 
 try {
-    $conn = new PDO($dsn, $user, $pass, $options);
+    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Enable exceptions
 } catch (PDOException $e) {
-    echo "Database connection failed: " . $e->getMessage();
-    exit();
+    die("Connection failed: " . $e->getMessage());
 }
+
 ?>

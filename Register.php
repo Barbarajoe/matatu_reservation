@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
         try {
-            $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password_hash) VALUES (:username, :email, :phone, :password)");
+            $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password) VALUES (:username, :email, :phone, :password)");
             if (!$stmt) {
                 $errorInfo = $conn->errorInfo();
                 die("Prepare error: " . $errorInfo[2]);
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':password', $password);
 
             if ($stmt->execute()) {
-                header("Location: ../login.html?registered=1");
+                header("Location: login.html?registered=1");
                 exit();
             } else {
                 $errorInfo = $stmt->errorInfo();

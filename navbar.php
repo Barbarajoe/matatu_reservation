@@ -19,6 +19,7 @@
             <li><a href="passenger/passenger_home.html">Home</a></li>
             <li><a href="passenger/booktickets.html">Book Ticket</a></li>
             <li><a href="passenger/View_Bookings.html">ViewBookings</a></li>
+            <li><a href="available_buses.html">Available Buses</a></li>
         <?php endif; ?>
         <li><a href="profile.html">Profile</a></li>
         <li><a href="logout.php">Logout</a></li>

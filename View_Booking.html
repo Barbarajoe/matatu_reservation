@@ -1,107 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Passenger Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-   <body>
-    <nav class="navbar">
-        <div class="logo">
-            <a class="navbar-brand" href="passenger_home.html">
-            <img src="Logo.jpg" width="120" alt="Matatu System">
-            <span>Urban Transit</span>
-            </a>
-            <span>Welcome, <?php session_start(); if(isset($_SESSION['username'])){echo $_SESSION['username'];}else{echo "Guest";} ?></span>
-        </div>
-        <div class="navbar-links">
-        <ul>
-            <li><a href="passenger_home.html">Home</a></li>
-            <li><a href="booktickets.html">Book Ticket</a></li>
-            <li><a href="View_Booking.html">My Bookings</a></li>
-            <li><a href="Profile.html">Profile</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-        </div>
-    </nav>
+<?php
+// filepath: c:\xampp\htdocs\matatu_reservation_old[1]\matatu_reservation old\View_Booking.html
 
-    <div class="container">
+session_start();
+include 'config.php'; // Database connection
+
+$userId = $_SESSION['user_id']; // Assuming the user is logged in
+
+try {
+    // Fetch bookings for the logged-in user
+    $stmt = $conn->prepare("SELECT * FROM bookings WHERE passenger_id = :user_id ORDER BY travel_date DESC");
+    $stmt->bindParam(':user_id', $userId);
+    $stmt->execute();
+    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage();
+}
+?>
+
+ <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Bookings</title>
+        <style>
+            /* General Styles */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+                color: #333;
+                line-height: 1.6;
+            }
+    
+            /* Header Styles */
+            h2 {
+                text-align: center;
+                margin-top: 20px;
+                color: #007bff;
+            }
+    
+            /* Table Styles */
+            table {
+                width: 90%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background-color: #fff;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+    
+            thead {
+                background-color: #007bff;
+                color: white;
+            }
+    
+            thead th {
+                padding: 15px;
+                text-align: left;
+            }
+    
+            tbody tr {
+                border-bottom: 1px solid #ddd;
+            }
+    
+            tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+    
+            tbody td {
+                padding: 15px;
+                text-align: left;
+            }
+    
+            tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+    
+            /* No Bookings Found Message */
+            tbody td[colspan="5"] {
+                text-align: center;
+                font-style: italic;
+                color: #666;
+            }
+    
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                table {
+                    width: 100%;
+                }
+    
+                thead th, tbody td {
+                    font-size: 0.9rem;
+                    padding: 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
         <h2>Your Bookings</h2>
-        <table id="bookings-table">
+        <table>
             <thead>
                 <tr>
                     <th>Route</th>
-                    <th>Date</th>
+                    <th>Travel Date</th>
                     <th>Seat</th>
+                    <th>Tickets</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <?php if (!empty($bookings)): ?>
+                    <?php foreach ($bookings as $booking): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($booking['route']) ?></td>
+                            <td><?= htmlspecialchars($booking['travel_date']) ?></td>
+                            <td><?= htmlspecialchars($booking['seat']) ?></td>
+                            <td><?= htmlspecialchars($booking['ticket_count']) ?></td>
+                            <td><?= htmlspecialchars($booking['status']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5">No bookings found.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
         </table>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Sample Matatu Booking Data (Realistic for Nairobi)
-            const bookings = [
-                { route: "Town - Rongai", date: "2025-03-15", seat: "A3", status: "Confirmed", id: 1 },
-                { route: "Town - Westlands", date: "2025-03-16", seat: "B7", status: "Pending", id: 2 },
-                { route: "Town - Kasarani", date: "2025-03-14", seat: "C5", status: "Completed", id: 3 },
-                { route: "Town - Gikambura", date: "2025-03-17", seat: "D2", status: "Confirmed", id: 4 },
-                { route: "Town - Kikuyu", date: "2025-03-18", seat: "E1", status: "Pending", id: 5 },
-                { route: "Town - Thika", date: "2025-03-19", seat: "A1", status: "Confirmed", id: 6 },
-                { route: "Town - Ngong", date: "2025-03-20", seat: "B3", status: "Cancelled", id: 7 }
-            ];
-
-            const tbody = document.querySelector("#bookings-table tbody");
-
-            // Populate Table with Bookings
-            tbody.innerHTML = bookings.map(booking => `
-                <tr>
-                    <td>${booking.route}</td>
-                    <td>${booking.date}</td>
-                    <td>${booking.seat}</td>
-                    <td>${booking.status}</td>
-                    <td><br>
-                        ${booking.status === "Pending" ? `<button onclick="cancelBooking(${booking.id})">Cancel</button>` : ""}
-                    </td>
-                </tr>
-            `).join('');
-        });
-
-        function cancelBooking(bookingId) {
-            alert(`Booking ID ${bookingId} has been cancelled.`);
-            location.reload();  // Simulate page reload after cancellation
-            
-            fetch("passenger/cancel_booking.php", {
-    method: "DELETE",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: JSON.stringify({ id: user_id }) // Replace with actual ID
-})
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error("Error:", error));
-
-        }
-    </script>
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <ul>
-                <li><a href="About_us.html">About Us</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-                <li><a href="Private_policy.html">Privacy Policy</a></li>
-                <li><a href="Terms_of_service.html">Terms of Service</a></li>
-            </ul>
-        </div>
-    
-        <div class="footer-copy">
-            <p>&copy; 2025 Urban Transit . All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-
-</body>
-</html>
+    </body>
+    </html>

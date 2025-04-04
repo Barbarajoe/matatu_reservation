@@ -6,288 +6,232 @@
   <title>User Registration and Login</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow-x: hidden; /* Prevent horizontal scrollbar */
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
     }
-    
-    /* Navbar Styles */
     .navbar {
-      background-color: #007bff;
-      padding: 10px 20px;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap; /* Make navbar responsive */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .navbar .logo img {
-      height: 40px; /* Adjust as needed */
-      margin-right: 10px;
-    }
-    
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-      flex-wrap: wrap; /* Allows items to wrap on small screens */
-      gap: 15px; /* Add some gap between navbar items */
-    }
-    
-    .navbar ul li {
-      margin: 0;
-    }
-    
-    .navbar ul li a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    
-    .navbar ul li a:hover {
-      background-color: #0056b3;
-    }
-    
-    /* Responsive Navbar */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .navbar ul {
-        flex-direction: column;
-        width: 100%;
-      }
-      .navbar ul li {
-        width: 100%;
-        text-align: center;
-      }
-    }
-    
-    
-    /* Main Content Styles */
-    .container {
-      max-width: 400px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    #form-title {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .form-group {
-      margin-bottom: 15px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      color: #555;
-      font-weight: bold;
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease;
-    }
-    
-    .form-control:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-    
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-      margin-top: 5px;
-      display: none;
-    }
-    
-    .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease;
-    }
-    
-    .form-group select:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-    
-    
-    .btn {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-    }
-    
-    .btn:hover {
-      background-color: #0056b3;
-    }
-    
-    .toggle-link {
-      text-align: center;
-      display: block;
-      margin-top: 15px;
-      color: #007bff;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .toggle-link:hover {
-      color: #0056b3;
-    }
-    
-    #login-form {
-      display: none;
-    }
-    
-    .password-strength {
-      margin-top: 5px;
-      margin-bottom: 0;
-    }
-    
-    .strength-bar {
-      height: 8px;
-      background-color: #ddd;
-      border-radius: 5px;
-      width: 0;
-      transition: width 0.3s ease;
-      margin-bottom: 5px;
-    }
-    
-    .strength-text {
-      font-size: 0.9em;
-      color: #555;
-    }
-    
-    .terms-group {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-    }
-    
-    .terms-group input {
-      margin-right: 5px;
-    }
-    
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .navbar .navbar-links ul {
-                flex-direction: column;
-                margin-top: 10px;
-            }
-
-            .navbar .navbar-links li {
-                margin-left: 0;
-                margin-top: 10px;
-            }
-            .footer-container {
-                flex-direction: column;
-            }
-
-            .footer-links ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .footer-links li {
-                margin: 5px 0;
-            }
-        }
-
-    
-    .footer {
-      background-color: white;
-      color: #333;
-      padding: 20px;
-      text-align: center;
-      margin-top: 20px;
-    }
-    
-    .footer-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .footer-links ul {
-      list-style: none;
-      display: flex;
-      margin: 0 0 10px 0;
-      padding: 0;
-      gap: 15px;
-      flex-wrap: wrap; /* Add this */
-      justify-content: center; /* center the footer links */
-    }
-    
-    .footer-links ul li a {
-      color: white;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-links ul li a:hover {
-      color: #007bff;
-    }
-    
-    .footer-copy p {
-      font-size: 0.9em;
-      margin: 0;
-    }
-    
-    /* Make footer responsive */
-    @media (max-width: 768px) {
-      .footer-links ul {
-        flex-direction: column;
+        background-color: #333;
+        padding: 15px;
+        display: flex;
         align-items: center;
-      }
-      .footer-links ul li{
-        margin: 5px 0;
-      }
+        justify-content: space-between;
+        color: white;
     }
-    
-    /* Custom validation styles */
-    input.invalid {
-      border-color: red;
+    .navbar .logo {
+        display: flex;
+        align-items: center;
     }
-      </style>
- <body>
+    .navbar img {
+        height: 50px;
+        margin-right: 10px;
+    }
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+    }
+    .navbar a:hover {
+        color: #FF7300;
+    }
+    .navbar ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar li {
+        margin: 0 10px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #FF7300;
+        box-shadow: 0 0 5px rgba(255, 115, 0, 0.3);
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .invalid {
+        border-color: #e74c3c;
+    }
+
+    .password-strength {
+        margin-top: 10px;
+    }
+
+    .strength-bar {
+        height: 5px;
+        background-color: #ddd;
+        border-radius: 2px;
+        margin-bottom: 5px;
+        transition: width 0.3s, background-color 0.3s;
+    }
+
+    .strength-text {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .terms-group {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .terms-group input {
+        margin-right: 10px;
+    }
+
+    .btn {
+        display: inline-block;
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        color: white;
+        background-color: #FF7300;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #e65c00;
+    }
+
+    .toggle-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #FF7300;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .toggle-link:hover {
+        text-decoration: underline;
+    }
+
+    .footer {
+        background-color: #333;
+        color: white;
+        padding: 20px 0;
+        margin-top: 40px;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-links ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .footer-links li {
+        margin: 0 15px;
+    }
+
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .footer-links a:hover {
+        color: #FF7300;
+    }
+
+    .footer-copy {
+        text-align: center;
+        font-size: 14px;
+        color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            padding: 10px;
+        }
+        .navbar ul {
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .navbar li {
+            margin: 5px 10px;
+        }
+        .container {
+            margin: 20px;
+            padding: 15px;
+        }
+        .footer-links ul {
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-links li {
+            margin: 5px 0;
+        }
+    }
+  </style>
+</head>
+<body>
+  <!-- Rest of your HTML remains the same -->
   <!-- Navbar with embedded logo on the left -->
   <div id="navbar"></div>
+
   
   <div class="container" id="container">
     <h2 id="form-title">Register</h2>
@@ -331,7 +275,7 @@
         <input type="password" id="confirmPassword" required />
         <div class="error-message" id="confirmPasswordError"></div>
       </div>
-           <div class="terms-group">
+      <div class="terms-group">
         <input type="checkbox" id="terms" required />
         <label for="terms">I agree to the Terms of Service</label>
       </div>
@@ -340,7 +284,7 @@
     
     <a class="toggle-link" id="toggle-link">Already registered? Log in here</a>
     <!-- Login Form -->
-    <form id="login-form" class="form-group" style="display: none;">
+    <form id="login-form" style="display: none;">
       <div class="form-group">
         <label for="log-username">Username</label>
         <input type="text" id="log-username" name="username" required />
@@ -540,6 +484,7 @@
     loginForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const role = roleSelect.value;
+      alert('Login successful! Redirecting to your dashboard...');
       if (role === 'passenger') {
         window.location.href = 'passenger_home.html';
       } else if (role === 'operator') {
@@ -549,6 +494,5 @@
       }
     });
   </script>
-  
 </body>
 </html>

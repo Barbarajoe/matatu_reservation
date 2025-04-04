@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 include "config.php"; // Include the database configuration file
-
+include('navbar.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
     $username = htmlspecialchars(trim($_POST['username']));
