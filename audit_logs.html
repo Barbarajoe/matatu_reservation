@@ -6,7 +6,11 @@
     <title>Audit Logs</title>
     <title>All Bookings</title>
     <style>
+<<<<<<< HEAD
        body {
+=======
+ body {
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -74,15 +78,35 @@
 .main-content {
     margin-left: 200px; /* Space for the sidebar */
     padding: 20px;
+<<<<<<< HEAD
     width: calc(100% - 200px); /* Make space for sidebar */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
+=======
+    width: calc(200% - 200px); /* Make space for sidebar */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-x: hidden;
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
+<<<<<<< HEAD
+=======
+
+.container {
+            width: 60%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 
 .container {
     max-width: 100%;
@@ -121,6 +145,7 @@ input[type="text"], input[type="date"], input[type="number"], select {
     transition: border-color 0.3s ease;
 }
 
+<<<<<<< HEAD
 input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus {
     border-color: #ff6600;
     background-color: #fff;
@@ -274,10 +299,107 @@ button:hover, .btn:hover {
     }
 }
 </style>
+=======
+
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto; /* Pushes footer to the bottom */
+    width: 100%;
+}
+
+.footer-container {
+    max-width: 100%; /* Makes sure the content inside the footer container spans the full width */
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-links ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-links ul li a:hover {
+    color: #ff6600;
+}
+
+.footer-copy p {
+    margin-top: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .navbar ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .navbar ul li {
+        margin: 0 20px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .container {
+        width: 90%;
+        margin: 20px auto; /* Adjust width for smaller devices */
+    }
+
+    .footer-links ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .navbar ul li {
+        margin: 0 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    button, .btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+    </style>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
+<<<<<<< HEAD
             <a class="navbar-brand" href="administrator_home.html"></a>
             <img src="Logo.jpg" width="120" alt="Matatu System">
         </div>
@@ -288,11 +410,27 @@ button:hover, .btn:hover {
             <li><a href="profile.html">Profile</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
+=======
+            <a class="navbar-brand" href="administrator_home.php" title="Admin Home">
+                <img src="Logo.jpg" width="120" alt="Urban Transit Logo" title="Matatu System">
+            </a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="administrator_home.html">Dashboard</a></li>
+                <li><a href="financial_reports.html">Financial Reports</a></li>
+                <li><a href="system_reports.html">System Reports</a></li>
+                <li><a href="audit_logs.html">Audit Logs</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     </nav>
-    <?php include 'navbar.php'; ?>
+
 
     <div class="container">
-        <h2>System Audit Logs</h2>
+        <h2 >System Audit Logs</h2>
         <table class="data-table">
             <thead>
                 <tr>

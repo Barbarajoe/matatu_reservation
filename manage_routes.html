@@ -223,13 +223,21 @@
 <body>
     <nav class="navbar">
         <div class="logo">
+<<<<<<< HEAD
             <img src="Logo.jpg" alt="Matatu System Logo">
+=======
+            <img src="Logo.jpg" width="120" alt="Matatu System">
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         </div>
         <ul>
             <li><a href="operator_home.html">Dashboard</a></li>
             <li><a href="allbookings.html">All Bookings</a></li>
+<<<<<<< HEAD
             <li><a href="manage_routes.html" class="active">Manage Routes</a></li>
             <li><a href="financial_reports.html">Financial Reports</a></li>
+=======
+            <li><a href="manage_routes.html">Manage Routes</a></li>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
             <li><a href="profile.html">Profile</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
@@ -301,11 +309,237 @@
     </div>
 
     <script>
-        // Reset Form
-        function resetForm() {
-            document.getElementById('routeForm').reset();
-            document.getElementById('routeId').value = '';
+    
+    // DOM Content Loaded - Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchVehicleNumberPlates(); // Load vehicles first
+        fetchRoutes(); // Then load routes
+        
+        // Form submission handler
+        document.getElementById('routeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveRoute();
+        });
+    });
+
+    // Cache vehicle data to avoid repeated requests
+    let vehicleCache = null;
+    let lastVehicleFetch = 0;
+
+    // Function to fetch and display vehicle number plates
+    function fetchVehicleNumberPlates() {
+        const vehicleSelect = document.getElementById('vehicle');
+        
+        // Show loading state
+        vehicleSelect.innerHTML = '<option value="">Loading vehicles...</option>';
+        vehicleSelect.disabled = true;
+
+        fetch('get_vehicles.php')
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.json();
+            })
+            .then(vehicles => {
+                vehicleCache = vehicles;
+                lastVehicleFetch = Date.now();
+                populateVehicleDropdown(vehicles);
+            })
+            .catch(error => {
+                console.error('Error loading vehicles:', error);
+                vehicleSelect.innerHTML = '<option value="">Error loading vehicles</option>';
+                // Fallback to sample data
+                const sampleVehicles = [
+                    { vehicle_id: 1, registration: "KAA 123A" },
+                    { vehicle_id: 2, registration: "KBB 456B" }
+                ];
+                populateVehicleDropdown(sampleVehicles);
+            });
+    }
+
+    // Helper function to populate the dropdown
+    function populateVehicleDropdown(vehicles) {
+        const select = document.getElementById('vehicle');
+        select.innerHTML = '<option value="">-- Select Number Plate --</option>';
+        
+        vehicles.forEach(vehicle => {
+            const option = new Option(
+                vehicle.registration, // Display just the number plate
+                vehicle.vehicle_id
+            );
+            select.add(option);
+        });
+        
+        select.disabled = false;
+    }
+
+    // Fetch routes from server
+    function fetchRoutes() {
+        fetch('get_routes.php')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                updateRoutesTable(data);
+            })
+            .catch(error => {
+                console.error('Error fetching routes:', error);
+                alert('Failed to load routes. Please try again later.');
+            });
+    }
+
+    // Update the routes table display
+    function updateRoutesTable(routesData) {
+        const tableBody = document.querySelector('#routesTable tbody');
+        tableBody.innerHTML = '';
+        
+        if (!routesData || routesData.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="6" style="text-align: center;">No routes found</td>`;
+            tableBody.appendChild(row);
+            return;
         }
+        
+        routesData.forEach(route => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', route.route_id);
+            row.innerHTML = `
+                <td>${route.route_name}</td>
+                <td>${route.departure_point}</td>
+                <td>${route.arrival_point}</td>
+                <td>${parseInt(route.price).toLocaleString()}</td>
+                <td>${route.registration || 'N/A'}</td>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editRoute(${route.route_id})">Edit</button>
+                    <button class="action-btn delete-btn" onclick="confirmDelete(${route.route_id})">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Save or update route
+    function saveRoute() {
+        const routeId = document.getElementById('routeId').value;
+        const routeName = document.getElementById('routeName').value;
+        const departure = document.getElementById('departure').value;
+        const destination = document.getElementById('destination').value;
+        const price = document.getElementById('price').value;
+        const vehicleId = document.getElementById('vehicle').value;
+        const vehicleText = document.getElementById('vehicle').options[document.getElementById('vehicle').selectedIndex].text;
+
+        // Validate inputs
+        if (!routeName || !departure || !destination || !price || !vehicleId) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        const routeData = {
+            routeId: routeId || null,
+            routeName,
+            departurePoint: departure,
+            arrivalPoint: destination,
+            price,
+            vehicleId,
+            registration: vehicleText
+        };
+
+        const url = routeId ? 'update_route.php' : 'add_route.php';
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(routeData)
+        })
+        .then(async response => {
+            const text = await response.text();
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                throw new Error(`Server returned invalid JSON: ${text}`);
+            }
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Route saved successfully!');
+                fetchRoutes();
+                resetForm();
+            } else {
+                throw new Error(data.message || 'Unknown error occurred');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(`Error: ${error.message}`);
+        });
+    }
+    
+    // Edit route
+    function editRoute(id) {
+        fetch(`get_single_route.php?id=${id}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(route => {
+                if (!route) throw new Error('Route not found');
+                
+                document.getElementById('formTitle').textContent = 'Edit Route';
+                document.getElementById('routeId').value = route.route_id;
+                document.getElementById('routeName').value = route.route_name;
+                document.getElementById('departure').value = route.departure_point;
+                document.getElementById('destination').value = route.arrival_point;
+                document.getElementById('price').value = route.price;
+                document.getElementById('vehicle').value = route.vehicle_id;
+                
+                // Scroll to form
+                document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(error => {
+                console.error('Error fetching route:', error);
+                alert('Error loading route details');
+            });
+    }
+    
+    // Confirm before deleting route
+    function confirmDelete(id) {
+        if (confirm('Are you sure you want to delete this route?')) {
+            deleteRoute(id);
+        }
+    }
+    
+    // Delete route
+    function deleteRoute(id) {
+        fetch(`delete_route.php?id=${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                fetchRoutes();
+            } else {
+                alert('Error: ' + (data.message || 'Failed to delete route'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the route');
+        });
+    }
+    
+    // Reset form
+    function resetForm() {
+        document.getElementById('formTitle').textContent = 'Add New Route';
+        document.getElementById('routeForm').reset();
+        document.getElementById('routeId').value = '';
+    }
+
     </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ try {
     $stmt = $conn->query("
         SELECT audit_logs.*, users.username 
         FROM audit_logs 
-        JOIN users ON audit_logs.user_id = users.id 
+        JOIN users ON audit_logs.user_id = users.user_id 
         ORDER BY timestamp DESC
     ");
     

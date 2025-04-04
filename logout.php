@@ -10,6 +10,7 @@ session_regenerate_id(true);
 // Unset all session variables
 $_SESSION = array();
 
+<<<<<<< HEAD
 // Delete the session cookie
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
@@ -22,6 +23,15 @@ if (ini_get("session.use_cookies")) {
         $params["secure"],
         $params["httponly"]
     );
+=======
+// Ensure headers are not already sent before redirecting
+if (!headers_sent()) {
+    header("Location: login.php");
+    exit();
+} else {
+    echo "<script>window.location.href = 'login.php';</script>";
+    exit();
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 }
 
 // Destroy the session

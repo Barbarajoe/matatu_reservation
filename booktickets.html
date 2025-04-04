@@ -297,7 +297,12 @@
 <body>
     <nav class="navbar">
         <div class="logo">
+<<<<<<< HEAD
             <img src="Logo.jpg" width="120" alt="Matatu System">
+=======
+            <img src="Logo.jpg" alt="Matatu System" href="passenger_home.html">
+        </div>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         <ul>
             <li><a href="passenger_home.html">Home</a></li>
             <li><a href="booktickets.html">Book Ticket</a></li>
@@ -310,26 +315,17 @@
     <div class="container">
         <h2>Book a Ticket</h2>
         <p>Fill in the form below to book a ticket.</p>
-        <form id="booking-form" action="book_ticket.php" method="POST">
+        <form id="booking-form" method="POST">
             <div class="form-group">
                 <label>Route:</label>
                 <select id="route" name="route" title="Select your route" required>
-                    <option value="nairobi-mombasa">Nairobi → Mombasa</option>
-                    <option value="nairobi-kisumu" data-cost="120">Nairobi → Kisumu</option>
-                    <option value="nairobi-eldoret" data-cost="50">Nairobi → Eldoret</option>
-                    <option value="mombasa-nairobi" data-cost="60">Mombasa → Nairobi</option>
-                    <option value="kisumu-nairobi" data-cost="30">Kisumu → Nairobi</option>
-                    <option value="eldoret-nairobi" data-cost="70">Eldoret → Nairobi</option>
-                    <option value="mombasa-kisumu" data-cost="90">Mombasa → Kisumu</option>
-                    <option value="mombasa-eldoret" data-cost="100">Mombasa → Eldoret</option>
-                    <option value="kisumu-mombasa" data-cost="80">Kisumu → Mombasa</option>
-                    <option value="eldoret-mombasa" data-cost="50">Eldoret → Mombasa</option>
-                    <option value="kisumu-eldoret" data-cost="70">Kisumu → Eldoret</option>
-                    <option value="eldoret-kisumu" data-cost="60">Eldoret → Kisumu</option>
-                    <option value="nairobi-nakuru" data-cost="150">Nairobi → Nakuru</option>
-                    <option value="nakuru-nairobi" data-cost="130">Nakuru → Nairobi</option>
-                    <option value="nairobi-nyeri" data-cost="110">Nairobi → Nyeri</option>
-                    <option value="nyeri-nairobi" data-cost="140">Nyeri → Nairobi</option>
+                    <option value="">-- Select Route --</option>
+                    <option value="nairobi-mombasa" data-cost="1500">Nairobi → Mombasa</option>
+                    <option value="nairobi-kisumu" data-cost="1200">Nairobi → Kisumu</option>
+                    <option value="nairobi-eldoret" data-cost="800">Nairobi → Eldoret</option>
+                    <option value="mombasa-nairobi" data-cost="1500">Mombasa → Nairobi</option>
+                    <option value="kisumu-nairobi" data-cost="1200">Kisumu → Nairobi</option>
+                    <option value="eldoret-nairobi" data-cost="800">Eldoret → Nairobi</option>
                 </select>
             </div>
             <div class="form-group">
@@ -337,76 +333,27 @@
                 <input type="date" id="date" name="date" title="Select your travel date" required>
             </div>
             <div class="form-group">
-                <label>Seat Number(s):</label>
-                <input type="number" id="seat" name="seat" placeholder="e.g., 3A, 5B, 7A" required>
-                <small>Available seats: 1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B, 5A, 5B 6A, 6B, 7A, 7B, 8A, 8B, 9A, 9B, 10A, 10B</small>
+                <label>Select Seats:</label>
+                <div class="seat-map" id="seatMap"></div>
+                <input type="hidden" name="seats" id="selectedSeats" required>
+                <p>Selected seats: <span id="selectedSeatsDisplay">None</span></p>
+                <small class="hint">Click on available (green) seats to select them</small>
             </div>
             <div class="form-group">
                 <label>Number of Tickets:</label>
-                <input type="number" id="tickets" name="ticket_count" title="Enter number of tickets" placeholder="e.g., 2" required>
+                <input type="number" id="tickets" name="ticket_count" min="1" max="10" title="Enter number of tickets" placeholder="e.g., 2" required>
+            </div>
+            <div class="form-group">
+                <label>Total Cost:</label>
+                <div id="cost" style="font-weight: bold; font-size: 18px;">KSh 0</div>
             </div>
             <div class="form-group text-center">
-                <a href="paymentmethod.html" class="btn">Proceed to Payment</a>
+                <button type="submit" id="submit-btn" class="btn">
+                    Proceed to Payment
+                    <span class="spinner" id="spinner"></span>
+                </button>
             </div>
         </form>
-        <script>
-            document.getElementById('route').addEventListener('change', updateCost);
-            document.getElementById('tickets').addEventListener('input', updateCost);
-
-            function updateCost() {
-                const routeSelect = document.getElementById('route');
-                const selectedRoute = routeSelect.options[routeSelect.selectedIndex];
-                const costPerTicket = parseInt(selectedRoute.getAttribute('data-cost'));
-                const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
-                const totalCost = costPerTicket * ticketCount;
-                document.getElementById('cost').textContent = totalCost;
-            }
-
-            document.getElementById('booking-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-            });
-
-            document.getElementById('route').addEventListener('change', updateSeats);
-            document.getElementById('date').addEventListener('change', updateSeats);
-
-            function updateSeats() {
-                const route = document.getElementById('route').value;
-                const date = document.getElementById('date').value;
-                fetch(`get_seats.php?route=${route}&date=${date}`)
-                    .then(response => response.json())
-                    .then(seats => {
-                        const seatDropdown = document.getElementById('seat');
-                        seatDropdown.innerHTML = seats.map(seat =>
-                            `<option value="${seat.number}">Seat ${seat.number}</option>`
-                        ).join('');
-                    });
-            }
-
-            async function loadSeats(routeId) {
-                try {
-                    const response = await fetch(`getseats.php?route_id=${routeId}`);
-                    const data = await response.json();
-
-                    if (data.status === 'success') {
-                        renderSeatMap(data.seat_map, data.available_seats);
-                    }
-                } catch (error) {
-                    showError('Failed to load seat availability');
-                }
-            }
-
-            function renderSeatMap(allSeats, availableSeats) {
-                const seatContainer = document.getElementById('seats');
-                seatContainer.innerHTML = '';
-
-                allSeats.forEach(seat => {
-                    const seatEl = document.createElement('div');
-                    seatEl.className = `seat ${availableSeats.includes(seat) ? 'available' : 'booked'}`;
-                    seatEl.textContent = seat;
-                    seatContainer.appendChild(seatEl);
-                });
-            }
-        </script>
     </div>
     <footer class="footer">
         <div class="footer-container">
@@ -418,11 +365,171 @@
                     <li><a href="Terms_of_service.html">Terms of Service</a></li>
                 </ul>
             </div>
-
             <div class="footer-copy">
-                <p>&copy; 2025 Urban Transit . All rights reserved.</p>
+                <p>&copy; 2025 Urban Transit. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Seat Map Configuration
+        const seatMapConfig = {
+            rows: 7,
+            cols: ['A', 'B'],
+            maxSeats: 5
+        };
+
+        // Initialize Seat Map with sample available seats
+        function initSeatMap() {
+            const seatMap = document.getElementById('seatMap');
+            seatMap.innerHTML = '';
+            
+            // Sample available seats - in real app, this would come from get_seats.php
+            const availableSeats = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A', '5B', '6A', '6B', '7A', '7B'];
+            
+            for (let row = 1; row <= seatMapConfig.rows; row++) {
+                seatMapConfig.cols.forEach(col => {
+                    const seat = `${row}${col}`;
+                    const seatEl = document.createElement('div');
+                    seatEl.className = 'seat';
+                    seatEl.textContent = seat;
+                    seatEl.dataset.seat = seat;
+                    
+                    if (availableSeats.includes(seat)) {
+                        seatEl.classList.add('available');
+                        seatEl.addEventListener('click', toggleSeatSelection);
+                    } else {
+                        seatEl.classList.add('booked');
+                        seatEl.title = 'This seat is already booked';
+                    }
+                    
+                    seatMap.appendChild(seatEl);
+                });
+            }
+        }
+
+        // Toggle seat selection
+        function toggleSeatSelection(e) {
+            const seat = e.target.dataset.seat;
+            const selectedSeatsInput = document.getElementById('selectedSeats');
+            const selectedSeatsDisplay = document.getElementById('selectedSeatsDisplay');
+            let seats = selectedSeatsInput.value ? selectedSeatsInput.value.split(',') : [];
+            
+            if (e.target.classList.contains('selected')) {
+                // Deselect seat
+                e.target.classList.remove('selected');
+                seats = seats.filter(s => s !== seat);
+            } else {
+                // Select seat
+                if (seats.length >= seatMapConfig.maxSeats) {
+                    alert(`Maximum ${seatMapConfig.maxSeats} seats allowed`);
+                    return;
+                }
+                e.target.classList.add('selected');
+                seats.push(seat);
+            }
+            
+            selectedSeatsInput.value = seats.join(',');
+            selectedSeatsDisplay.textContent = seats.length > 0 ? seats.join(', ') : 'None';
+            updateCost();
+        }
+
+        // Update cost calculation
+        function updateCost() {
+            const routeSelect = document.getElementById('route');
+            const selectedRoute = routeSelect.options[routeSelect.selectedIndex];
+            const costPerTicket = parseInt(selectedRoute.getAttribute('data-cost')) || 0;
+            const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
+            const seatCount = document.getElementById('selectedSeats').value.split(',').filter(s => s).length;
+            const actualCount = Math.max(ticketCount, seatCount);
+            const totalCost = costPerTicket * actualCount;
+            document.getElementById('cost').textContent = `KSh ${totalCost.toLocaleString()}`;
+        }
+
+        document.getElementById('booking-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    // Show loading state
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Processing... <span class="spinner"></span>';
+    
+    try {
+        // Collect form data
+        const formData = {
+            route: document.getElementById('route').value,
+            date: document.getElementById('date').value,
+            seats: document.getElementById('selectedSeats').value,
+            ticket_count: document.getElementById('tickets').value
+        };
+
+        // Send to backend
+        const response = await fetch('book_ticket.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (result.success && result.booking_id) {
+            window.location.href = `paymentmethod.php?booking_id=${result.booking_id}`;
+        } else {
+            alert(result.message || 'Booking failed. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Proceed to Payment';
+    }
+});
+
+        // Form validation
+        function validateForm() {
+            // Check route selected
+            if (!document.getElementById('route').value) {
+                alert('Please select a route');
+                return false;
+            }
+            
+            // Check date selected
+            if (!document.getElementById('date').value) {
+                alert('Please select a travel date');
+                return false;
+            }
+            
+            // Check seats selected
+            if (!document.getElementById('selectedSeats').value) {
+                alert('Please select at least one seat');
+                return false;
+            }
+            
+            // Check ticket count
+            const ticketCount = parseInt(document.getElementById('tickets').value);
+            if (isNaN(ticketCount) || ticketCount < 1) {
+                alert('Please enter a valid number of tickets');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initSeatMap();
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+            
+            // Add event listeners for cost calculation
+            document.getElementById('route').addEventListener('change', updateCost);
+            document.getElementById('tickets').addEventListener('input', updateCost);
+        });
+    </script>
 </body>
 </html>

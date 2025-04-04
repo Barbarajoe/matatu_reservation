@@ -1,18 +1,17 @@
 <?php
+header('Content-Type: application/json');
 require 'config.php';
 
 try {
     $stmt = $conn->query("
-        SELECT id, name, price 
-        FROM routes 
-        ORDER BY name ASC
+        SELECT r.*, v.registration 
+        FROM routes r
+        LEFT JOIN vehicles v ON r.vehicle_id = v.vehicle_id
     ");
-    
     $routes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    header('Content-Type: application/json');
     echo json_encode($routes);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to fetch routes']);
+    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 }
 ?>

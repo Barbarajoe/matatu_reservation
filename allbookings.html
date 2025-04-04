@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Bookings</title>
     <style>
+<<<<<<< HEAD
        body {
+=======
+ body {
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -77,14 +81,22 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+<<<<<<< HEAD
     overflow-x: auto;
+=======
+    overflow-x: hidden;
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
 .container {
+<<<<<<< HEAD
     max-width: 100%;
+=======
+    max-width: 800px;
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -95,7 +107,10 @@
 .container h2 {
     text-align: center;
     color: #333;
+<<<<<<< HEAD
     margin-bottom: 20px;
+=======
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 }
 
 .form-group {
@@ -178,6 +193,7 @@ button:hover, .btn:hover {
 .footer-links ul li a:hover {
     color: #ff6600;
 }
+<<<<<<< HEAD
 
 .footer-copy p {
     margin-top: 10px;
@@ -273,11 +289,88 @@ button:hover, .btn:hover {
     }
 }
 </style>
+=======
+
+.footer-copy p {
+    margin-top: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .navbar ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .navbar ul li {
+        margin: 0 20px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .container {
+        width: 90%;
+        margin: 20px auto; /* Adjust width for smaller devices */
+    }
+
+    .footer-links ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .navbar ul li {
+        margin: 0 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    button, .btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+    </style>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
+<<<<<<< HEAD
             <img src="Logo.jpg" alt="Matatu System Logo">
+=======
+            <a class="navbar-brand" href="operator_home.html" title="Operator Home">
+                <img src="Logo.jpg" width="120" alt="Matatu System">
+            </a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="operator_home.html">Dashboard</a></li>
+                <li><a href="allbookings.html">All Bookings</a></li>
+                <li><a href="manage_routes.html">Manage Routes</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         </div>
         <ul>
             <li><a href="operator_home.html">Dashboard</a></li>

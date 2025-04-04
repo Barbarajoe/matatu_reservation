@@ -468,6 +468,8 @@
       }
   
       if (isValid) {
+         // Show success alert
+      alert('Registration successful!');
         // Redirect based on role
         const role = roleSelect.value;
         updateNavbar(role);
@@ -484,7 +486,12 @@
     loginForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const role = roleSelect.value;
+<<<<<<< HEAD
       alert('Login successful! Redirecting to your dashboard...');
+=======
+       // Show success alert
+       alert('Login successful!');
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
       if (role === 'passenger') {
         window.location.href = 'passenger_home.html';
       } else if (role === 'operator') {

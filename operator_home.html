@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Manage Routes - Operator Dashboard</title>
     <style>
       body {
@@ -256,22 +257,286 @@
           }
       }
   </style>
+=======
+    <title>Operator Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 150px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+        
+        .navbar .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .navbar .logo img {
+            height: 80px;
+            margin-bottom: 10px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .navbar ul li {
+            margin-bottom: 15px;
+        }
+        
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .navbar ul li a:hover {
+            background-color: #ff6600;
+        }
+        
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+            flex: 1;
+            background-color: #fff;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 14px;
+        }
+        
+        .edit-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .add-btn {
+            background-color: #9b59b6;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .footer {
+            margin-top: 309px;
+            padding-top: 20px;
+            border-top: 1px solid #2c2a2a;
+            background-color: #333;
+            text-align: center;
+            color: #f7f5f5;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #fbf7f7;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .footer a:hover {
+            color: #ff6600;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .form-actions {
+            text-align: right;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                flex-direction: row;
+                padding: 10px;
+            }
+            
+            .navbar ul {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+            .navbar ul li {
+                margin: 5px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 </head>
 <body>
     <!-- Sidebar Navigation -->
     <nav class="navbar">
         <div class="logo">
+<<<<<<< HEAD
             <img src="Logo.jpg" alt="Matatu System Logo">
+=======
+            <img src="Logo.jpg" width="120" alt="Matatu System">
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         </div>
         <ul>
             <li><a href="operator_home.html">Dashboard</a></li>
             <li><a href="allbookings.html">All Bookings</a></li>
+<<<<<<< HEAD
             <li><a href="manage_routes.html" class="active">Manage Routes</a></li>
             <li><a href="financial_reports.html">Financial Reports</a></li>
+=======
+            <li><a href="manage_routes.html">Manage Routes</a></li>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
             <li><a href="profile.html">Profile</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </nav>
+<<<<<<< HEAD
 
     <!-- Main Content -->
     <div class="main-content">
@@ -326,12 +591,100 @@
                     </tbody>
                 </table>
             </div>
+=======
+    
+    <div class="main-content">
+        <h1>Operator Dashboard</h1>
+        
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>Today's Bookings</h3>
+                <p id="todayBookings">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>Active Vehicles</h3>
+                <p id="activeVehicles">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>Total Revenue</h3>
+                <p id="totalRevenue">Loading...</p>
+            </div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2>Available Routes</h2>
+            <button class="add-btn" onclick="openAddRouteModal()">+ Add New Route</button>
+        </div>
+        
+        <table id="routesTable">
+            <thead>
+                <tr>
+                    <th>Route Name</th>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Price (KES)</th>
+                    <th>Vehicle</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+        
+        <!-- Add/Edit Route Modal -->
+        <div id="routeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Route</h2>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                <form id="routeForm" class="modal-form">
+                    <input type="hidden" id="routeId">
+                    <div class="form-group">
+                        <label for="routeName">Route Name:</label>
+                        <input type="text" id="routeName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="departure">Departure:</label>
+                        <input type="text" id="departure" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination:</label>
+                        <input type="text" id="destination" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price (KES):</label>
+                        <input type="number" id="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicle">Vehicle:</label>
+                        <select id="vehicle" required>
+                            <option value="">-- Select Vehicle --</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="action-btn cancel-btn" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="action-btn save-btn">Save Route</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <p>© 2025 Urban Transit. All rights reserved.</p>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         </div>
     </div>
 
     
 
     <script>
+<<<<<<< HEAD
         // Sample data and functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Add route form submission
@@ -356,6 +709,308 @@
                 // In a real app, you would send a delete request to your backend
             }
         }
+=======
+    // Global variables
+    const API_BASE_URL = '/matatu_reservation/'; // Update this to match your project path
+    let vehiclesData = [];
+    
+    // DOM Content Loaded - Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        checkSystemRequirements().then(() => {
+            loadInitialData();
+        }).catch(error => {
+            showFatalError(error);
+        });
+        
+        // Form submission handler
+        document.getElementById('routeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveRoute();
+        });
+    });
+
+    // Check all system requirements before proceeding
+    function checkSystemRequirements() {
+        const requiredEndpoints = [
+            'get_vehicle.php',
+            'get_routes.php',
+            'add_route.php',
+            'update_route.php',
+            'delete_route.php',
+            'Get_Single_route.php'
+        ];
+        
+        return Promise.all(
+            requiredEndpoints.map(endpoint => {
+                return fetch(API_BASE_URL + endpoint, { method: 'HEAD' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Missing required file: ${endpoint}`);
+                        }
+                        return true;
+                    })
+                    .catch(error => {
+                        throw new Error(`Failed to access ${endpoint}: ${error.message}`);
+                    });
+            })
+        );
+    }
+
+    // Load all initial data
+    function loadInitialData() {
+        Promise.all([
+            fetchVehicles(),
+            fetchRoutes(),
+            fetchDashboardStats()
+        ]).catch(error => {
+            console.error("Initial data loading failed:", error);
+        });
+    }
+
+    // Show fatal error message
+    function showFatalError(error) {
+        console.error("System configuration error:", error);
+        alert(`SYSTEM CONFIGURATION ERROR\n\nPlease verify:\n\n1. All PHP files exist in ${API_BASE_URL}\n2. File permissions are correct (644)\n3. Server is running\n\nTechnical details: ${error.message}`);
+        
+        // Disable interactive elements
+        document.querySelector('.add-btn').disabled = true;
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.disabled = true;
+        });
+    }
+
+    // Fetch vehicles with complete error handling
+    function fetchVehicles() {
+        return fetch(API_BASE_URL + 'get_vehicles.php')
+            .then(handleApiResponse)
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("Invalid vehicle data format");
+                }
+                vehiclesData = data;
+                populateVehicleDropdown();
+                document.getElementById('activeVehicles').textContent = data.length;
+                return data;
+            })
+            .catch(error => {
+                console.error("Vehicle loading failed:", error);
+                document.getElementById('activeVehicles').textContent = 'Error';
+                return [];
+            });
+    }
+
+    // Fetch routes with complete error handling
+    function fetchRoutes() {
+        return fetch(API_BASE_URL + 'get_routes.php')
+            .then(handleApiResponse)
+            .then(data => {
+                updateRoutesTable(data);
+                return data;
+            })
+            .catch(error => {
+                console.error("Route loading failed:", error);
+                updateRoutesTable([]);
+                return [];
+            });
+    }
+
+    // Standard API response handler
+    function handleApiResponse(response) {
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        }
+        return response.text().then(text => {
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                throw new Error("Invalid JSON response");
+            }
+        });
+    }
+
+    // Fetch dashboard statistics
+    function fetchDashboardStats() {
+        // Placeholder - implement actual API calls
+        document.getElementById('todayBookings').textContent = '15';
+        document.getElementById('totalRevenue').textContent = 'KES 45,800';
+        return Promise.resolve();
+    }
+
+    // Update the routes table display
+    function updateRoutesTable(routesData) {
+        const tableBody = document.querySelector('#routesTable tbody');
+        tableBody.innerHTML = '';
+        
+        if (!routesData || routesData.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="6" style="text-align: center;">No routes found</td>`;
+            tableBody.appendChild(row);
+            return;
+        }
+        
+        routesData.forEach(route => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', route.route_id);
+            row.innerHTML = `
+                <td>${route.route_name}</td>
+                <td>${route.departure_point}</td>
+                <td>${route.arrival_point}</td>
+                <td>${parseInt(route.price).toLocaleString()}</td>
+                <td>${route.registration || 'N/A'}</td>
+                <td class="action-btns">
+                    <button class="action-btn edit-btn" onclick="editRoute(${route.route_id})">Edit</button>
+                    <button class="action-btn delete-btn" onclick="confirmDelete(${route.route_id})">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function populateVehicleDropdown() {
+        const select = document.getElementById('vehicle');
+        select.innerHTML = '<option value="">-- Select Vehicle --</option>';
+        
+        vehiclesData.forEach(vehicle => {
+            const option = new Option(
+                `${vehicle.registration} (${vehicle.seat_capacity} seats)`,
+                vehicle.vehicle_id
+            );
+            select.add(option);
+        });
+    }
+
+    function saveRoute() {
+        const routeId = document.getElementById('routeId').value;
+        const routeName = document.getElementById('routeName').value;
+        const departure = document.getElementById('departure').value;
+        const destination = document.getElementById('destination').value;
+        const price = document.getElementById('price').value;
+        const vehicleId = document.getElementById('vehicle').value;
+
+        // Validate inputs
+        if (!routeName || !departure || !destination || !price || !vehicleId) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        const routeData = {
+            routeId: routeId || null,
+            routeName,
+            departurePoint: departure,
+            arrivalPoint: destination,
+            price,
+            vehicleId
+        };
+
+        const url = routeId ? API_BASE_URL + 'update_route.php' : API_BASE_URL + 'add_route.php';
+        const method = routeId ? 'PUT' : 'POST';
+        
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(routeData)
+        })
+        .then(async response => {
+            const text = await response.text();
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                throw new Error(`Server returned invalid JSON: ${text}`);
+            }
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Route saved successfully!');
+                closeModal();
+                fetchRoutes();
+            } else {
+                throw new Error(data.message || 'Unknown error occurred');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(`Error: ${error.message}`);
+        });
+    }
+    
+    function editRoute(id) {
+        fetch(API_BASE_URL + `get_single_route.php?id=${id}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(route => {
+                if (!route) throw new Error('Route not found');
+                
+                document.getElementById('modalTitle').textContent = 'Edit Route';
+                document.getElementById('routeId').value = route.route_id;
+                document.getElementById('routeName').value = route.route_name;
+                document.getElementById('departure').value = route.departure_point;
+                document.getElementById('destination').value = route.arrival_point;
+                document.getElementById('price').value = route.price;
+                
+                populateVehicleDropdown();
+                document.getElementById('vehicle').value = route.vehicle_id;
+                
+                document.getElementById('routeModal').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching route:', error);
+                alert('Error loading route details');
+            });
+    }
+    
+    function confirmDelete(id) {
+        if (confirm('Are you sure you want to delete this route? This action cannot be undone.')) {
+            deleteRoute(id);
+        }
+    }
+    
+    function deleteRoute(id) {
+        fetch(API_BASE_URL + `delete_route.php?id=${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Route deleted successfully');
+                fetchRoutes();
+            } else {
+                throw new Error(data.message || 'Failed to delete route');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting route: ' + error.message);
+        });
+    }
+
+    // Modal functions
+    function openAddRouteModal() {
+        document.getElementById('modalTitle').textContent = 'Add New Route';
+        document.getElementById('routeForm').reset();
+        document.getElementById('routeId').value = '';
+        populateVehicleDropdown();
+        document.getElementById('routeModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('routeModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('routeModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
     </script>
 </body>
 </html>

@@ -6,20 +6,26 @@
     </div>
     <ul>
         <?php if($_SESSION['role'] === 'administrator'): ?>
-            <li><a href="Admin/administrator_home.html">Dashboard</a></li>
-            <li><a href="Admin/user_management.html">Users</a></li>
-            <li><a href="Admin/system_reports.html">SystemReports</a></li>
-            <li><a href="Admin/audit_logs.html">AuditLogs</a></li>
+            <li><a href="administrator_home.html">Dashboard</a></li>
+            <li><a href="user_management.html">Users</a></li>
+            <li><a href="system_reports.html">SystemReports</a></li>
+            <li><a href="audit_logs.html">AuditLogs</a></li>
         <?php elseif($_SESSION['role'] === 'operator'): ?>
-            <li><a href="operator/operator_home.html">Dashboard</a></li>
-            <li><a href="operator/manage_routes.html">Routes</a></li>
-            <li><a href="operator/allbookings.html">AllBookings</a></li>
-            <li><a href="operator/financial_reports.html">FinancialReports</a></li>
+            <li><a href="operator_home.html">Dashboard</a></li>
+            <li><a href="manage_routes.html">Routes</a></li>
+            <li><a href="allbookings.html">AllBookings</a></li>
+            <li><a href="financial_reports.html">FinancialReports</a></li>
         <?php else: ?>
+<<<<<<< HEAD
             <li><a href="passenger/passenger_home.html">Home</a></li>
             <li><a href="passenger/booktickets.html">Book Ticket</a></li>
             <li><a href="passenger/View_Bookings.html">ViewBookings</a></li>
             <li><a href="available_buses.html">Available Buses</a></li>
+=======
+            <li><a href="passenger_home.html">Home</a></li>
+            <li><a href="booktickets.html">Book Ticket</a></li>
+            <li><a href="View_Bookings.html">ViewBookings</a></li>
+>>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         <?php endif; ?>
         <li><a href="profile.html">Profile</a></li>
         <li><a href="logout.php">Logout</a></li>

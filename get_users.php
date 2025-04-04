@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'administrator') {
     http_response_code(403);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Unauthorized access']);
+    
     exit();
 }
 

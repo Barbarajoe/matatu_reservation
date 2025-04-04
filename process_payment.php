@@ -1,67 +1,61 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 require 'config.php';
-require 'vendor/autoload.php'; // Ensure you have the Stripe PHP library installed via Composer
+require 'vendor/autoload.php';
 
-/**
- * Calculate the booking amount based on the booking ID.
- *
- * @param int $booking_id The ID of the booking.
- * @return int The calculated amount in the smallest currency unit (e.g., cents).
- */
-function verifyCSRFToken($token) {
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: booktickets.html");
+    exit();
 }
 
-function sanitizeInput($data) {
-    return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
+try {
+    $booking_id = (int)$_POST['booking_id'];
+    $payment_method = isset($_POST['mpesa_phone']) ? 'mpesa' : 'card';
+
+    if ($payment_method === 'mpesa') {
+        // Process M-Pesa payment
+        $phone = preg_replace('/[^0-9]/', '', $_POST['mpesa_phone']);
+        if (strlen($phone) !== 12 || !preg_match('/^254/', $phone)) {
+            throw new Exception("Invalid M-Pesa number format");
+        }
+        
+        // Here you would integrate with M-Pesa API
+        // This is just a simulation
+        $success = true; // Replace with actual API call
+        
+        if (!$success) {
+            throw new Exception("M-Pesa payment failed");
+        }
+    } else {
+        // Process card payment
+        \Stripe\Stripe::setApiKey('your_stripe_secret_key');
+        $payment = \Stripe\PaymentIntent::create([
+            'amount' => calculateBookingAmount($booking_id),
+            'currency' => 'kes',
+            'payment_method' => $_POST['payment_method_id'],
+            'confirm' => true,
+            'return_url' => 'https://yourdomain.cm/booking_confirmation.php'
+        ]);
+    }
+    
+    // Update booking status
+    $stmt = $conn->prepare("UPDATE bookings SET status = 'confirmed', payment_method = ? WHERE id = ?");
+    $stmt->execute([$payment_method, $booking_id]);
+    
+    header("Location: booking_confirmation.php?id=$booking_id");
+    exit();
+
+} catch (Exception $e) {
+    error_log("Payment error: " . $e->getMessage());
+    header("Location: paymentmethod.php?booking_id=$booking_id&error=1");
+    exit();
 }
- function calculateBookingAmount($booking_id): int {
+
+function calculateBookingAmount($booking_id) {
     global $conn;
-    $stmt = $conn->prepare("SELECT amount FROM bookings WHERE id = ?");
+    $stmt = $conn->prepare("SELECT total_amount FROM bookings WHERE id = ?");
     $stmt->execute([$booking_id]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result ? (int)$result['amount'] : 0;
-}
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        // Verify CSRF token
-        if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
-            throw new Exception("CSRF validation failed");
-        }
-        
-        $booking_id = sanitizeInput($_POST['booking_id']);
-        $payment_method = isset($_POST['mpesa_phone']) ? 'mpesa' : 'card';
-
-        if ($payment_method === 'mpesa') {
-            // Process M-Pesa payment
-            $phone = sanitizeInput($_POST['mpesa_phone']);
-            $amount = calculateBookingAmount($booking_id);
-            // Initiate M-Pesa STK push
-        } else {
-            // Process card payment
-            \Stripe\Stripe::setApiKey('pk_test_51R8dCP4CMG9dsCYOxlurqTUU5XdiHFFH8OwLd9P9EnAD6mYxcaduQhZ09zlzyaSWtwroFxcF5EUT4Z9nHmGTVNOQ00GI0SGyMh');
-            $payment = \Stripe\PaymentIntent::create([
-                'amount' => calculateBookingAmount($booking_id),
-                'currency' => 'kes',
-                'payment_method' => $_POST['payment_method_id'],
-                'confirm' => true
-            ]);
-        }
-        
-        // Update booking status
-        $stmt = $conn->prepare("UPDATE bookings SET status = 'confirmed' WHERE id = ?");
-        $stmt->execute([$booking_id]);
-        
-        header("Location: booking_confirmation.php?id=$booking_id");
-    } catch (Exception $e) {
-        error_log("Payment error: " . $e->getMessage());
-        header("Location: paymentmethod.html?booking_id=$booking_id&error=1");
-    }
-    exit();
+    return $result ? (int)($result['total_amount'] * 100) : 0; // Convert to cents
 }
 ?>
