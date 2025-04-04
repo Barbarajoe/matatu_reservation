@@ -1,67 +1,37 @@
 <?php
-require 'config.php';
-
-// Verify user authentication and authorization
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.html?error=unauthorized");
-    exit();
+session_start();
+require_once 'config.php';
+function fetchVehicles() {
+    fetch('get_vehicles.php')
+        .then(response ) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(vehicles => {
+            const vehicleSelect = document.getElementById('vehicle');
+            
+            // Clear existing options except the first one
+            while (vehicleSelect.options.length > 1) {
+                vehicleSelect.remove(1);
+            }
+            
+            // Add new options
+            vehicles.forEach(vehicle => {
+                const option = new Option(
+                    `${vehicle.registration} (${vehicle.seat_capacity} seats)`, 
+                    vehicle.vehicle_id
+                );
+                vehicleSelect.add(option);
+            });
+            
+            // Enable the select element if it was disabled
+            vehicleSelect.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error fetching vehicles:', error);
+            alert('Failed to load vehicles. Please try again later.');
+        });
 }
-
-// Only allow operators and administrators
-if ($_SESSION['role'] !== 'operator' && $_SESSION['role'] !== 'administrator') {
-    header("Location: unauthorized.html");
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        // Sanitize and validate inputs
-        $route_name = sanitizeInput($_POST['route_name']);
-        $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-
-        // Validate inputs
-        if (empty($route_name)) {
-            throw new Exception("Route name is required");
-        }
-
-        if (!is_numeric($price) || $price <= 0) {
-            throw new Exception("Invalid price value");
-        }
-
-        // Insert into database using prepared statement
-        $stmt = $conn->prepare("
-            INSERT INTO] routes (name, price, created_at)
-            VALUES (:name, :price, :created_at)
-        ");
-
-        $stmt->execute([
-            ':name' => $route_name,
-            ':price' => $price,
-            ':created_at' => $_SESSION['user_id']
-        ]);
-
-        // Check if insertion was successful
-        if ($stmt->rowCount() > 0) {
-            header("Location: manage_routes.html?success=Route added successfully");
-        } else {
-            throw new Exception("Failed to add route");
-        }
-
-    } catch (PDOException $e) {
-        // Handle database errors
-        $errorMessage = $e->getCode() == 23000 
-            ? "Route already exists" 
-            : "Database error: " . $e->getMessage();
-        header("Location: manage_routes.html?error=" . urlencode($errorMessage));
-        
-    } catch (Exception $e) {
-        // Handle validation errors
-        header("Location: manage_routes.html?error=" . urlencode($e->getMessage()));
-    }
-} else {
-    // Redirect if accessed directly
-    header("Location: manage_routes.html");
-}
-
-exit();
 ?>
