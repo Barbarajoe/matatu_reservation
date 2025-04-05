@@ -2,7 +2,7 @@
 require 'config.php';
 
 try {
-    $stmt = $conn->query("
+    $stmt = $connect->query("
         SELECT 
             DATE(booking_date) AS booking_date,
             COUNT(*) AS total_bookings
@@ -12,7 +12,10 @@ try {
         LIMIT 7
     ");
     
-    $dailyBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $dailyBookings = [];
+    while ($row = $stmt->fetch_assoc()) {
+        $dailyBookings[] = $row;
+    }
     header('Content-Type: application/json');
     echo json_encode($dailyBookings);
 } catch(PDOException $e) {

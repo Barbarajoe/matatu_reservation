@@ -14,14 +14,72 @@
         }
 
         .navbar {
-            background-color: black;
+            background-color: #333; /* Dark background */
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .navbar h1 {
             margin: 0;
+            font-size: 1.5em;
+            color: #ff6600; /* Highlighted logo color */
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #ff6600; /* Highlight color on hover */
+        }
+
+        .navbar a.active {
+            background-color: #ff6600; /* Highlight active link */
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar ul li {
+                width: 100%;
+                text-align: left;
+            }
+
+            .navbar a {
+                display: block;
+                width: 100%;
+            }
         }
 
         .about {
@@ -34,7 +92,7 @@
         }
 
         .about h2 {
-            color:black;
+            color: black;
             margin-bottom: 20px;
         }
 
@@ -84,9 +142,15 @@
     </style>
 </head>
 <body>
-    <header class="navbar">
+    <nav class="navbar">
         <h1>Urban Transit</h1>
-    </header>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About_us.html" class="active">About Us</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+            <li><a href="Terms_of_service.html">Terms of Service</a></li>
+        </ul>
+    </nav>
 
     <section class="about">
         <div class="container">

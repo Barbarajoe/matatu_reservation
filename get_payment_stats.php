@@ -2,7 +2,7 @@
 require 'config.php';
 
 try {
-    $stmt = $conn->query("
+    $stmt = $connect->query("
         SELECT 
             payment_method,
             COUNT(*) AS total_transactions,
@@ -11,7 +11,10 @@ try {
         GROUP BY payment_method
     ");
     
-    $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stats = [];
+    while ($row = $stmt->fetch_assoc()) {
+        $stats[] = $row;
+    }
     header('Content-Type: application/json');
     echo json_encode($stats);
 } catch(PDOException $e) {

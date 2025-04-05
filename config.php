@@ -1,23 +1,14 @@
 <?php
-$host = 'localhost';
-$dbname = 'matatu_reservation';
-$username = 'root';
-$password = ''; // Leave empty if no password is set for root
+$host = "localhost"; // Database host
+$username = "root"; // Database username
+$password = ""; // Database password
+$database = "matatu_reservation"; // Replace with your database name
 
-try {
-<<<<<<< HEAD
-    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Enable exceptions
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+// Create connection
+$connect = mysqli_connect($host, $username, $password, $database);
 
-?>
-=======
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+// Check connection
+if (!$connect) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 ?>
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c

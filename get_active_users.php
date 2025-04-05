@@ -1,8 +1,6 @@
 <?php
 require_once 'config.php';
 
-
-
 try {
     // Get pagination parameters
     $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
@@ -10,7 +8,7 @@ try {
     $offset = ($page - 1) * $perPage;
 
     // Main query with your specified SQL
-    $stmt = $conn->prepare("
+    $stmt = $connect->prepare("
         SELECT 
             users.user_id, 
             username, 
@@ -22,17 +20,25 @@ try {
         GROUP BY users.user_id
         HAVING last_login >= DATE_SUB(NOW(), INTERVAL 30 DAY)
         ORDER BY last_login DESC
-        LIMIT :limit OFFSET :offset
+        LIMIT ? OFFSET ?
     ");
 
     // Bind parameters
-    $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->bind_param('ii', $perPage, $offset);
     $stmt->execute();
-    $activeUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->bind_result($user_id, $username, $email, $last_login);
+    $activeUsers = [];
+    while ($stmt->fetch()) {
+        $activeUsers[] = [
+            'user_id' => $user_id,
+            'username' => $username,
+            'email' => $email,
+            'last_login' => $last_login
+        ];
+    }
 
     // Get total count
-    $countStmt = $conn->prepare("
+    $countStmt = $connect->prepare("
         SELECT COUNT(*) FROM (
             SELECT users.user_id
             FROM users
@@ -43,7 +49,8 @@ try {
         ) AS active_users
     ");
     $countStmt->execute();
-    $totalUsers = $countStmt->fetchColumn();
+    $countStmt->bind_result($totalUsers);
+    $countStmt->fetch();
 
     // Return JSON response
     header('Content-Type: application/json');
@@ -57,7 +64,7 @@ try {
         ]
     ]);
 
-} catch(PDOException $e) {
+} catch (mysqli_sql_exception $e) {
     error_log("Active users error: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Failed to retrieve active users']);

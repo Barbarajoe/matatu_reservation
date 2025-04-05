@@ -4,14 +4,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Regenerate session ID first to prevent session fixation
-session_regenerate_id(true);
-
 // Unset all session variables
 $_SESSION = array();
 
-<<<<<<< HEAD
-// Delete the session cookie
+// Delete session cookie
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(
@@ -23,31 +19,16 @@ if (ini_get("session.use_cookies")) {
         $params["secure"],
         $params["httponly"]
     );
-=======
-// Ensure headers are not already sent before redirecting
-if (!headers_sent()) {
-    header("Location: login.php");
-    exit();
-} else {
-    echo "<script>window.location.href = 'login.php';</script>";
-    exit();
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
 }
 
-// Destroy the session
+// Destroy session
 session_destroy();
 
-// Clear any remaining session cookie
-if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time() - 3600, '/');
-}
+// Prevent caching of the page
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
 
-// Additional security headers
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-// Redirect to login page
-header("Location: login.html");
+// Redirect to index
+header("Location: index.html");
 exit();
 ?>

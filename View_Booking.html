@@ -1,375 +1,226 @@
-<<<<<<< HEAD
 <?php
-// filepath: c:\xampp\htdocs\matatu_reservation_old[1]\matatu_reservation old\View_Booking.html
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.navbar {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    width: 150px; /* Sidebar width */
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    z-index: 1;
-    height: 100vh; /* Ensures the sidebar extends fully */
-}
-
-.navbar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.navbar ul li {
-    margin-bottom: 20px;
-}
-
-.navbar ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    display: block;
-}
-
-.navbar ul li a:hover {
-    background-color: #ff6600;
-}
-
-.navbar .logo {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.navbar .logo img {
-    height: 100px;
-    margin-bottom: 10px;
-}
-
-.navbar .logo span {
-    color: white;
-    font-size: 20px;
-}
-
-.main-content {
-    margin-left: 200px; /* Space for the sidebar */
-    padding: 20px;
-    width: calc(100% - 200px); /* Make space for sidebar */
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow-x: hidden;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.container h2 {
-    text-align: center;
-    color: #333;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    font-size: 14px;
-    font-weight: bold;
-    color: #555;
-    display: block;
-    margin-bottom: 8px;
-}
-
-input[type="text"], input[type="date"], input[type="number"], select {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease;
-}
-
-input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus {
-    border-color: #ff6600;
-    background-color: #fff;
-    outline: none;
-}
-
-button, .btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    color: white;
-    background-color: #ff6600;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-button:hover, .btn:hover {
-    background-color: #e65c00;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.footer {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    margin-top: auto; /* Pushes footer to the bottom */
-    width: 100%;
-}
-
-.footer-container {
-    max-width: 100%; /* Makes sure the content inside the footer container spans the full width */
-    margin: 0;
-    padding: 0;
-}
-
-.footer-links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.footer-links ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-.footer-links ul li a:hover {
-    color: #ff6600;
-}
-
-.footer-copy p {
-    margin-top: 10px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .navbar {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px;
-    }
-
-    .navbar ul {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .navbar ul li {
-        margin: 0 20px;
-    }
-
-    .main-content {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .container {
-        width: 90%;
-        margin: 20px auto; /* Adjust width for smaller devices */
-    }
-
-    .footer-links ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-links ul li {
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 500px) {
-    .navbar ul li {
-        margin: 0 10px;
-    }
-
-    .container {
-        padding: 15px;
-    }
-
-    button, .btn {
-        width: 100%;
-        padding: 15px;
-    }
-}
-
-    </style>
-    <meta charset="UTF-8">
-    <title>Passenger Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-   <body>
-    <nav class="navbar">
-        <div class="logo">
-            <a class="navbar-brand" href="passenger_home.html">
-            <img src="Logo.jpg" width="120" alt="Matatu System">
-
-            </a>
-            
-        </div>
-        <div class="navbar-links">
-        <ul>
-            <li><a href="passenger_home.html">Home</a></li>
-            <li><a href="booktickets.html">Book Ticket</a></li>
-            <li><a href="View_Booking.html">My Bookings</a></li>
-            <li><a href="Profile.html">Profile</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-        </div>
-    </nav>
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
-
 session_start();
-include 'config.php'; // Database connection
+require 'config.php'; // Use your PDO connection
 
-$userId = $_SESSION['user_id']; // Assuming the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$userId = $_SESSION['user_id'];
 
 try {
-    // Fetch bookings for the logged-in user
-    $stmt = $conn->prepare("SELECT * FROM bookings WHERE passenger_id = :user_id ORDER BY travel_date DESC");
-    $stmt->bindParam(':user_id', $userId);
-    $stmt->execute();
-    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Fetch bookings for the logged-in user, joining with routes for location and time
+    $stmt = $connect->prepare("
+        SELECT b.booking_id, b.seat_numbers, b.total_amount, b.booking_date, b.status,
+               r.departure_point, r.arrival_point, r.departure_time
+        FROM bookings b
+        JOIN routes r ON b.route_id = r.route_id
+        WHERE b.user_id = ?
+        ORDER BY b.booking_date DESC
+    ");
+    $stmt->execute([$userId]);
+    $bookings = $stmt->fetchAll();
 } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
+    exit;
 }
 ?>
 
- <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>View Bookings</title>
-        <style>
-            /* General Styles */
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #f4f4f4;
-                color: #333;
-                line-height: 1.6;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Bookings</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 150px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            z-index: 1;
+            height: 100vh;
+        }
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar ul li {
+            margin-bottom: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #ff6600;
+        }
+
+        .navbar .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .navbar .logo img {
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        /* Main content area to avoid overlap */
+        .main-content {
+            margin-left: 170px; /* Width of navbar (150px) + padding */
+            margin-top: 20px;
+            background-color: #f4f4f4;
+            min-height: calc(100vh - 40px); /* Full height minus navbar height */
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Header Styles */
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        /* Table Styles */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #333;
+            color: white;
+        }
+
+        thead th {
+            padding: 15px;
+            text-align: left;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* No Bookings Found Message */
+        tbody td[colspan="6"] {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px;
+                position: static;
             }
-    
-            /* Header Styles */
-            h2 {
-                text-align: center;
-                margin-top: 20px;
-                color: #007bff;
+
+            .navbar ul {
+                display: flex;
+                flex-direction: row;
             }
-    
-            /* Table Styles */
+
+            .navbar ul li {
+                margin: 0 10px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+
             table {
-                width: 90%;
-                margin: 20px auto;
-                border-collapse: collapse;
-                background-color: #fff;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-                overflow: hidden;
+                width: 100%;
             }
-    
-            thead {
-                background-color: #007bff;
-                color: white;
+
+            thead th, tbody td {
+                font-size: 0.9rem;
+                padding: 10px;
             }
-    
-            thead th {
-                padding: 15px;
-                text-align: left;
-            }
-    
-            tbody tr {
-                border-bottom: 1px solid #ddd;
-            }
-    
-            tbody tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-    
-            tbody td {
-                padding: 15px;
-                text-align: left;
-            }
-    
-            tbody tr:hover {
-                background-color: #f1f1f1;
-            }
-    
-            /* No Bookings Found Message */
-            tbody td[colspan="5"] {
-                text-align: center;
-                font-style: italic;
-                color: #666;
-            }
-    
-            /* Responsive Design */
-            @media (max-width: 768px) {
-                table {
-                    width: 100%;
-                }
-    
-                thead th, tbody td {
-                    font-size: 0.9rem;
-                    padding: 10px;
-                }
-            }
-        </style>
-    </head>
-    <body>
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Logo.jpg" width="120" alt="Matatu System">
+        </div>
+        <ul>
+            <li><a href="passenger_home.php">Home</a></li>
+            <li><a href="booktickets.php">Book Ticket</a></li>
+            <li><a href="View_Booking.php">My Bookings</a></li>
+            <li><a href="Profile.php">Profile</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
         <h2>Your Bookings</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Route</th>
-                    <th>Travel Date</th>
-                    <th>Seat</th>
-                    <th>Tickets</th>
+                    <th>Departure Location</th>
+                    <th>Arrival Location</th>
+                    <th>Departure Time</th>
+                    <th>Booking Date</th>
+                    <th>Seats</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -377,19 +228,21 @@ try {
                 <?php if (!empty($bookings)): ?>
                     <?php foreach ($bookings as $booking): ?>
                         <tr>
-                            <td><?= htmlspecialchars($booking['route']) ?></td>
-                            <td><?= htmlspecialchars($booking['travel_date']) ?></td>
-                            <td><?= htmlspecialchars($booking['seat']) ?></td>
-                            <td><?= htmlspecialchars($booking['ticket_count']) ?></td>
+                            <td><?= htmlspecialchars($booking['departure_point']) ?></td>
+                            <td><?= htmlspecialchars($booking['arrival_point']) ?></td>
+                            <td><?= htmlspecialchars($booking['departure_time']) ?></td>
+                            <td><?= htmlspecialchars($booking['booking_date']) ?></td>
+                            <td><?= htmlspecialchars($booking['seat_numbers']) ?></td>
                             <td><?= htmlspecialchars($booking['status']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5">No bookings found.</td>
+                        <td colspan="6">No bookings found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
-    </body>
-    </html>
+    </div>
+</body>
+</html>

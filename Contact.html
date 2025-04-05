@@ -21,6 +21,57 @@
             padding: 20px 0;
         }
 
+        .navbar {
+            background-color: #333; /* Dark background */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center; /* Center the links horizontally */
+            align-items: center;
+            position: relative;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex; /* Align links horizontally */
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 15px; /* Add spacing between links */
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #ff6600; /* Highlight color on hover */
+        }
+
+        .navbar ul li a.active {
+            background-color: #ff6600; /* Highlight active link */
+        }
+
+        @media (max-width: 768px) {
+            .navbar ul {
+                flex-direction: column; /* Stack links vertically on smaller screens */
+                width: 100%;
+            }
+
+            .navbar ul li {
+                margin: 10px 0;
+                text-align: center;
+            }
+        }
+
         .contact-container {
             width: 90%;
             max-width: 800px;
@@ -83,22 +134,20 @@
             padding: 20px 0;
             border-top: 1px solid #ddd;
         }
-
-        @media (max-width: 768px) {
-            .contact-container {
-                flex-direction: column;
-            }
-
-            .contact-form, .contact-info {
-                flex: 1 1 100%;
-            }
-        }
     </style>
 </head>
 <body>
     <header>
         <h1>Urban Transit</h1>
     </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About_us.html">About Us</a></li>
+            <li><a href="Contact.html" class="active">Contact Us</a></li>
+            <li><a href="Terms_of_service.html">Terms of Service</a></li>
+        </ul>
+    </nav>
 
     <section class="contact-container">
         <div class="contact-form">
@@ -121,7 +170,7 @@
 
         <div class="contact-info">
             <h2>Contact Information</h2>
-            <p><strong>📍 Socials:</strong> Facebook,LinkedIn</p>
+            <p><strong>📍 Socials:</strong> Facebook, LinkedIn</p>
             <p><strong>📞 Phone:</strong> +254 700 123 456</p>
             <p><strong>📧 Email:</strong> support@urbantransit.co.ke</p>
         </div>

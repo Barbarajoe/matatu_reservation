@@ -1,16 +1,6 @@
 <?php
 require_once 'config.php';
 
-// Verify administrator privileges
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'administrator') {
-    http_response_code(403);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'Unauthorized access']);
-    
-    exit();
-}
-
 try {
     // Get pagination parameters
     $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
@@ -19,29 +9,27 @@ try {
 
     // Base query
     $query = "SELECT 
-                id, 
+                user_id, 
                 username, 
                 email, 
-                phone, 
                 role, 
-                created_at, 
-                last_login 
+                created_at
               FROM users 
               ORDER BY created_at DESC 
-              LIMIT :limit OFFSET :offset";
+              LIMIT ? OFFSET ?";
 
     // Prepare and execute query
-    $stmt = $conn->prepare($query);
-    $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt = $connect->prepare($query);
+    $stmt->bind_param('ii', $perPage, $offset);
     $stmt->execute();
 
     // Get results
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->get_result();
+    $users = $result->fetch_all(MYSQLI_ASSOC);
 
     // Get total count for pagination
-    $totalStmt = $conn->query("SELECT COUNT(*) FROM users");
-    $totalUsers = $totalStmt->fetchColumn();
+    $totalStmt = $connect->query("SELECT COUNT(*) AS total FROM users");
+    $totalUsers = $totalStmt->fetch_assoc()['total'];
 
     // Return JSON response
     header('Content-Type: application/json');
@@ -55,7 +43,7 @@ try {
         ]
     ]);
 
-} catch(PDOException $e) {
+} catch (mysqli_sql_exception $e) {
     error_log("Get users error: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Failed to retrieve user data']);

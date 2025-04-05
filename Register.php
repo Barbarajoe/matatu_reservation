@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-include 'config.php'; // Ensure this initializes $conn as a PDO instance
+include 'config.php'; // Ensure this initializes $pdo as a PDO instance
 
 $message = ""; // Variable to store feedback messages
 
@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = trim($_POST['email']);
         $role = trim($_POST['role']); // Get role from the form (lowercase)
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $confirm_password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password 
         
         // Ensure role is valid (in lowercase)
         $valid_roles = ['passenger', 'operator', 'admin'];
@@ -22,37 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Invalid role selected.";
         } else {
             try {
-                // Insert into the database using uppercase "Role" for the column name
-                $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, Role) VALUES (:username, :email, :password, :role)");
+                // Insert into the database
+                $stmt = $connect->prepare("INSERT INTO users (username, email, password_hash, role) VALUES (:username, :email, :password_hash, :role)");
                 
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':password', $password);
-                $stmt->bindParam(':role', $role); // Bind the role to the uppercase "Role" column
+                $stmt->bindParam(':password_hash', $password); // Corrected placeholder
+                $stmt->bindParam(':role', $role);
 
-<<<<<<< HEAD
-        try {
-            $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password) VALUES (:username, :email, :phone, :password)");
-            if (!$stmt) {
-                $errorInfo = $conn->errorInfo();
-                die("Prepare error: " . $errorInfo[2]);
-            }
-
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':phone', $phone);
-            $stmt->bindParam(':password', $password);
-
-            if ($stmt->execute()) {
-                header("Location: login.html?registered=1");
-                exit();
-            } else {
-                $errorInfo = $stmt->errorInfo();
-                echo "Error executing query: " . $errorInfo[2];
-            }
-        } catch (PDOException $e) {
-            echo "Database error: " . $e->getMessage();
-=======
                 if ($stmt->execute()) {
                     // Redirect to login page
                     header("Location: login.php?registered=1");
@@ -64,15 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } catch (PDOException $e) {
                 $message = "Database error: " . $e->getMessage();
             }
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         }
     } else {
         $message = "All fields are required.";
     }
 }
-<<<<<<< HEAD
-?>
-=======
 ?>
 
 <!DOCTYPE html>
@@ -135,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p class="error"><?= htmlspecialchars($message) ?></p>
     <?php endif; ?>
 
-    <form action="register.php" method="post">
+    <form action="Register.php" method="post">
         <input type="text" name="username" placeholder="Username" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
@@ -146,8 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
         <button type="submit">Register</button>
     </form>
-<p>You have an account? <a href="login.php">Login here</a></p>
+    <p>You have an account? <a href="login.php">Login here</a></p>
 </div>
 </body>
 </html>
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c

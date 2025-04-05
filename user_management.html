@@ -334,7 +334,7 @@ body {
                                     <select id="vehicle_id" name="vehicle_id" class="form-control vehicle-selector"
                                             title="Select a vehicle for the route" required>
                                         <?php
-                                        $vehicles = $conn->query("SELECT * FROM vehicles");
+                                        $vehicles = $connect->query("SELECT * FROM vehicles");
                                         while ($vehicle = $vehicles->fetch(PDO::FETCH_ASSOC)) {
                                             echo "<option value='{$vehicle['vehicle_id']}'>{$vehicle['registration']} ({$vehicle['seat_capacity']} seats)</option>";
                                         }

@@ -1,0 +1,7 @@
+{
+    "require": {
+        "stripe/stripe-php": "^16.6",
+        "phpmailer/phpmailer": "*",
+        "endroid/qr-code": "*"
+    }
+}

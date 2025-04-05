@@ -16,16 +16,9 @@
             <li><a href="allbookings.html">AllBookings</a></li>
             <li><a href="financial_reports.html">FinancialReports</a></li>
         <?php else: ?>
-<<<<<<< HEAD
-            <li><a href="passenger/passenger_home.html">Home</a></li>
-            <li><a href="passenger/booktickets.html">Book Ticket</a></li>
-            <li><a href="passenger/View_Bookings.html">ViewBookings</a></li>
-            <li><a href="available_buses.html">Available Buses</a></li>
-=======
             <li><a href="passenger_home.html">Home</a></li>
             <li><a href="booktickets.html">Book Ticket</a></li>
             <li><a href="View_Bookings.html">ViewBookings</a></li>
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         <?php endif; ?>
         <li><a href="profile.html">Profile</a></li>
         <li><a href="logout.php">Logout</a></li>
@@ -62,6 +55,6 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
 
 // Redirect to login
-header("Location: login.html");
+header("Location: index.html");
 exit();
 ?>

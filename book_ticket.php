@@ -1,122 +1,74 @@
 <?php
-<<<<<<< HEAD
-// filepath: c:\xampp\htdocs\matatu_reservation\book_ticket.php
-
-use Stripe\Billing\Alert;
-
-=======
-header('Content-Type: application/json');
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
-session_start();
 require 'config.php';
+session_start();
 
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Get JSON input
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
-
-// Validate input
-if (!$data || !isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Invalid request']);
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
     exit;
 }
 
-<<<<<<< HEAD
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: passenger_home.html");
-    exit();
-}
-
-if (!isset($_SESSION['user_id'])) {
-    die("Error: User not logged in");
-}
-
-if (!isset($_POST['route'], $_POST['seat'], $_POST['payment_method'])) {
-    die("Error: Missing required form fields");
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userId = $_SESSION['user_id']; // Assuming the user is logged in and their ID is stored in the session
-    $route = $_POST['route'];
-    $date = $_POST['date'];
-    $seat = $_POST['seat'];
-    $ticketCount = $_POST['ticket_count'];
+    $route_id = (int)$_POST['route_id'];
+    $selected_seats = explode(',', $_POST['seat_numbers']); // e.g., '2A,2B'
+    $user_id = $_SESSION['user_id'];
 
-=======
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
-try {
-    // Calculate price based on route
-    $routePrices = [
-        'nairobi-mombasa' => 1500,
-        'nairobi-kisumu' => 1200,
-        'nairobi-eldoret' => 800,
-        'mombasa-nairobi' => 1500,
-        'kisumu-nairobi' => 1200,
-        'eldoret-nairobi' => 800
-    ];
-    
-<<<<<<< HEAD
-    if ($stmt->execute()) {
-        header("Location: passenger_home.html?booking_success=1");
-        Alert::success("Booking successful! Your ticket has been reserved.");
-        exit();
-    } else {
-        $errorInfo = $stmt->errorInfo();
-        echo "Error: " . $errorInfo[2];
-=======
-    // Convert route name to route ID (you'll need to implement this)
-    $routeNameToId = [
-        'nairobi-mombasa' => 1,
-        'nairobi-kisumu' => 2,
-        'nairobi-eldoret' => 3,
-        'mombasa-nairobi' => 4,
-        'kisumu-nairobi' => 5,
-        'eldoret-nairobi' => 6
-    ];
-    
-    $routeId = $routeNameToId[$data['route']] ?? null;
-    if (!$routeId) {
-        throw new Exception("Invalid route selected");
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
+    try {
+        $pdo->beginTransaction();
+
+        // Fetch route details to calculate total amount
+        $stmt = $pdo->prepare("SELECT price, vehicle_id FROM routes WHERE route_id = ?");
+        $stmt->execute([$route_id]);
+        $route = $stmt->fetch();
+        if (!$route) {
+            throw new Exception('Invalid route');
+        }
+
+        $price_per_seat = $route['price'];
+        $vehicle_id = $route['vehicle_id'];
+        $total_amount = $price_per_seat * count($selected_seats);
+
+        // Check if selected seats are available
+        $placeholders = implode(',', array_fill(0, count($selected_seats), '?'));
+        $stmt = $pdo->prepare("SELECT seat_number FROM seats WHERE vehicle_id = ? AND seat_number IN ($placeholders) AND is_available = TRUE FOR UPDATE");
+        $stmt->execute(array_merge([$vehicle_id], $selected_seats));
+        $available_seats = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (count($available_seats) !== count($selected_seats)) {
+            throw new Exception('One or more selected seats are not available');
+        }
+
+        // Create booking
+        $stmt = $pdo->prepare("INSERT INTO bookings (user_id, route_id, seat_numbers, total_amount, booking_date, status, payment_method) VALUES (?, ?, ?, ?, NOW(), 'pending', 'mpesa')");
+        $stmt->execute([$user_id, $route_id, implode(',', $selected_seats), $total_amount]);
+        $booking_id = $pdo->lastInsertId();
+
+        // Update seats
+        $stmt = $pdo->prepare("UPDATE seats SET is_available = FALSE, booking_id = ? WHERE vehicle_id = ? AND seat_number IN ($placeholders)");
+        $stmt->execute(array_merge([$booking_id, $vehicle_id], $selected_seats));
+
+        $pdo->commit();
+        header("Location: View_Booking.html?success=Booking created successfully");
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        header("Location: booktickets.php?error=" . urlencode($e->getMessage()));
     }
-    
-    $pricePerTicket = $routePrices[$data['route']] ?? 500;
-    $seatCount = count(explode(',', $data['seats']));
-    $totalAmount = $pricePerTicket * $seatCount; // Removed ticket_count since your table doesn't have it
-
-    // Insert into bookings table (matches your actual structure)
-    $stmt = $conn->prepare("INSERT INTO bookings 
-        (user_id, route_id, seat_numbers, total_amount, status) 
-        VALUES (?, ?, ?, ?, 'pending')");
-    
-    $stmt->execute([
-        $_SESSION['user_id'],
-        $routeId,
-        $data['seats'],
-        $totalAmount
-    ]);
-
-    $bookingId = $conn->lastInsertId();
-
-    echo json_encode([
-        'success' => true,
-        'booking_id' => $bookingId,
-        'message' => 'Booking created successfully'
-    ]);
-
-} catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
-    echo json_encode([
-        'success' => false, 
-        'message' => 'Database error: ' . $e->getMessage(),
-        'error_info' => isset($conn) ? $conn->errorInfo() : null
-    ]);
-} catch (Exception $e) {
-    echo json_encode([
-        'success' => false, 
-        'message' => $e->getMessage()
-    ]);
+    exit;
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ticket</title>
+</head>
+<body>
+    <h2>Book a Ticket</h2>
+    <form method="POST">
+        <label>Route ID: <input type="number" name="route_id" value="1" required></label><br>
+        <label>Seats (comma-separated, e.g., 2A,2B): <input type="text" name="seat_numbers" required></label><br>
+        <button type="submit">Book</button>
+    </form>
+</body>
+</html>

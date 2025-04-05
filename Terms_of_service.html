@@ -6,168 +6,203 @@
     <title>Terms of Service | Urban Transit</title>
     <style>
         body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #f4f4f4;
-          color: #333;
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        
-        header {
-          background-color: #007bff;
-          color: white;
-          padding: 20px;
-          text-align: center;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .navbar {
+            background-color: #333; /* Dark background */
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center; /* Center the links horizontally */
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        header h1 {
-          margin: 0;
-          font-size: 2em;
+
+        .navbar ul {
+            list-style: none;
+            display: flex; /* Align links horizontally */
+            margin: 0;
+            padding: 0;
         }
-        
-        .terms-container {
-          max-width: 800px;
-          margin: 20px auto;
-          padding: 20px;
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .navbar ul li {
+            margin: 0 15px; /* Add spacing between links */
         }
-        
-        .terms-content h2 {
-          text-align: center;
-          margin-bottom: 20px;
-          font-size: 1.8em;
-          color: #007bff;
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
-        
-        .terms-content h3 {
-          margin-top: 25px;
-          margin-bottom: 10px;
-          font-size: 1.2em;
-          color: #343a40;
+
+        .navbar ul li a:hover {
+            background-color: #ff6600; /* Highlight color on hover */
         }
-        
-        .terms-content p {
-          line-height: 1.6;
-          margin-bottom: 15px;
-          color: #555;
+
+        .navbar ul li a.active {
+            background-color: #ff6600; /* Highlight active link */
         }
-        
-        .terms-content ul {
-          list-style-type: disc;
-          padding-left: 20px;
-          margin-bottom: 15px;
-        }
-        
-        .terms-content ul li {
-          margin-bottom: 10px;
-          color: #555;
-        }
-        
-        .terms-content ul li::before {
-          content: "•";
-          color: #007bff;
-          margin-right: 10px;
-        }
-        
-        .terms-content strong {
-          font-weight: bold;
-          color: #343a40;
-        }
-        
-        .terms-content a {
-          color: #007bff;
-          text-decoration: none;
-          transition: color 0.3s ease;
-        }
-        
-        .terms-content a:hover {
-          color: #0056b3;
-        }
-        
-        footer {
-          background-color: white;
-          color: #333;
-          padding: 20px;
-          text-align: center;
-          margin-top: auto;
-        }
-        
-        footer p {
-          font-size: 0.9em;
-          margin: 0;
-        }
-        
+
         @media (max-width: 768px) {
-          .terms-container {
-            padding: 15px;
-            margin: 10px;
-          }
-        
-          .terms-content h2 {
-            font-size: 1.6em;
-          }
-        
-          .terms-content h3 {
-            font-size: 1.1em;
-          }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar ul {
+                flex-direction: column; /* Stack links vertically on smaller screens */
+                width: 100%;
+            }
+
+            .navbar ul li {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .navbar ul li a {
+                display: block;
+                width: 100%;
+            }
         }
-            </style>
-    
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .terms-container {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .terms-content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            color: #007bff;
+        }
+
+        .terms-content h3 {
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #343a40;
+        }
+
+        .terms-content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .terms-content ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .terms-content ul li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .terms-content ul li::before {
+            content: "•";
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        footer {
+            background-color: white;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+    </style>
+</head>
 <body>
     <header>
         <h1>Urban Transit</h1>
     </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About_us.html">About Us</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+            <li><a href="Terms_of_service.html" class="active">Terms of Service</a></li>
+        </ul>
+    </nav>
 
     <section class="terms-container">
         <div class="terms-content">
             <h2>Terms of Service</h2>
-            <p>Welcome to **Urban Transit**! By using our matatu booking platform, you agree to comply with the following terms and conditions.</p>
+            <p>Welcome to <strong>Urban Transit</strong>! By using our matatu booking platform, you agree to comply with the following terms and conditions.</p>
 
             <h3>1. Acceptance of Terms</h3>
-            <p>By accessing or using Urban Transit, you agree to these **Terms of Service** and our **Privacy Policy**. If you do not agree, please do not use our services.</p>
+            <p>By accessing or using Urban Transit, you agree to these <strong>Terms of Service</strong> and our <strong>Privacy Policy</strong>. If you do not agree, please do not use our services.</p>
 
             <h3>2. User Accounts</h3>
             <ul>
-                <li>📌 You must provide accurate information when creating an account.</li>
-                <li>📌 You are responsible for keeping your login details secure.</li>
-                <li>📌 We reserve the right to suspend or terminate accounts that violate our terms.</li>
+                <li>You must provide accurate information when creating an account.</li>
+                <li>You are responsible for keeping your login details secure.</li>
+                <li>We reserve the right to suspend or terminate accounts that violate our terms.</li>
             </ul>
 
             <h3>3. Booking & Payments</h3>
             <ul>
-                <li>✔️ All bookings are subject to availability.</li>
-                <li>✔️ Payments are securely processed through M-Pesa and other accepted methods.</li>
-                <li>✔️ Cancellations may be subject to a **refund policy** based on operator guidelines.</li>
+                <li>All bookings are subject to availability.</li>
+                <li>Payments are securely processed through M-Pesa and other accepted methods.</li>
+                <li>Cancellations may be subject to a <strong>refund policy</strong> based on operator guidelines.</li>
             </ul>
 
             <h3>4. Passenger Responsibilities</h3>
             <p>When using Urban Transit, you agree to:</p>
             <ul>
-                <li>✅ Arrive at the boarding point on time.</li>
-                <li>✅ Follow matatu safety regulations.</li>
-                <li>✅ Treat drivers and other passengers with respect.</li>
+                <li>Arrive at the boarding point on time.</li>
+                <li>Follow matatu safety regulations.</li>
+                <li>Treat drivers and other passengers with respect.</li>
             </ul>
 
             <h3>5. Prohibited Activities</h3>
-            <p>You may **not** use our platform for:</p>
+            <p>You may <strong>not</strong> use our platform for:</p>
             <ul>
-                <li>❌ Fraudulent or illegal activities.</li>
-                <li>❌ Disrupting system operations or hacking.</li>
-                <li>❌ Abusive behavior towards drivers or staff.</li>
+                <li>Fraudulent or illegal activities.</li>
+                <li>Disrupting system operations or hacking.</li>
+                <li>Abusive behavior towards drivers or staff.</li>
             </ul>
 
             <h3>6. Liability & Disclaimers</h3>
             <ul>
-                <li>⚠️ Urban Transit is not liable for delays or cancellations by matatu operators.</li>
-                <li>⚠️ We do not guarantee availability for every requested booking.</li>
-                <li>⚠️ Use of our services is at your own risk.</li>
+                <li>Urban Transit is not liable for delays or cancellations by matatu operators.</li>
+                <li>We do not guarantee availability for every requested booking.</li>
+                <li>Use of our services is at your own risk.</li>
             </ul>
 
             <h3>7. Changes to Terms</h3>

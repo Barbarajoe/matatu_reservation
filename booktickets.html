@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+// Prevent caching
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +29,19 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+        .main-content{
+            margin-left: 200px;
+            padding: 20px;
+            width: calc(100% - 200px);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-x: hidden;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .navbar {
@@ -83,226 +110,150 @@
             display: flex;
             flex-direction: column;
         }
+/* Form Container */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+/* Form Title */
+.container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
 
-        .container h2 {
-            text-align: center;
-            color: #333;
-        }
+/* Form Group */
+.form-group {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+/* Form Labels */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+}
 
-        label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #555;
-            display: block;
-            margin-bottom: 8px;
-        }
+/* Form Inputs */
+input[type="text"], input[type="date"], input[type="number"], select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
 
-        input[type="text"], input[type="date"], input[type="number"], select {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
-        }
+input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus {
+    border-color: #ff6600;
+    background-color: #fff;
+    outline: none;
+}
 
-        input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus {
-            border-color: #ff6600;
-            background-color: #fff;
-            outline: none;
-        }
+/* Submit Button */
+button, .btn {
+    padding: 15px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #ff6600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
 
-        button, .btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            color: white;
-            background-color: #ff6600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
+button:hover, .btn:hover {
+    background-color: #e65c00;
+}
 
-        button:hover, .btn:hover {
-            background-color: #e65c00;
-        }
+/* Error and Success Messages */
+.error {
+    color: #f44336;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
-        .text-center {
-            text-align: center;
-        }
+.success {
+    color: #4CAF50;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
-        .footer {
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: auto;
-            width: 100%;
-        }
+/* Seat Map */
+.seat-map {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+}
 
-        .footer-container {
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
-        }
+.seat {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
 
-        .footer-links ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
+.seat.available {
+    background-color: #4CAF50;
+    color: white;
+}
 
-        .footer-links ul li a {
-            color: white;
-            text-decoration: none;
-        }
+.seat.booked {
+    background-color: #f44336;
+    color: white;
+    cursor: not-allowed;
+}
 
-        .footer-links ul li a:hover {
-            color: #ff6600;
-        }
+.seat.selected {
+    background-color: #FFC107;
+    color: black;
+    transform: scale(1.05);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-        .footer-copy p {
-            margin-top: 10px;
-        }
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        margin: 20px auto;
+    }
 
-        /* Seat Map Styles */
-        .seat-map {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin: 10px 0;
-            width: 100px;
-        }
-
-        .seat {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .seat.available {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .seat.booked {
-            background-color: #f44336;
-            color: white;
-            cursor: not-allowed;
-        }
-
-        .seat.selected {
-            background-color: #FFC107;
-            color: black;
-            transform: scale(1.05);
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
-        }
-
-        /* Loading spinner */
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .navbar {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 10px;
-            }
-
-            .navbar ul {
-                display: flex;
-                flex-direction: row;
-            }
-
-            .navbar ul li {
-                margin: 0 20px;
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .container {
-                width: 90%;
-                margin: 20px auto;
-            }
-
-            .footer-links ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .footer-links ul li {
-                margin-bottom: 10px;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .navbar ul li {
-                margin: 0 10px;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            button, .btn {
-                width: 100%;
-                padding: 15px;
-            }
-        }
+    button, .btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
-<<<<<<< HEAD
             <img src="Logo.jpg" width="120" alt="Matatu System">
-=======
-            <img src="Logo.jpg" alt="Matatu System" href="passenger_home.html">
-        </div>
->>>>>>> 402a3c4c927ce72e0d810dd8f77d4e374af7042c
         <ul>
             <li><a href="passenger_home.html">Home</a></li>
             <li><a href="booktickets.html">Book Ticket</a></li>
@@ -312,22 +263,28 @@
         </ul>
     </nav>
     <div id="navbar"></div>
+    <?php if (isset($_SESSION['booking_error'])): ?>
+    <p class="error"><?php echo $_SESSION['booking_error']; unset($_SESSION['booking_error']); ?></p>
+<?php endif; ?>
+<?php if (isset($_SESSION['booking_success'])): ?>
+    <p class="success"><?php echo $_SESSION['booking_success']; unset($_SESSION['booking_success']); ?></p>
+<?php endif; ?>
     <div class="container">
         <h2>Book a Ticket</h2>
         <p>Fill in the form below to book a ticket.</p>
         <form id="booking-form" method="POST">
             <div class="form-group">
                 <label>Route:</label>
-                <select id="route" name="route" title="Select your route" required>
-                    <option value="">-- Select Route --</option>
-                    <option value="nairobi-mombasa" data-cost="1500">Nairobi → Mombasa</option>
-                    <option value="nairobi-kisumu" data-cost="1200">Nairobi → Kisumu</option>
-                    <option value="nairobi-eldoret" data-cost="800">Nairobi → Eldoret</option>
-                    <option value="mombasa-nairobi" data-cost="1500">Mombasa → Nairobi</option>
-                    <option value="kisumu-nairobi" data-cost="1200">Kisumu → Nairobi</option>
-                    <option value="eldoret-nairobi" data-cost="800">Eldoret → Nairobi</option>
-                </select>
+                <label for="departure_location">Departure Location:</label><br>
+                <input type="text" id="departure_location" name="departure_location" required><br><br>
+                <label for="arrival_location">Arrival Location:</label><br>
+                <input type="text" id="arrival_location" name="arrival_location" required><br><br>
             </div>
+            <div class="form-group">
+                <label>Departure Time:</label>
+                <input type="text" id="departure_time" name="departure_time" required placeholder="e.g., 10:00 AM">
+                </div>
+
             <div class="form-group">
                 <label>Travel Date:</label>
                 <input type="date" id="date" name="date" title="Select your travel date" required>
@@ -347,6 +304,7 @@
                 <label>Total Cost:</label>
                 <div id="cost" style="font-weight: bold; font-size: 18px;">KSh 0</div>
             </div>
+
             <div class="form-group text-center">
                 <button type="submit" id="submit-btn" class="btn">
                     Proceed to Payment
@@ -407,6 +365,39 @@
                 });
             }
         }
+        document.getElementById('departure_location').addEventListener('blur', calculateDistanceAndPrice);
+document.getElementById('arrival_location').addEventListener('blur', calculateDistanceAndPrice);
+
+async function calculateDistanceAndPrice() {
+    const departure = document.getElementById('departure_location').value;
+    const arrival = document.getElementById('arrival_location').value;
+
+    if (!departure || !arrival) {
+        return;
+    }
+
+    try {
+        const response = await fetch('calculate_distance.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ departure_location: departure, arrival_location: arrival })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            document.getElementById('distance').textContent = `${result.distance} km`;
+            document.getElementById('price').textContent = `KSh ${result.price}`;
+        } else {
+            alert(result.message || 'Could not calculate distance and price.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while calculating distance and price.');
+    }
+}
 
         // Toggle seat selection
         function toggleSeatSelection(e) {
@@ -464,7 +455,7 @@
         };
 
         // Send to backend
-        const response = await fetch('book_ticket.php', {
+        const response = await fetch('bookticket.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

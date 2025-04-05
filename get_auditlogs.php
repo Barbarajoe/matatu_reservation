@@ -2,14 +2,14 @@
 require 'config.php';
 
 try {
-    $stmt = $conn->query("
+    $stmt = $connect->query("
         SELECT audit_logs.*, users.username 
         FROM audit_logs 
         JOIN users ON audit_logs.user_id = users.user_id 
         ORDER BY timestamp DESC
     ");
     
-    while($log = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    while($log = $stmt->fetch_assoc()) {
         echo "<tr>
                 <td>{$log['timestamp']}</td>
                 <td>{$log['username']}</td>

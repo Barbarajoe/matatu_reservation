@@ -1,5 +1,5 @@
 <?php
-require 'config.php'; // Your connection file
+require 'config.php'; // Include the database connection file
 
 // Test query
 $query = "SELECT 1 AS test_value";

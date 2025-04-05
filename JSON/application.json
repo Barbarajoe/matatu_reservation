@@ -14,3 +14,14 @@
       "total_pages": 3
     }
   }
+  {
+    "routeId": 1,
+    "routeName": "Nairobi-Nakuru",
+    "departurePoint": "Nairobi",
+    "arrivalPoint": "Nakuru",
+    "price": 1200.00,
+    "vehicleId": 1,
+    "departureTime": "2025-04-10 08:00:00",
+    "departureCoords": "POINT(-1.286389 36.817223)",
+    "arrivalCoords": "POINT(-0.303099 36.080026)"
+}
